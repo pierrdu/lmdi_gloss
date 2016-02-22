@@ -1,0 +1,74 @@
+<!-- INCLUDE overall_header.html -->
+
+<a name="maincontent"></a>
+
+<h1>{L_ACP_GLOSS_TITLE}</h1>
+<p>{L_ACP_GLOSS}</p>
+
+<form id="acp_lexicon" method="post" action="{C_ACTION}">
+<fieldset>
+	<dl>
+		<dt><label>{L_ALLOW_FEATURE}{L_COLON}</label><br />
+		<span>{L_ALLOW_FEATURE_EXPLAIN}</span></dt>
+		<dd>
+		<label><input type="radio" id="lmdi_gloss_ucp" name="lmdi_gloss_ucp"
+		value="1" class="radio" {ALLOW_FEATURE_YES}/>{L_YES}</label>
+		<label><input type="radio" id="lmdi_gloss_ucp" name="lmdi_gloss_ucp"
+		value="0" class="radio" {ALLOW_FEATURE_NO}/>{L_NO}</label>
+		</dd>
+	</dl>
+	<dl>
+		<dt><label>{L_ALLOW_TITLE}{L_COLON}</label><br />
+		<span>{L_ALLOW_TITLE_EXPLAIN}</span></dt>
+		<dd>
+		<label><input type="radio" id="lmdi_gloss_title" name="lmdi_gloss_title"
+		value="1" class="radio" {ALLOW_TITLE_YES}/>{L_YES}</label>
+		<label><input type="radio" id="lmdi_gloss_title" name="lmdi_gloss_title"
+		value="0" class="radio" {ALLOW_TITLE_NO}/>{L_NO}</label>
+		</dd>
+	</dl>
+	<dl>
+		<dt><label for="lang">{L_LANGUAGE}{L_COLON}</label><br />
+		<span>{L_LANGUAGE_EXPLAIN}</span></dt>
+		<dd><select name="lang" id="lang">{S_LANG_OPTIONS}</select></dd>
+	</dl>
+	<dl>
+		<dt><label for="pixels">{L_GLOSS_PIXELS}{L_COLON}</label><br />
+		<span>{L_GLOSS_PIXELS_EXPLAIN}</span></dt>
+		<dd><input type="text" name="pixels" id="pixels" value="{S_PIXELS}" size="4"/></dd>
+	</dl>
+	<dl>
+		<dt><label for="poids">{L_POIDS}{L_COLON}</label><br />
+		<span>{L_POIDS_EXPLAIN}</span></dt>
+		<dd><input type="text" name="poids" id="poids" value="{S_POIDS}" size="4"/></dd>
+	</dl>
+	<dl>
+		<dt><label>{L_CREATE_UGROUP}{L_COLON}</label><br />
+		<span>{L_CREATE_UGROUP_EXPLAIN}</span></dt>
+		<dd>
+		<label><input type="radio" id="lmdi_gloss_ugroup" name="lmdi_gloss_ugroup"
+		value="1" class="radio" {CREATE_UGROUP_YES}/>{L_YES}</label>
+		<label><input type="radio" id="lmdi_gloss_ugroup" name="lmdi_gloss_ugroup"
+		value="0" class="radio" {CREATE_UGROUP_NO}/>{L_NO}</label>
+		</dd>
+	</dl>
+	<dl>
+		<dt><label>{L_CREATE_AGROUP}{L_COLON}</label><br />
+		<span>{L_CREATE_AGROUP_EXPLAIN}</span></dt>
+		<dd>
+		<label><input type="radio" id="lmdi_gloss_agroup" name="lmdi_gloss_agroup"
+		value="1" class="radio" {CREATE_AGROUP_YES}/>{L_YES}</label>
+		<label><input type="radio" id="lmdi_gloss_agroup" name="lmdi_gloss_agroup"
+		value="0" class="radio" {CREATE_AGROUP_NO}/>{L_NO}</label>
+		</dd>
+	</dl>
+	<p class="submit-buttons">
+		<input class="button1" type="submit" id="submit" name="config"
+		value="{L_SUBMIT}" />&nbsp;
+	</p>
+	{S_FORM_TOKEN}
+</fieldset>
+</form>
+
+
+<!-- INCLUDE overall_footer.html -->

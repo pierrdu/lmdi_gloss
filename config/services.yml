@@ -1,0 +1,96 @@
+imports:
+    - { resource: tables.yml }
+
+services:
+     lmdi.gloss.listener:
+        class: lmdi\gloss\event\listener
+        arguments:
+            - '@dbal.conn'
+            - '@config'
+            - '@controller.helper'
+            - '@template'
+            - '@cache'
+            - '@user'
+            - '%lmdi.gloss.tables.glossary%'
+        tags:
+            - { name: event.listener }
+
+     lmdi.gloss.controller:
+        class: lmdi\gloss\controller\main
+        arguments:
+            - '@lmdi.gloss.core.glossaire'
+            - '@lmdi.gloss.core.glossedit'
+            - '@lmdi.gloss.core.glosspict'
+            - '@lmdi.gloss.core.glossclean'
+            - '@template'
+            - '@user'
+            - '@request'
+            - '@controller.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+
+     lmdi.gloss.core.glossaire:
+        class: lmdi\gloss\core\glossaire
+        arguments:
+            - '@template'
+            - '@user'
+            - '@dbal.conn'
+            - '@controller.helper'
+            - '@auth'
+            - '@ext.manager'
+            - '@path_helper'
+            - '@lmdi.gloss.core.helper'
+            - '%core.php_ext%'
+            - '%core.root_path%'
+            - '%lmdi.gloss.tables.glossary%'
+
+     lmdi.gloss.core.glossedit:
+        class: lmdi\gloss\core\glossedit
+        arguments:
+            - '@template'
+            - '@user'
+            - '@dbal.conn'
+            - '@ext.manager'
+            - '@path_helper'
+            - '@config'
+            - '@request'
+            - '@cache'
+            - '@lmdi.gloss.core.helper'
+            - '%core.php_ext%'
+            - '%core.root_path%'
+            - '%lmdi.gloss.tables.glossary%'
+            - '@?files.factory'
+
+     lmdi.gloss.core.glosspict:
+        class: lmdi\gloss\core\glosspict
+        arguments:
+            - '@template'
+            - '@user'
+            - '@ext.manager'
+            - '@path_helper'
+            - '@request'
+            - '%core.php_ext%'
+            - '%core.root_path%'
+
+     lmdi.gloss.core.glossclean:
+        class: lmdi\gloss\core\glossclean
+        arguments:
+            - '@template'
+            - '@user'
+            - '@ext.manager'
+            - '@path_helper'
+            - '@request'
+            - '@dbal.conn'
+            - '@cache'
+            - '%core.table_prefix%'
+            - '%core.php_ext%'
+            - '%core.root_path%'
+
+     lmdi.gloss.core.helper:
+        class: lmdi\gloss\core\helper
+        arguments:
+            - '@dbal.conn'
+            - '%core.table_prefix%'
+            - '%lmdi.gloss.tables.glossary%'
+            - '%core.root_path%'
+            - '%core.php_ext%'

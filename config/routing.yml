@@ -1,0 +1,3 @@
+lmdi_gloss_controller:
+    path: /gloss
+    defaults: { _controller: lmdi.gloss.controller:handle_gloss }

@@ -1,0 +1,3 @@
+parameters:
+    lmdi.gloss.tables.glossary: %core.table_prefix%glossary
+
