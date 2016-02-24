@@ -526,7 +526,7 @@ class glossedit
 		$upload->set_max_filesize($poids);
 		$file = $upload->form_upload('upload_file');
 		$size = $file->filesize;
-		echo ("Taille du fichier : $size octets.<br>\n");
+		// echo ("Taille du fichier : $size octets.<br>\n");
 		if (empty($file->filename))
 		{
 			trigger_error( 'File upload failed.' . adm_back_link($this->u_action), E_USER_WARNING);
