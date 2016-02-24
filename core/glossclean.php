@@ -114,22 +114,22 @@ class glossclean
 		page_header($titre);
 
 		$this->template->set_filenames (array(
-			'body' => 'gloss/glossaire.html',
+			'body' => 'glossaire.html',
 		));
 
 		$params = "mode=glossedit";
-		$str_glossedit = append_sid ($this->phpbb_rooU_path . 'app.' . $this->phpEx . '/gloss', $params);
+		$str_glossedit = append_sid ($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
 		$this->template->assign_block_vars('navlinks', array(
 				'U_VIEW_FORUM'	=> $str_glossedit,
 				'FORUM_NAME'	=> $this->user->lang['GLOSS_EDITION'],
 			));
 
 		$this->template->assign_vars (array (
-			'U_TITRE'			=> $titre,
-			'U_ABC'			=> $abc_links,
-			'U_ILLUST'		=> $illustration,
-			'U_CORPS'			=> $corps,
-			'U_BIBLIO'		=> $biblio,
+			'TITRE'			=> $titre,
+			'ABC'			=> $abc_links,
+			'ILLUST'		=> $illustration,
+			'CORPS'			=> $corps,
+			'BIBLIO'		=> $biblio,
 			));
 
 		make_jumpbox(append_sid($this->phpbb_root_path . 'viewforum.' . $this->phpEx));

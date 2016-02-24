@@ -182,14 +182,14 @@ class glossaire
 		$titre = $this->user->lang['TGLOSSAIRE'];
 		page_header($titre);
 		$this->template->set_filenames (array(
-			'body' => 'gloss/glossaire.html',
+			'body' => 'glossaire.html',
 		));
 		$this->template->assign_vars (array (
-			'U_TITLE'		=> $titre,
-			'U_ABC'			=> $abc_links,
-			'U_ILLUST'		=> $illustration,
-			'U_CORPS'		=> $corps,
-			'U_BIBLIO'		=> $biblio,
+			'TITLE'		=> $titre,
+			'ABC'			=> $abc_links,
+			'ILLUST'		=> $illustration,
+			'CORPS'		=> $corps,
+			'BIBLIO'		=> $biblio,
 		));
 
 		page_footer();

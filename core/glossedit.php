@@ -487,7 +487,7 @@ class glossedit
 		page_header($titre);
 
 		$this->template->set_filenames (array(
-			'body' => 'gloss/glossaire.html',
+			'body' => 'glossaire.html',
 		));
 
 		$params = "mode=glossedit";
@@ -498,11 +498,11 @@ class glossedit
 			));
 
 		$this->template->assign_vars (array (
-			'U_TITRE'			=> $titre,
-			'U_ABC'			=> $abc_links,
-			'U_ILLUST'		=> $illustration,
-			'U_CORPS'			=> $corps,
-			'U_BIBLIO'		=> $biblio,
+			'TITRE'			=> $titre,
+			'ABC'			=> $abc_links,
+			'ILLUST'		=> $illustration,
+			'CORPS'			=> $corps,
+			'BIBLIO'		=> $biblio,
 			));
 
 		make_jumpbox(append_sid($this->phpbb_root_path . 'viewforum.' . $this->phpEx));

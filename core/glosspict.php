@@ -93,10 +93,10 @@ class glosspict
 		));
 
 		$this->template->assign_vars (array (
-			'U_TITRE'			=> $view,
-			'U_ILLUST'		=> $terme,
-			'U_CORPS'			=> $corps,
-			'U_BIBLIO'		=> $retour,
+			'TITRE'			=> $view,
+			'ILLUST'		=> $terme,
+			'CORPS'			=> $corps,
+			'BIBLIO'		=> $retour,
 		));
 
 		make_jumpbox(append_sid("{$this->phpbb_root_path}viewforum.$this->phpEx"));
