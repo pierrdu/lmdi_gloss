@@ -20,20 +20,20 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge ($lang, array(
 // Static Glossary page
-	'ILLUSTRATION'	=>  "Begriffe können erläuternde Bilder haben.<br />In diesem Fall gibt es einen Link am Ende der Zeile.<br />Klicke darauf um das Bild anzuzeigen.<br />Klicke erneut auf das Bild um zurückzukehren.",
+	'ILLUSTRATION'	=>  "<p>Begriffe können erläuternde Bilder haben.<br />In diesem Fall gibt es einen Link am Ende der Zeile.<br />Klicke darauf um das Bild anzuzeigen.<br />Klicke erneut auf das Bild um zurückzukehren.</p>",
 	'GLOSS_DISPLAY'	=> 'Anzeige',
 	'GLOSS_CLICK'		=> 'Klicke auf das Bild um zur vorherigen Seite zrückzukehren.',
 	'GLOSS_VIEW'		=> 'Glossar-Betrachter',
 	'GLOSS_ILINKS'		=> 'Siehe auch: ',
 	'GLOSS_ELINKS'		=> 'Externer Link: ',
-	'GLOSS_BIBLIO'		=> "
+	'GLOSS_BIBLIO'		=> "<p>
 		<span class=\"m\">
 		<u>Bibliographie</u><br /> 
 		
 		<u>Webographie</u><br />
 		
 		<u>Illustrationen</u>
-		</span>",
+		</span></p>",
 // Glossary edition page
 	'GLOSS_EDIT'	=>'Glossar-Eintrag bearbeiten',
 	'GLOSS_CREAT'	=>'Glossar-Eintrag anlegen',
@@ -63,8 +63,7 @@ $lang = array_merge ($lang, array(
 	'GLOSS_ED_REUSE'	=> 'Bild wiederverwenden',
 	'GLOSS_ED_EXISTE'	=> 'Existierendes Bild',
 	'GLOSS_ED_ACT'		=> 'Aktion',
-	'GLOSS_ED_EXPL'	=> 'Es gibt einen Bearbeitungs-Link in der Spalte Aktion für jeden Eintrag.<br>Um einen neuen Eintrag anzulegen, klicke ',
-	'GLOSS_ED_ICI'		=> '<b>hier</b>',
+	'GLOSS_ED_EXPL'	=> '<p>Es gibt einen Bearbeitungs-Link in der Spalte Aktion für jeden Eintrag.<br>Um einen neuen Eintrag anzulegen, klicke %s<b>hier</b>%s.</p>',
 	'GLOSS_ED_EDIT'	=> 'Bearbeiten',
 	'GLOSS_LANG'		=> 'Sprache',
 	'LMDI_GLOSS_DISALLOWED_CONTENT'	=> 'Das Hochladen wurde unterbrochen weil die Datei als potentielle Bedrohung erkannt wurde.',

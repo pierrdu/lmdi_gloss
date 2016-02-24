@@ -19,13 +19,13 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge ($lang, array(
 // Static Glossary page
-	'ILLUSTRATION'	=>  "Certains termes sont illustrés.<br>Il existe dans ce cas un lien cliquable au bout de la ligne, cliquez dessus pour afficher l'illustration.<br>Sur la page de visualisation, cliquez sur l'image pour revenir.",
+	'ILLUSTRATION'	=>  "<p>Certains termes sont illustrés.<br>Il existe dans ce cas un lien cliquable au bout de la ligne, cliquez dessus pour afficher l'illustration.<br>Sur la page de visualisation, cliquez sur l'image pour revenir.</p>",
 	'GLOSS_DISPLAY'	=> 'Afficher',
 	'GLOSS_CLICK'		=> 'Cliquez sur l\'image pour revenir à la page précédente.',
 	'GLOSS_VIEW'		=> 'Afficheur du glossaire',
 	'GLOSS_ILINKS'		=> 'Voir aussi&nbsp;: ',
 	'GLOSS_ELINKS'		=> 'Lien externe&nbsp;: ',
-	'GLOSS_BIBLIO'		=> "
+	'GLOSS_BIBLIO'		=> "<p>
 		<span class=\"m\">
 		<u>Bibliographie</u><br /> 
 		<br /><br /> 
@@ -33,7 +33,7 @@ $lang = array_merge ($lang, array(
 		<br />
 		<u>Illustrations</u><br /><br />
 		<br /> 
-		</span>",
+		</span></p>",
 // Glossary edition page
 	'GLOSS_EDIT'	=>'Édition d\'une fiche du glossaire',
 	'GLOSS_CREAT'	=>'Création d\'une fiche du glossaire',
@@ -63,8 +63,7 @@ $lang = array_merge ($lang, array(
 	'GLOSS_ED_REUSE'	=> 'Réutilisation du fichier',
 	'GLOSS_ED_EXISTE'	=> 'Fichier enregistré',
 	'GLOSS_ED_ACT'		=> 'Action',
-	'GLOSS_ED_EXPL'	=> 'Un lien d\'édition existe à l\'extrémité de chaque ligne, pour apporter des modifications.<br>Pour créer une nouvelle rubrique, cliquez ',
-	'GLOSS_ED_ICI'		=> '<b>ici</b>',
+	'GLOSS_ED_EXPL'	=> '<p>Un lien d\'édition existe à l\'extrémité de chaque ligne, pour apporter des modifications.<br>Pour créer une nouvelle rubrique, cliquez %s <b>ici</b> %s.</p>',
 	'GLOSS_ED_EDIT'	=> 'Éditer',
 	'GLOSS_LANG'		=> 'Langue',
 	'LMDI_GLOSS_DISALLOWED_CONTENT'	=> 'Le téléchargement a été refusé parce que son contenu n\'est pas autorisé.',

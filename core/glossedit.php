@@ -475,11 +475,11 @@ class glossedit
 				$corps .= "</table>";
 				$abc_links .= "</p>\n";
 
-				$str_ici = $this->user->lang['GLOSS_ED_ICI'];
-				$illustration  = $this->user->lang['GLOSS_ED_EXPL'];
-				$illustration .= "<a href=\"";
-				$illustration .= append_sid ($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', 'mode=glossedit&code=-1&action=edit');
-				$illustration .= "\"><b>$str_ici</b></a>.";
+				$string = $this->user->lang['GLOSS_ED_EXPL'];
+				$url  = "<a href=\"";
+				$url .= append_sid ($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', 'mode=glossedit&code=-1&action=edit');
+				$url .= "\"";
+				$illustration = sprintf ($string, $url, "</a>");
 				break;
 			}
 

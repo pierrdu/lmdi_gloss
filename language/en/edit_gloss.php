@@ -19,13 +19,13 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge ($lang, array(
 // Static Glossary page
-	'ILLUSTRATION'	=>  "Some terms have an explicative illustration.<br />In such a case, there is a link at the end of the row.<br />Click on it to display the picture.<br />Click on the picture again to come back.",
+	'ILLUSTRATION'	=>  "<p>Some terms have an explicative illustration.<br />In such a case, there is a link at the end of the row.<br />Click on it to display the picture.<br />Click on the picture again to come back.</p>",
 	'GLOSS_DISPLAY'	=> 'Display',
 	'GLOSS_CLICK'		=> 'Click on the picture to come back to previous page.',
 	'GLOSS_VIEW'		=> 'Glossary Viewer',
 	'GLOSS_ILINKS'		=> 'See also: ',
 	'GLOSS_ELINKS'		=> 'External link: ',
-	'GLOSS_BIBLIO'		=> "
+	'GLOSS_BIBLIO'		=> "<p>
 		<span class=\"m\">
 		<u>Bibliography</u><br /> 
 		<br /><br /> 
@@ -33,7 +33,7 @@ $lang = array_merge ($lang, array(
 		<br />
 		<u>Illustrations</u><br /><br />
 		<br /> 
-		</span>",
+		</span></p>",
 // Glossary edition page
 	'GLOSS_EDIT'	=>'Glossary Item Edition',
 	'GLOSS_CREAT'	=>'Glossary Item Creation',
@@ -63,8 +63,7 @@ $lang = array_merge ($lang, array(
 	'GLOSS_ED_REUSE'	=> 'File to be reused',
 	'GLOSS_ED_EXISTE'	=> 'Registered file',
 	'GLOSS_ED_ACT'		=> 'Action',
-	'GLOSS_ED_EXPL'	=> 'An edition link exists in the Action column for each entry.<br>To create a new entry, click ',
-	'GLOSS_ED_ICI'		=> '<b>here</b>',
+	'GLOSS_ED_EXPL'	=> '<p>An edition link exists in the Action column for each entry.<br>To create a new entry, click %s<b>here</b>%s.</p>',
 	'GLOSS_ED_EDIT'	=> 'Edit',
 	'GLOSS_LANG'		=> 'Language',
 	'LMDI_GLOSS_DISALLOWED_CONTENT'	=> 'Upload has been interrupted because the file had been identified as a potential threat.',
