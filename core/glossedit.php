@@ -525,7 +525,7 @@ class glossedit
 		$poids *= 1024;
 		$upload->set_max_filesize($poids);
 		$file = $upload->form_upload('upload_file');
-		$size = $file->filesize;
+		// $size = $file->filesize;
 		// echo ("Taille du fichier : $size octets.<br>\n");
 		if (empty($file->filename))
 		{
@@ -538,8 +538,10 @@ class glossedit
 			$errors = array_merge ($errors, $file_error);
 			return (false);
 		}
-		$filename = $file->uploadname;
 		$file->move_file($upload_dir, true);
+		$filename = $file->uploadname;
+		// phpbb_chmod doesn't work well here on some servers so be explicit
+		@chmod($upload_dir . '/' . $filename, 0644);
 		return ($filename);
 	}
 
@@ -568,6 +570,8 @@ class glossedit
 		}
 		$file->move_file($upload_dir, true);
 		$filename = $file->get('realname');
+		// phpbb_chmod doesn't work well here on some servers so be explicit
+		@chmod($upload_dir . '/' . $filename, 0644);
 		return ($filename);
 	}
 }
