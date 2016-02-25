@@ -132,7 +132,7 @@ class listener implements EventSubscriberInterface
 	}	// insertion_glossaire
 
 	/*
-	*	Code replacing in post words found in the glossary table.
+	*	Code replacing the words found in the glossary table.
 	*	Code de remplacement des éléments figurant dans la table de termes
 	*/
 	function glossary_pass ($texte)
@@ -146,12 +146,6 @@ class listener implements EventSubscriberInterface
 		{
 			$rech = $glossterms['rech'];
 			$remp = $glossterms['remp'];
-			/*
-			echo '<br><br>Chaînes de recherche :';
-			var_dump($rech);
-			echo '<br><br>Chaînes de remplacement :';
-			var_dump($remp);
-			*/
 			// Sectionnement de la chaîne passée sur les éléments qui sont des balises.
 			// Breaking the input string on delimiters (tags).
 			preg_match_all ('#[][><][^][><]*|[^][><]+#', $texte, $parts);
@@ -258,7 +252,6 @@ class listener implements EventSubscriberInterface
 			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$variants = explode (",", $row['variants']);
-				// var_dump ($variants);
 				if ($title)
 				{
 					$desc = trim ($row['description']);
@@ -266,13 +259,11 @@ class listener implements EventSubscriberInterface
 					{
 						$desc = mb_substr ($desc, 0, 50);
 					}
-					// $desc = addslashes ($desc);
 				}
 				else
 				{
 					$desc = '';
 				}
-				// var_dump ($desc);
 				$cnt = count ($variants);
 				for ($i = 0; $i < $cnt; $i++)
 				{

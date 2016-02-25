@@ -2,7 +2,6 @@ var $acronym;
 
 function showEntry(e) 
 {
-
 	var cache = [];	// cache MRU list
 	var cacheSize = 0;	// size of cache in chars (bytes?)
 	var source = "ext/lmdi/gloss/core/lexicon.php";
@@ -10,20 +9,21 @@ function showEntry(e)
 
 	$("#lexiconEntry").remove();
 
-	if (id) {
-	//    cached = checkCache(id);
-	//    if (cached) {
-	//      displayEntry(cached['id']);
-	//    } else{
-      $acronym = this;
-      $('<div class="loading" id="lexiconEntry"><br><br><br></div>').insertAfter($acronym);
-      $.get(source, {id: id}, function(txt) {
-        $('#lexiconEntry').html(txt).removeClass('loading');
-        $('#lexiconClose').click(function() { $("#lexiconEntry").remove(); return false; } );
+	if (id) 
+	{
+	//	cached = checkCache(id);
+	//	if (cached) {
+	//	displayEntry(cached['id']);
+	//	} else{
+	$acronym = this;
+	$('<div class="loading" id="lexiconEntry"><br><br><br></div>').insertAfter($acronym);
+	$.get(source, {id: id}, function(txt) {
+		$('#lexiconEntry').html(txt).removeClass('loading');
+		$('#lexiconClose').click(function() { $("#lexiconEntry").remove(); return false; } );
 	// addToCache(id, entry, txt.length);
-      });
+	});
 	// }
-  }
+	}
 }
 
 function checkCache(id) 
@@ -60,7 +60,7 @@ function displayEntry(entry)
 }
 
 $(document).ready(function() {
-  $("acronym").each(function(e){
-    if (this.className) $(this).bind("click",showEntry);
-  });
-});
+	$("acronym").each(function(e){
+		if (this.className) $(this).bind("click",showEntry);
+		});
+	});

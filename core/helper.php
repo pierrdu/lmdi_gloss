@@ -41,8 +41,8 @@ class helper
 		$string = "";
 		for ($i = 0; $i < $nb; $i++)
 		{
-			$terme = trim ($data[$i]);
-			$sql = "SELECT term_id from $table where term = '$terme'";
+			$term = trim ($data[$i]);
+			$sql = "SELECT term_id from $table where term = '$term'";
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow ($result);
 			$code = $row['term_id'];
@@ -53,7 +53,7 @@ class helper
 				{
 					$string .= ", ";
 				}
-				$string .= "<a href=\"#$code\">$terme</a>";
+				$string .= "<a href=\"#$code\">$term</a>";
 			}
 			else
 			{
@@ -61,7 +61,7 @@ class helper
 				{
 					$string .= ", ";
 				}
-				$string .= $terme;
+				$string .= $term;
 			}
 		}
 		return ($string);
@@ -107,8 +107,8 @@ class helper
 
 	public function get_def_language ($table, $colonne)
 	{
-		$sql = "SELECT DEFAULT($colonne) lg FROM (SELECT 1) AS dummy LEFT JOIN $table ON True LIMIT 1";
-		$result = $this->db->sql_query($sql);
+		$sql = "SELECT DEFAULT($colonne) lg FROM (SELECT 1) AS dummy LEFT JOIN $table ON True";
+		$result = $this->db->sql_query_limit($sql, 1);
 		$row = $this->db->sql_fetchrow ($result);
 		$default = $row['lg'];
 		$this->db->sql_freeresult ($result);
@@ -149,14 +149,14 @@ class helper
 		$group_desc = $desc;
 
 		$group_attributes = array(
-			'group_colour' => '000000',
-			'group_rank' => 0,
-			'group_avatar' => 0,
-			'group_avatar_type' => 0,
-			'group_avatar_width' => 0,
-			'group_avatar_height' => 0,
-			'group_legend' => 0,
-			'group_receive_pm' => 0,
+			'group_colour'			=> '000000',
+			'group_rank'			=> 0,
+			'group_avatar'			=> 0,
+			'group_avatar_type'		=> 0,
+			'group_avatar_width'	=> 0,
+			'group_avatar_height'	=> 0,
+			'group_legend'			=> 0,
+			'group_receive_pm'		=> 0,
 			);
 		// Function in file includes/functions_user.php
 		if (!function_exists('group_create') )
@@ -164,10 +164,8 @@ class helper
 			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
 		}
 		group_create($group_id, $group_type, $group_name, $group_desc, $group_attributes);
-		$group_id = $this->get_group_id($group_name);
 		// Mark group hidden
-		$sql = "UPDATE {$prefix}groups SET group_type = 2 
-			WHERE group_id = $group_id";
+		$sql = "UPDATE {$prefix}groups SET group_type = " . GROUP_HIDDEN . " WHERE group_id = $group_id";
 		$this->db->sql_query($sql);
 	}
 

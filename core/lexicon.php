@@ -26,22 +26,19 @@ if (!defined('GLOSSARY_TABLE'))
 	define('GLOSSARY_TABLE', $table_prefix . 'glossary');
 }
 
-$id = $request->variable ('id', '0');
+$id = $request->variable ('id', 0);
 if ($id)
 {
-	// var_dump ($id);
-	// Search lexicon entry in DB
+	// Extract glossary entry
 	$sql = "SELECT * FROM " . GLOSSARY_TABLE .
-		" WHERE term_id = '$id' LIMIT 1; ";
-	// var_dump ($sql);
-	$result = $db->sql_query($sql);
+		" WHERE term_id = '$id'";
+	$result = $db->sql_query_limit($sql, 1);
 	$row = $db->sql_fetchrow($result);
 	$entry = '<h3><a title="'. $user->lang['CLOSE_WINDOW']. '" id="lexiconClose" href="#">x</a></h3>
 		<h3>'.$row['term'].'</h3>'.'
 		<p><b>'.$row['description'].'</b></p>
 		<p><img src="ext/lmdi/gloss/glossaire/'.$row['picture'].'"></p>';
 	$db->sql_freeresult($result);
-	// var_dump ($entry);
 }
 
 header('Content-type: text/html; charset=UTF-8');
