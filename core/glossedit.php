@@ -99,10 +99,10 @@ class glossedit
 		$table = $this->glossary_table;
 		$str_nopict = "nopict.jpg";
 
-		$num    = $this->request->variable ('code', 0);
-		$action = $this->request->variable ('action', "rien");
-		$delete = $this->request->variable ('delete', "rien");
-		$save   = $this->request->variable ('save', "rien");
+		$num		= $this->request->variable ('code', 0);
+		$action	= $this->request->variable ('action', "rien");
+		$delete	= $this->request->variable ('delete', "rien");
+		$save	= $this->request->variable ('save', "rien");
 		if ($delete != 'rien')
 		{
 			$action = 'delete';

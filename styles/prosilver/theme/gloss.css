@@ -47,5 +47,3 @@ a#lexiconClose:hover, a#lexiconClose:active {
 #lexiconEntry.loading {
 	background: url("./images/loading.gif") center no-repeat #FFFFFF;
 	}
-
-

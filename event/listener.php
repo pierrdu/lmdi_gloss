@@ -265,22 +265,24 @@ class listener implements EventSubscriberInterface
 					$desc = '';
 				}
 				$cnt = count ($variants);
+				$done = array ();
 				for ($i = 0; $i < $cnt; $i++)
 				{
 					$variant = trim ($variants[$i]);
-					// comma at end => empty string
-					if (strlen ($variant))
+					// comma at end of variants => empty string
+					if (!strlen ($variant))
 					{
+						continue;
+					}
+					$variant = strtolower ($variant);
+					if (!in_array ($variant, $done))
+					{
+						$done[] = $variant;
 						$remp  = "<acronym class=\"id$row[term_id]\" title=\"$desc\">$1</acronym>";
-						// $remp  = "<acronym class=\"id$row[term_id]\" title=\"$desc\">$1";
-						// $remp .= $variant;
-						// $remp .= "</acronym>";
 						$firstspace = '/\b(';
 						$lastspace = ')\b/ui';	// PCRE - u for UTF-8 - i case insensitive
 						$rech = $firstspace . $variant . $lastspace;
-						// var_dump ($rech); echo ("<br>\n");
 						$glossterms['rech'][] = $rech;
-						// var_dump ($remp); echo ("<br>\n");
 						$glossterms['remp'][] = $remp;
 					}
 				}
