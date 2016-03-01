@@ -122,7 +122,6 @@ class listener implements EventSubscriberInterface
 		{
 			$rowset_data = $event['rowset_data'];
 			$post_text = $rowset_data['post_text'];
-			$row = $event['row'];
 
 			$post_text = $this->glossary_pass ($post_text);
 
@@ -154,7 +153,7 @@ class listener implements EventSubscriberInterface
 			{
 				return '';
 			}
-			// Code to identify strings which we should not change anything.
+			// Code to identify strings where we should not change anything.
 			// Each time, a line to set and a line to reset the flag.
 			// Code qui identifie les chaînes dans lesquelles il ne faut rien faire
 			// À chaque fois, une ligne pour armer, une ligne pour désarmer
@@ -228,15 +227,15 @@ class listener implements EventSubscriberInterface
 
 	/*	Production of the term list and the replacement list, in an array named glossterms.
 		The replacement string follows this model:
-		<acronym class='id302' title=''>word</acronym>
+		<acronym class='id302' title=''>$1</acronym>
 		The title element can contain the first 50 characters of description (see ACP).
 		Production de la liste des termes et calcul d'une chaîne de remplacement.
 		Les éléments sont placés dans le tableau glossterms. Ce tableau contient pour
 		chaque rubrique un élément rech qui est la chaîne à rechercher et un
 		élément remp qui est la chaîne de remplacement :
-		<acronym class='id302' title=''>rostre</acronym>
+		<acronym class='id302' title=''>$1</acronym>
 		L'élément 'title' peut contenir les 50 premiers caractères de la chaîne de
-		description (voir dans le panneau d'administration).
+		description (voir le panneau d'administration).
 		*/
 	function compute_glossary_list()
 	{
@@ -252,6 +251,7 @@ class listener implements EventSubscriberInterface
 			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$variants = explode (",", $row['variants']);
+				$term_id  = $row['term_id'];
 				if ($title)
 				{
 					$desc = trim ($row['description']);
@@ -278,9 +278,9 @@ class listener implements EventSubscriberInterface
 					if (!in_array ($variant, $done))
 					{
 						$done[] = $variant;
-						$remp  = "<acronym class=\"id$row[term_id]\" title=\"$desc\">$1</acronym>";
+						$remp  = "<acronym class=\"id{$term_id}\" title=\"$desc\">$1</acronym>";
 						$firstspace = '/\b(';
-						$lastspace = ')\b/ui';	// PCRE - u for UTF-8 - i case insensitive
+						$lastspace = ')\b/ui';	// PCRE - u = UTF-8 - i = case insensitive
 						$rech = $firstspace . $variant . $lastspace;
 						$glossterms['rech'][] = $rech;
 						$glossterms['remp'][] = $remp;
