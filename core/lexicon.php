@@ -37,7 +37,7 @@ if ($id)
 	$entry = '<h3><a title="'. $user->lang['CLOSE_WINDOW']. '" id="lexiconClose" href="#">x</a></h3>
 		<h3>'.$row['term'].'</h3>'.'
 		<p><b>'.$row['description'].'</b></p>
-		<p><img src="ext/lmdi/gloss/glossaire/'.$row['picture'].'"></p>';
+		<p><img class="popgloss" src="ext/lmdi/gloss/glossaire/'.$row['picture'].'"></p>';
 	$db->sql_freeresult($result);
 }
 
