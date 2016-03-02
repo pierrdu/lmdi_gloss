@@ -519,11 +519,11 @@ class glossedit
 		$upload = new \fileupload();
 		$upload->set_error_prefix('LMDI_GLOSS_');
 		$upload->set_allowed_extensions(array('jpg', 'jpeg', 'gif', 'png'));
-		$pixels = $this->config['lmdi_glossary_pixels'];
-		$upload->set_allowed_dimensions(10, 10, $pixels, $pixels);
-		$poids = $this->config['lmdi_glossary_poids'];
-		$poids *= 1024;
-		$upload->set_max_filesize($poids);
+		$pixels = (int) $this->config['lmdi_glossary_pixels'];
+		$upload->set_allowed_dimensions(false, false, $pixels, $pixels);
+		// $poids = $this->config['lmdi_glossary_poids'];
+		// $poids *= 1024;
+		// $upload->set_max_filesize($poids);
 		$file = $upload->form_upload('upload_file');
 		// $size = $file->filesize;
 		// echo ("Taille du fichier : $size octets.<br>\n");
@@ -540,7 +540,6 @@ class glossedit
 		}
 		$file->move_file($upload_dir, true);
 		$filename = $file->uploadname;
-		// phpbb_chmod doesn't work well here on some servers so be explicit
 		@chmod($upload_dir . '/' . $filename, 0644);
 		return ($filename);
 	}
@@ -555,9 +554,9 @@ class glossedit
 		$upload = $this->files_factory->get('upload');
 		$upload->set_error_prefix('LMDI_GLOSS_');
 		$upload->set_allowed_extensions(array('jpg', 'jpeg', 'gif', 'png'));
-		$pixels = $this->config['lmdi_glossary_pixels'];
-		$upload->set_allowed_dimensions(10, 10, $pixels, $pixels);
-		$poids = $this->config['lmdi_glossary_poids'];
+		$pixels = (int) $this->config['lmdi_glossary_pixels'];
+		$upload->set_allowed_dimensions(false, false, $pixels, $pixels);
+		$poids = (int) $this->config['lmdi_glossary_poids'];
 		$poids *= 1024;
 		$upload->set_max_filesize($poids);
 		// Uploading from a form, form name
@@ -570,7 +569,6 @@ class glossedit
 		}
 		$file->move_file($upload_dir, true);
 		$filename = $file->get('realname');
-		// phpbb_chmod doesn't work well here on some servers so be explicit
 		@chmod($upload_dir . '/' . $filename, 0644);
 		return ($filename);
 	}

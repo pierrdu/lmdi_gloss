@@ -79,7 +79,7 @@ $lang = array_merge ($lang, array(
 	'LMDI_GLOSS_REMOTE_UPLOAD_TIMEOUT'	=> 'Die angegebene Datei konnte wegen einer Zeitüberschreitung nicht hochgeladen werden.',
 	'LMDI_GLOSS_UNABLE_GET_IMAGE_SIZE'	=> 'Es war nicht möglich die Dateigröße zu ermitteln.',
 	'LMDI_GLOSS_WRONG_FILESIZE'		=> 'Die Datei muss kleiner als %1d kB sein.',
-	'LMDI_GLOSS_WRONG_SIZE'			=> 'Das Bild hat eine Breite von %3$d Pixel und eine Höhe von %4$d Pixel. Es darf nicht mehr als %1$d Pixel breit und %2$d Pixel hoch sein.',
+	'LMDI_GLOSS_WRONG_SIZE'			=> 'Das Bild ist %5$s breit und %6$s hoch. Glossarbilder müssen mindestens %1$s breit und %2$s hoch, aber dürfen maximal %3$s breit und %4$s hoch sein.',
 	'LMDI_CLICK_BACK'				=> 'Klicke <a href="javascript:history.go(-1);"><b>hier</b></a> um zur Bearbeitungsseite zurückzukehren.',
 // Glossary cleaning page
 	'LMDI_GLOSS_CLEAN'				=> 'Bereinigung erfolgreich abgeschlossen.',
