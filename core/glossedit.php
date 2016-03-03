@@ -520,13 +520,11 @@ class glossedit
 		$upload->set_error_prefix('LMDI_GLOSS_');
 		$upload->set_allowed_extensions(array('jpg', 'jpeg', 'gif', 'png'));
 		$pixels = (int) $this->config['lmdi_glossary_pixels'];
-		$upload->set_allowed_dimensions(false, false, $pixels, $pixels);
-		// $poids = $this->config['lmdi_glossary_poids'];
-		// $poids *= 1024;
-		// $upload->set_max_filesize($poids);
+		$upload->set_allowed_dimensions(false, false, $pixels, $pixels+1);
+		$poids = $this->config['lmdi_glossary_poids'];
+		$poids *= 1024;
+		$upload->set_max_filesize($poids);
 		$file = $upload->form_upload('upload_file');
-		// $size = $file->filesize;
-		// echo ("Taille du fichier : $size octets.<br>\n");
 		if (empty($file->filename))
 		{
 			trigger_error( 'File upload failed.' . adm_back_link($this->u_action), E_USER_WARNING);
@@ -534,8 +532,7 @@ class glossedit
 		if (sizeof($file->error))
 		{
 			$file->remove();
-			$file_error = $file->error;
-			$errors = array_merge ($errors, $file_error);
+			$errors = array_merge ($errors, $file->error);
 			return (false);
 		}
 		$file->move_file($upload_dir, true);
