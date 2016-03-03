@@ -4,8 +4,10 @@ function showEntry(e)
 {
 	var cache = [];	// cache MRU list
 	var cacheSize = 0;	// size of cache in chars (bytes?)
-	var source = "ext/lmdi/gloss/core/lexicon.php";
 	var id = this.className.substr(2);
+	// var source = "ext/lmdi/gloss/core/lexicon.php";
+	// var source = "app.php/gloss?mode=lexicon&amp;id=" . id;
+	var source = "app.php/gloss?mode=lexicon&amp;id=";
 
 	$("#lexiconEntry").remove();
 

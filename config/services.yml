@@ -22,6 +22,7 @@ services:
             - '@lmdi.gloss.core.glossedit'
             - '@lmdi.gloss.core.glosspict'
             - '@lmdi.gloss.core.glossclean'
+            - '@lmdi.gloss.core.lexicon'
             - '@template'
             - '@user'
             - '@request'
@@ -94,3 +95,11 @@ services:
             - '%lmdi.gloss.tables.glossary%'
             - '%core.root_path%'
             - '%core.php_ext%'
+
+     lmdi.gloss.core.lexicon:
+        class: lmdi\gloss\core\lexicon
+        arguments:
+            - '@user'
+            - '@dbal.conn'
+            - '@request'
+            - '%lmdi.gloss.tables.glossary%'

@@ -444,11 +444,11 @@ class glossedit
 						{
 							if (strlen ($label))
 							{
-								$corps .= "<br>$str_elinks <a href=\"$elinks\">$label</a>";
+								$corps .= "<br>$str_elinks <a class=\"ilinks\" href=\"$elinks\">$label</a>";
 							}
 							else
 							{
-								$corps .= "<br>$str_elinks <a href=\"$elinks\">$elinks</a>";
+								$corps .= "<br>$str_elinks <a class=\"ilinks\" href=\"$elinks\">$elinks</a>";
 							}
 						}
 						$corps .= "</td>";
