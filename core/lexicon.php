@@ -40,7 +40,7 @@ class lexicon
 	{
 		// String loading
 		$this->user->add_lang_ext('lmdi/gloss', 'edit_gloss');
-		
+
 		$id = $this->request->variable ('id', 0);
 		// var_dump ($id);
 		if ($id)
@@ -61,5 +61,4 @@ class lexicon
 		// $json_response->setCharacterEncoding("UTF-8");
 		$json_response->send ($entry, true);
 	}
-
 }

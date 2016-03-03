@@ -1,6 +1,6 @@
 <?php
 /**
-* gloss.php
+* edit_gloss.php
 * @package phpBB Extension - LMDI Glossary
 * @copyright (c) 2015-2016 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
