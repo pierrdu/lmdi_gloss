@@ -44,6 +44,5 @@ a#lexiconClose:hover, a#lexiconClose:active {
 	background: url("./images/loading.gif") center no-repeat #FFFFFF;
 	}
 img.popgloss {
-	width:100%;
 	max-width:500px;
 	}

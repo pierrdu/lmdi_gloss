@@ -98,4 +98,6 @@ td.deg2 {
 	font-size: 200%;
 	font-weight: bold;
 	}
-
+a.ilinks:link, a.ilinks:visited, a.ilinks:hover, a.ilinks:active {
+	color: #f86666;
+	}

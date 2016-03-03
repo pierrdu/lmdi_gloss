@@ -53,7 +53,7 @@ class helper
 				{
 					$string .= ", ";
 				}
-				$string .= "<a href=\"#$code\">$term</a>";
+				$string .= "<a class=\"ilinks\" href=\"#$code\">$term</a>";
 			}
 			else
 			{
