@@ -270,10 +270,10 @@ class glossedit
 				$term_id	= $this->db->sql_escape(trim($this->request->variable('term_id', 0)));
 				$term	= $this->db->sql_escape(trim($this->request->variable('term',"",true)));
 				$variants	= $this->db->sql_escape(trim($this->request->variable('vari',"",true)));
-				$description	= $this->db->sql_escape(trim($this->request->variable('desc',"",true)));
-				if (strlen ($description) > 500)
+				$descript	= $this->db->sql_escape(trim($this->request->variable('desc',"",true)));
+				if (strlen ($descript) > 500)
 				{
-					$description = substr ($description, 0, 500);
+					$descript = substr ($descript, 0, 500);
 				}
 				$cat		= $this->db->sql_escape(trim($this->request->variable ('cat',"",true)));
 				$ilinks	= $this->db->sql_escape(trim($this->request->variable ('ilinks',"",true)));
@@ -325,7 +325,7 @@ class glossedit
 					$sql  = "INSERT INTO $table ";
 					$sql .= "(variants, term, description, cat, ilinks, elinks, label, picture, lang) ";
 					$sql .= " VALUES ";
-					$sql .= "(\"$variants\", \"$term\", \"$description\", \"$cat\", \"$ilinks\", '$elinks', \"$label\", \"$picture\", \"$lang\")";
+					$sql .= "(\"$variants\", \"$term\", \"$descript\", \"$cat\", \"$ilinks\", '$elinks', \"$label\", \"$picture\", \"$lang\")";
 					$this->db->sql_query ($sql);
 					$term_id = $this->db->sql_nextid();
 				}
@@ -335,7 +335,7 @@ class glossedit
 					$sql .= "term_id		= \"$term_id\", ";
 					$sql .= "variants		= \"$variants\", ";
 					$sql .= "term			= \"$term\", ";
-					$sql .= "description	= \"$description\", ";
+					$sql .= "description	= \"$descript\", ";
 					$sql .= "cat			= \"$cat\", ";
 					$sql .= "ilinks		= \"$ilinks\", ";
 					$sql .= "elinks		= \"$elinks\", ";
@@ -564,7 +564,8 @@ class glossedit
 		$upload->set_error_prefix('LMDI_GLOSS_');
 		$upload->set_allowed_extensions(array('jpg', 'jpeg', 'gif', 'png'));
 		$pixels = (int) $this->config['lmdi_glossary_pixels'];
-		$upload->set_allowed_dimensions(false, false, $pixels, $pixels);
+		$pmini = 0;
+		$upload->set_allowed_dimensions($pmini, $pmini, $pixels, $pixels);
 		$poids = (int) $this->config['lmdi_glossary_poids'];
 		$poids *= 1024;
 		$upload->set_max_filesize($poids);
@@ -581,19 +582,24 @@ class glossedit
 				return (false);
 			}
 		}
-		$width = $file->get('width');
-		$height = $file->get('height');
+		$filename = $file->get('realname');
+		$filepath = $upload_dir . '/' . $filename;
+		$fdata = getimagesize ($filepath);
+		$width = $fdata[0];
+		$height = $fdata[1];
 		if ($width > $pixels || $height > $pixels)
 		{
-			if (sizeof($file->error))
-			{
-				$errors = array_merge ($errors, $file->error);
-				$file->remove();
-				return (false);
-			}
+			$errors[] = $this->user->lang('LMDI_GLOSS_WRONG_SIZE',
+				$this->user->lang('PIXELS', (int) $pmini),
+				$this->user->lang('PIXELS', (int) $pmini),
+				$this->user->lang('PIXELS', (int) $pixels),
+				$this->user->lang('PIXELS', (int) $pixels),
+				$this->user->lang('PIXELS', (int) $width),
+				$this->user->lang('PIXELS', (int) $height));
+			$file->remove();
+			return (false);
 		}
-		$filename = $file->get('realname');
-		@chmod($upload_dir . '/' . $filename, 0644);
+		@chmod($filepath, 0644);
 		return ($filename);
 	}
 }
