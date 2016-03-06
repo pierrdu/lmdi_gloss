@@ -79,7 +79,7 @@ $lang = array_merge ($lang, array(
 	'LMDI_GLOSS_REMOTE_UPLOAD_TIMEOUT'		=> 'Le fichier n\'a pas pu être téléchargé à cause d\'une remporisation de la demande.',
 	'LMDI_GLOSS_UNABLE_GET_IMAGE_SIZE'	=> 'Impossible de déterminer les dimensions du fichier.',
 	'LMDI_GLOSS_WRONG_FILESIZE'		=> 'La taille du fichier doit être inférieure à %1d ko.',
-	'LMDI_GLOSS_WRONG_SIZE'			=> 'Le fichier téléchargé a une largeur de %5$s et une hauteur de %6$s. Les images doivent faire au moins %1$s de large et %2$s de haut, mais au plus %3$s de large et %4$s de haut.',
+	'LMDI_GLOSS_WRONG_SIZE'			=> 'Le fichier téléchargé a une largeur de %5$s et une hauteur de %6$s.<br>Les images doivent faire au moins %1$s de large et %2$s de haut, mais au plus %3$s de large et %4$s de haut.',
 	'LMDI_CLICK_BACK'				=> 'Cliquez <a href="javascript:history.go(-1);"><b>ici</b></a> pour revenir au formulaire d\'édition.',
 // Glossary cleaning page
 	'LMDI_GLOSS_CLEAN'				=> 'Le nettoyage s\'est bien déroulé.',

@@ -42,7 +42,6 @@ class lexicon
 		$this->user->add_lang_ext('lmdi/gloss', 'edit_gloss');
 
 		$id = $this->request->variable ('id', 0);
-		// var_dump ($id);
 		if ($id)
 		{
 			// Extract glossary entry
@@ -56,9 +55,7 @@ class lexicon
 				<p><img class="popgloss" src="ext/lmdi/gloss/glossaire/'.$row['picture'].'"></p>';
 			$this->db->sql_freeresult($result);
 		}
-		// var_dump ($entry);
 		$json_response = new \phpbb\json_response;
-		// $json_response->setCharacterEncoding("UTF-8");
 		$json_response->send ($entry, true);
 	}
 }

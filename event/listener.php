@@ -208,9 +208,7 @@ class listener implements EventSubscriberInterface
 					!($part{0} == '[' && $parts[$index + 1]{0} == ']') &&
 					empty($img) && empty($code) && empty($link) && empty($script))
 				{
-					// var_dump ($part);
 					$part = preg_replace ($rech, $remp, $part);
-					// var_dump ($part);
 					$parts[$index] = $part;
 				}
 			}

@@ -357,7 +357,7 @@ class glossedit
 				// */
 				break;
 			case "delete" :
-				$term_id     = $this->db->sql_escape ($this->request->variable ('term_id', 0));
+				$term_id = $this->db->sql_escape ($this->request->variable ('term_id', 0));
 				$sql  = "DELETE ";
 				$sql .= "FROM $table ";
 				$sql .= "WHERE term_id = \"$term_id\" ";
@@ -520,7 +520,7 @@ class glossedit
 		$upload->set_error_prefix('LMDI_GLOSS_');
 		$upload->set_allowed_extensions(array('jpg', 'jpeg', 'gif', 'png'));
 		$pixels = (int) $this->config['lmdi_glossary_pixels'];
-		$upload->set_allowed_dimensions(false, false, $pixels, $pixels+1);
+		$upload->set_allowed_dimensions(false, false, $pixels, $pixels);
 		$poids = $this->config['lmdi_glossary_poids'];
 		$poids *= 1024;
 		$upload->set_max_filesize($poids);
@@ -529,13 +529,25 @@ class glossedit
 		{
 			trigger_error( 'File upload failed.' . adm_back_link($this->u_action), E_USER_WARNING);
 		}
-		if (sizeof($file->error))
-		{
-			$file->remove();
-			$errors = array_merge ($errors, $file->error);
-			return (false);
-		}
 		$file->move_file($upload_dir, true);
+		if ($file->filesize > $poids)
+		{
+			if (sizeof($file->error))
+			{
+				$errors = array_merge ($errors, $file->error);
+				$file->remove();
+				return (false);
+			}
+		}
+		if ($file->width > $pixels || $file->height > $pixels)
+		{
+			if (sizeof($file->error))
+			{
+				$errors = array_merge ($errors, $file->error);
+				$file->remove();
+				return (false);
+			}
+		}
 		$filename = $file->uploadname;
 		@chmod($upload_dir . '/' . $filename, 0644);
 		return ($filename);
@@ -558,13 +570,28 @@ class glossedit
 		$upload->set_max_filesize($poids);
 		// Uploading from a form, form name
 		$file = $upload->handle_upload ('files.types.form', 'upload_file');
-		if (sizeof($file->error))
-		{
-			$file->remove();
-			$errors = array_merge($errors, $file->error);
-			return (false);
-		}
 		$file->move_file($upload_dir, true);
+		$filesize = $file->get('filesize');
+		if ($filesize > $poids)
+		{
+			if (sizeof($file->error))
+			{
+				$errors = array_merge ($errors, $file->error);
+				$file->remove();
+				return (false);
+			}
+		}
+		$width = $file->get('width');
+		$height = $file->get('height');
+		if ($width > $pixels || $height > $pixels)
+		{
+			if (sizeof($file->error))
+			{
+				$errors = array_merge ($errors, $file->error);
+				$file->remove();
+				return (false);
+			}
+		}
 		$filename = $file->get('realname');
 		@chmod($upload_dir . '/' . $filename, 0644);
 		return ($filename);

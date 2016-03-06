@@ -37,11 +37,11 @@ a#lexiconClose {
 	}
 a#lexiconClose:hover, a#lexiconClose:active {
 	color:#000000;
-	background:#FFCC00;
+	background:#FD6C9E;
 	border:1px solid #000000;
 	}
 #lexiconEntry.loading {
-	background: url("./images/loading.gif") center no-repeat #FFFFFF;
+	background: #FFFFFF;
 	}
 img.popgloss {
 	max-width:500px;
