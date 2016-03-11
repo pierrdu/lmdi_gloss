@@ -387,7 +387,7 @@ class glossedit
 				$str_elinks = $this->user->lang['GLOSS_ELINKS'];
 
 				$abc_links = "<span id=\"haut\"></span>";
-				
+
 				$corps  = "<table class=\"deg\"><tr class=\"deg\">";
 				$corps .= "<th class=\"deg0\">$str_terme</th>";
 				$corps .= "<th class=\"deg0\">$str_defin</th>";
