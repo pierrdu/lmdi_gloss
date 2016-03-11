@@ -66,6 +66,7 @@ $lang = array_merge ($lang, array(
 	'GLOSS_ED_EXPL'	=> '<p>Un lien d\'édition existe à l\'extrémité de chaque ligne, pour apporter des modifications.<br>Pour créer une nouvelle rubrique, cliquez %s<b>ici</b>%s.</p>',
 	'GLOSS_ED_EDIT'	=> 'Éditer',
 	'GLOSS_LANG'		=> 'Langue',
+	'LMDI_GLOSS_NOFILE'	=> 'Aucun fichier n\'a été sélectionné pour le téléchargement.',
 	'LMDI_GLOSS_DISALLOWED_CONTENT'	=> 'Le téléchargement a été refusé parce que son contenu n\'est pas autorisé.',
 	'LMDI_GLOSS_DISALLOWED_EXTENSION'	=> 'Le téléchargement a été refusé parce que l\'extension <strong>%s</strong> n’est pas autorisée.',
 	'LMDI_GLOSS_EMPTY_FILEUPLOAD'		=> 'Le fichier téléchargé est vide.',

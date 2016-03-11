@@ -66,6 +66,7 @@ $lang = array_merge ($lang, array(
 	'GLOSS_ED_EXPL'	=> '<p>Es gibt einen Bearbeitungs-Link in der Spalte Aktion für jeden Eintrag.<br>Um einen neuen Eintrag anzulegen, klicke %s<b>hier</b>%s.</p>',
 	'GLOSS_ED_EDIT'	=> 'Bearbeiten',
 	'GLOSS_LANG'		=> 'Sprache',
+	'LMDI_GLOSS_NOFILE'	=> 'Keine Dateinamen zum Hochladen.',
 	'LMDI_GLOSS_DISALLOWED_CONTENT'	=> 'Das Hochladen wurde unterbrochen weil die Datei als potentielle Bedrohung erkannt wurde.',
 	'LMDI_GLOSS_DISALLOWED_EXTENSION'	=> 'Die Dateierweiterung <strong>%s</strong> ist nicht erlaubt.',
 	'LMDI_GLOSS_EMPTY_FILEUPLOAD'		=> 'Die Datei ist leer.',

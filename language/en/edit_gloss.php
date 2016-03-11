@@ -66,6 +66,7 @@ $lang = array_merge ($lang, array(
 	'GLOSS_ED_EXPL'	=> '<p>An edition link exists in the Action column for each entry.<br>To create a new entry, click %s<b>here</b>%s.</p>',
 	'GLOSS_ED_EDIT'	=> 'Edit',
 	'GLOSS_LANG'		=> 'Language',
+	'LMDI_GLOSS_NOFILE'	=> 'No file given to upload.',
 	'LMDI_GLOSS_DISALLOWED_CONTENT'	=> 'Upload has been interrupted because the file had been identified as a potential threat.',
 	'LMDI_GLOSS_DISALLOWED_EXTENSION'	=> 'The file extension <strong>%s</strong> is not allowed.',
 	'LMDI_GLOSS_EMPTY_FILEUPLOAD'		=> 'The file is empty.',

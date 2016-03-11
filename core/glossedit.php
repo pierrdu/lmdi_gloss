@@ -386,7 +386,7 @@ class glossedit
 				$str_ilinks = $this->user->lang['GLOSS_ILINKS'];
 				$str_elinks = $this->user->lang['GLOSS_ELINKS'];
 
-				$abc_links = "";
+				$abc_links = "<span id="haut"></span>";
 				
 				$corps  = "<table class=\"deg\"><tr class=\"deg\">";
 				$corps .= "<th class=\"deg0\">$str_terme</th>";
@@ -523,7 +523,8 @@ class glossedit
 		$file = $upload->form_upload('upload_file');
 		if (empty($file->filename))
 		{
-			trigger_error( 'File upload failed.' . adm_back_link($this->u_action), E_USER_WARNING);
+			$errors = array_merge ($errors, array ($this->user->lang('LMDI_GLOSS_NOFILE')));
+			return (false);
 		}
 		$file->move_file($upload_dir, true);
 		if ($file->filesize > $poids)
