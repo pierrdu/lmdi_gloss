@@ -74,7 +74,7 @@ class main
 		$mode   = $this->request->variable('mode', '');
 		$action = $this->request->variable('action', '');
 		$code   = $this->request->variable('code', '-1');
-		
+
 		// String loading
 		$this->user->add_lang_ext('lmdi/gloss', 'edit_gloss');
 
