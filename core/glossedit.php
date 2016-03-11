@@ -177,7 +177,6 @@ class glossedit
 				$form .= append_sid ($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss?mode=glossedit');
 				$form .= "\" method=\"post\" id=\"glossedit\" enctype=\"multipart/form-data\">";
 				$form .= "\n<div class=\"panel\">\n<div class=\"inner\">\n<div class=\"content\">";
-				$form .= "<h2 class=\"login-title\">$str_action</h2>";
 				$form .= "\n<input type=\"hidden\" name=\"term_id\" id=\"term_id\" value=\"$code\">";
 				$form .= "<fieldset class=\"fields1\">";
 				$form .= "\n<dl>";
@@ -194,7 +193,7 @@ class glossedit
 				$form .= "</dl>";
 				$form .= "\n<dl>";
 				$form .= "<dt><label for=\"desc\">$str_desc</label></dt>";
-				$form .= "<dd><textarea tabindex=\"3\" rows=\"3\" cols=\"45\" name=\"desc\">$desc</textarea>";
+				$form .= "<dd><textarea tabindex=\"3\" rows=\"2\" cols=\"40\" name=\"desc\">$desc</textarea>";
 				$form .= "</dd>";
 				$form .= "</dl>";
 				$form .= "\n<dl>";
@@ -379,26 +378,24 @@ class glossedit
 				$sql .= " ORDER BY a" ;
 				$result = $this->db->sql_query ($sql);
 
-				$str_titre = $this->user->lang['GLOSS_EDITION'];
-				$str_terme = $this->user->lang['GLOSS_ED_TERM'];
-				$str_defin = $this->user->lang['GLOSS_ED_DEF'];
-				$str_illus = $this->user->lang['GLOSS_ED_PICT'];
-				$str_action = $this->user->lang['GLOSS_ED_ACT'];
+				$str_action = $this->user->lang['GLOSS_EDITION'];
+				$str_terme  = $this->user->lang['GLOSS_ED_TERM'];
+				$str_defin  = $this->user->lang['GLOSS_ED_DEF'];
+				$str_illus  = $this->user->lang['GLOSS_ED_PICT'];
+				$str_edit   = $this->user->lang['GLOSS_ED_ACT'];
 				$str_ilinks = $this->user->lang['GLOSS_ILINKS'];
 				$str_elinks = $this->user->lang['GLOSS_ELINKS'];
 
-				$abc_links = "<span id=\"haut\"></span>\n";
-				$abc_links .= "<h2 class=\"login-title\">$str_titre</h2>";
-				$abc_links .= "<p class=\"glossa\">";
-
+				$abc_links = "";
+				
 				$corps  = "<table class=\"deg\"><tr class=\"deg\">";
 				$corps .= "<th class=\"deg0\">$str_terme</th>";
 				$corps .= "<th class=\"deg0\">$str_defin</th>";
 				$corps .= "<th class=\"deg1\">$str_illus</th>";
-				$corps .= "<th class=\"deg1\">$str_action</th></tr>";
+				$corps .= "<th class=\"deg1\">$str_edit</th></tr>";
 
 				$cpt  = 0;
-				$str_edit  = $this->user->lang['GLOSS_ED_EDIT'];
+				$str_edit2  = $this->user->lang['GLOSS_ED_EDIT'];
 				$top = $this->ext_path_web . "/styles/top.gif";
 				while ($row = $this->db->sql_fetchrow ($result))
 				{
@@ -466,7 +463,7 @@ class glossedit
 						$corps .= "<a href=\"";
 						$params = "mode=glossedit&code=$code&action=edit";
 						$corps .= append_sid ($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
-						$corps .= "\">$str_edit</a></td>";
+						$corps .= "\">$str_edit2</a></td>";
 						$corps .= "</tr>";
 					}	// Fin du while sur le contenu - End of while on contents
 					$this->db->sql_freeresult ($result2);
@@ -483,8 +480,7 @@ class glossedit
 				break;
 			}
 
-		$titre = $this->user->lang['TGLOSSAIRE'];
-		page_header($titre);
+		page_header($this->user->lang['TGLOSSAIRE']);
 
 		$this->template->set_filenames (array(
 			'body' => 'glossaire.html',
@@ -498,10 +494,10 @@ class glossedit
 			));
 
 		$this->template->assign_vars (array (
-			'TITRE'			=> $titre,
-			'ABC'			=> $abc_links,
+			'TITLE'		=> $str_action,
+			'ABC'		=> $abc_links,
 			'ILLUST'		=> $illustration,
-			'CORPS'			=> $corps,
+			'CORPS'		=> $corps,
 			'BIBLIO'		=> $biblio,
 			));
 
