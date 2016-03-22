@@ -253,9 +253,9 @@ class listener implements EventSubscriberInterface
 				if ($title)
 				{
 					$desc = trim ($row['description']);
-					if (strlen ($desc) > 50)
+					if (strlen ($desc) > 500)
 					{
-						$desc = mb_substr ($desc, 0, 50);
+						$desc = mb_substr ($desc, 0, 500);
 					}
 				}
 				else
@@ -273,6 +273,7 @@ class listener implements EventSubscriberInterface
 						continue;
 					}
 					$variant = strtolower ($variant);
+					$variant = preg_quote ($variant);
 					if (!in_array ($variant, $done))
 					{
 						$done[] = $variant;

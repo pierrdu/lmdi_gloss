@@ -42,7 +42,7 @@ $lang = array_merge ($lang, array(
 	'ALLOW_FEATURE'		=> 'Enable Glossary Feature',
 	'ALLOW_FEATURE_EXPLAIN'	=> 'You may enable/disable the glossary tagging feature for the whole board. Each user can disable the tagging feature in posts from the user control panel.',
 	'ALLOW_TITLE'		=> 'Enable Tooltip',
-	'ALLOW_TITLE_EXPLAIN'	=> 'You may enable/disable the display of the term description in a tooltip when hovering over the term. Long descriptions will be truncated at 50 characters.',
+	'ALLOW_TITLE_EXPLAIN'	=> 'You may enable/disable the display of the term description in a tooltip when hovering over the term.',
 	'CREATE_UGROUP'		=> 'Creation of an usergroup',
 	'CREATE_UGROUP_EXPLAIN'	=> 'You may create an usergroup and assign to it the glossary editor role created when installing the extension. You may then add users to this group.',
 	'CREATE_AGROUP'		=> 'Creation of an administrator group',
@@ -53,5 +53,7 @@ $lang = array_merge ($lang, array(
 	'GLOSS_PIXELS_EXPLAIN'	=> 'Set here the size (in pixels) of the long side of the uploaded pictures.',
 	'POIDS'			=> 'Size in kB',
 	'POIDS_EXPLAIN'	=> 'Set here the maximum size (in kB) of the uploaded pictures.',
+	'TITLE_LENGTH'		=> 'Length of the tooltip text',
+	'TITLE_LENGTH_EXPLAIN'	=>'Set here the maximum length of the text displayed by the tooltip. The text will be truncated if longer.',
 
 ));

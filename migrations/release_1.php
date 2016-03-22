@@ -9,9 +9,6 @@
 
 namespace lmdi\gloss\migrations;
 
-// use \phpbb\db\migration\container_aware_migration;
-
-
 class release_1 extends \phpbb\db\migration\migration
 {
 

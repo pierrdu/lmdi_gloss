@@ -44,7 +44,7 @@ $lang = array_merge ($lang, array(
 	'ALLOW_FEATURE'		=> 'Glossar aktivieren',
 	'ALLOW_FEATURE_EXPLAIN'	=> 'Du kannst das Glossar für das gesamte Board aktivieren/deaktivieren. Jeder Benutzer kann in seinem Persönlichen Bereich die Anzeige des Glossars deaktivieren.',
 	'ALLOW_TITLE'		=> 'Tooltip aktivieren',
-	'ALLOW_TITLE_EXPLAIN'	=> 'Du kannst die Anzeige des Popups mit der Begriffserklärung beim Darüberfahren mit der Maus aktivieren/deaktivieren. Lange Erklärungen werden nach 50 Zeichen abgeschnitten.',
+	'ALLOW_TITLE_EXPLAIN'	=> 'Du kannst die Anzeige des Popups mit der Begriffserklärung beim Darüberfahren mit der Maus aktivieren/deaktivieren.',
 	'CREATE_UGROUP'		=> 'Benutzergruppe anlegen',
 	'CREATE_UGROUP_EXPLAIN'	=> 'Du kannst eine Benutzergruppe anlegen und ihr die Rolle zur Glossar-Bearbeitung zuweisen. Danach kannst Du Beareiter zu dieser Gruppe hinzufügen.',
 	'CREATE_AGROUP'		=> 'Administratoren-Gruppe anlegen',
@@ -55,5 +55,7 @@ $lang = array_merge ($lang, array(
 	'GLOSS_PIXELS_EXPLAIN'	=> 'Stelle hier die Größe von erklärenden Bildern ein (lange Seite).',
 	'POIDS'			=> 'Größe in kB',
 	'POIDS_EXPLAIN'	=> 'Stell hier die max. Dateigröße der Bilder in kB ein.',
+	'TITLE_LENGTH'		=> 'Länge des Textes im Tootip',
+	'TITLE_LENGTH_EXPLAIN'	=>'Stell hier die max. Länge des Textes im Tooltip. Wenn der Text länger ist, wird er abgeschnitten.',
 
 ));

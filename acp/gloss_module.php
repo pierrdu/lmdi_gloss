@@ -39,8 +39,6 @@ class gloss_module {
 			else
 			{
 			// Update configuration
-			$title = $request->variable('lmdi_gloss_title', '0');
-			$config->set ('lmdi_glossary_title', $title);
 			$ucp = $request->variable('lmdi_gloss_ucp', '0');
 			$config->set ('lmdi_glossary_ucp', $ucp);
 			$ucp = (int) $ucp;
@@ -52,6 +50,20 @@ class gloss_module {
 			// Update the lmdi_gloss column in table users
 			$sql  = 'UPDATE ' . USERS_TABLE . " SET lmdi_gloss = $ucp ";
 			$db->sql_query($sql);
+			// Tooltip validation
+			$title = $request->variable('lmdi_gloss_title', '0');
+			if ($title != $config['lmdi_gloss_title'])
+			{
+				$config->set ('lmdi_glossary_title', $title);
+				$cache->destroy('_glossterms');
+			}
+			// Tooltip length
+			$titlength = $request->variable('titlength', '0');
+			if ($titlength != $config['lmdi_glossary_tooltip'])
+			{
+				$config->set ('lmdi_glossary_tooltip', $titlength);
+				$cache->destroy('_glossterms');
+			}
 			// Language selection
 			$lang = $request->variable('lang', '');
 			$table = $table_prefix . 'glossary';
@@ -130,6 +142,11 @@ class gloss_module {
 		{
 			$poids = 150;
 		}
+		$titlength = $config['lmdi_glossary_tooltip'];
+		if (!$titlength)
+		{
+			$titlength = 50;
+		}
 		$template->assign_vars (array(
 			'C_ACTION'		=> $action_config,
 			'ALLOW_FEATURE_NO'	=> $config['lmdi_glossary_ucp'] == 0 ? 'checked="checked"' : '',
@@ -142,7 +159,8 @@ class gloss_module {
 			'CREATE_AGROUP_YES'	=> $config['lmdi_glossary_admingroup'] == 1 ? 'checked="checked"' : '',
 			'S_PIXELS'		=> $pixels,
 			'S_POIDS'			=> $poids,
-			'S_LANG_OPTIONS'    => $select,
+			'S_LANG_OPTIONS'	=> $select,
+			'S_TITLENGTH'		=> $titlength,
 			));
 
 	}

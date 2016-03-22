@@ -45,7 +45,7 @@ $lang = array_merge ($lang, array(
 	'ALLOW_FEATURE'        => 'Validation de la fonction de glossaire',
 	'ALLOW_FEATURE_EXPLAIN'        => 'Vous pouvez valider ou inhiber la fonction au niveau du forum. Si vous validez, l\'utilisateur pourra s\'il le souhaite inhiber l\'affichage des termes du glossaire dans les messages du forum (à partir du panneau de l\'utilisateur).',
 	'ALLOW_TITLE'        => 'Validation des infobulles',
-	'ALLOW_TITLE_EXPLAIN'        => 'Vous pouvez valider ou inhiber l\'affichage d\'une infobulle lorsque le curseur passe au-dessus du terme dans les messages du forum. Si la description est très longue, elle est tronquée à 50 caractères.',
+	'ALLOW_TITLE_EXPLAIN'        => 'Vous pouvez valider ou inhiber l\'affichage d\'une infobulle lorsque le curseur passe au-dessus du terme dans les messages du forum.',
 	'CREATE_UGROUP'		=> 'Création d\'un groupe d\'utilisateurs',
 	'CREATE_UGROUP_EXPLAIN'	=> 'Vous pouvez créer un groupe d\'utilisateurs auquel vous attribuerez le rôle d\'éditeur des rubriques du glossaire qui a été créé lors de l\'installation de l\'extension. Vous pouvez ensuite placer dans ce groupe les utilisateurs chargés de cette tâche.',
 	'CREATE_AGROUP'		=> 'Création d\'un groupe d\'administrateurs',
@@ -56,5 +56,7 @@ $lang = array_merge ($lang, array(
 	'GLOSS_PIXELS_EXPLAIN'	=> 'Indiquez ici la taille maximale de l\'image en pixels (sur le plus grand côté).',
 	'POIDS'			=> 'Poids de l\'image',
 	'POIDS_EXPLAIN'	=> 'Indiquez ici le poids maximal de l\'image téléchargée (en ko).',
+	'TITLE_LENGTH'		=> 'Longueur du texte de l\'infobulle',
+	'TITLE_LENGTH_EXPLAIN'	=>'Indiquez ici le nombre de caractères auquel le texte de l\'infobulle doit être tronqué s\'il est trop long.',
 
 ));
