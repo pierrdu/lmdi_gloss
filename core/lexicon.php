@@ -51,8 +51,25 @@ class lexicon
 			$row = $this->db->sql_fetchrow($result);
 			$entry = '<h3><a title="'. $this->user->lang['CLOSE_WINDOW']. '" id="lexiconClose" href="#">x</a></h3>
 				<h3>'.$row['term'].'</h3>'.'
-				<p><b>'.$row['description'].'</b></p>
-				<p><img class="popgloss" src="ext/lmdi/gloss/glossaire/'.$row['picture'].'" alt="' . $row['term']. '" /></p>';
+				<p><b>'.$row['description'].'</b></p>';
+			$picture = $row['picture'];
+			if ($picture != "nopict.jpg")
+			{
+				$entry .= '<p><img class="popgloss" src="ext/lmdi/gloss/glossaire/'.$row['picture'].'" alt="' . $row['term']. '" /></p>';
+			}
+			$elinks = $row['elinks'];
+			$label = $row['label'];
+			if ($elinks != "")
+			{
+				if ($label == "")
+				{
+					$entry .= '<p><a href="'.$elinks.'">'.$elinks.'</a></p>';
+				}
+				else
+				{
+					$entry .= '<p><a href="'.$elinks.'">'.$label.'</a></p>';
+				}
+			}
 			$this->db->sql_freeresult($result);
 		}
 		$json_response = new \phpbb\json_response;

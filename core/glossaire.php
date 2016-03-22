@@ -143,9 +143,6 @@ class glossaire
 				}
 				$corps .= "</td>";
 				$corps .= "<td class='deg1'>";
-				/*	Lien cliquable si l'image est différente de nopict.
-					Link only if the picture is not nopict.jpg.
-					*/
 				if ($pict != "nopict.jpg")
 				{
 					$url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glosspict', 'code' => $code, 'term' =>$term, 'pict' => $pict));

@@ -5,6 +5,7 @@
 * @package phpBB Extension - LMDI Glossary
 * @copyright (c) 2015-2016 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+* Russian translation by rua and MaxTr
 */
 
 /**
@@ -45,6 +46,6 @@ if (empty($lang) || !is_array($lang))
 
 // User Permissions
 $lang = array_merge($lang, array(
-	'ACL_U_LMDI_GLOSSARY'		=> 'Может редактировать глоссарий.',
-	'ACL_A_LMDI_GLOSSARY'		=> 'Может редактировать глоссарий.',
+	'ACL_U_LMDI_GLOSSARY'	=> 'Может редактировать Глоссарий.',
+	'ACL_A_LMDI_GLOSSARY'	=> 'Может администрировать Глоссарий.',
 ));

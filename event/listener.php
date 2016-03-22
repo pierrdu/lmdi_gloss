@@ -131,7 +131,7 @@ class listener implements EventSubscriberInterface
 	}	// insertion_glossaire
 
 	/*
-	*	Code replacing the words found in the glossary table.
+	*	Code replacing the terms found in the glossary table.
 	*	Code de remplacement des éléments figurant dans la table de termes
 	*/
 	function glossary_pass ($texte)
@@ -147,8 +147,8 @@ class listener implements EventSubscriberInterface
 			$remp = $glossterms['remp'];
 			// Sectionnement de la chaîne passée sur les éléments qui sont des balises.
 			// Breaking the input string on delimiters (tags).
-			preg_match_all ('#[][><][^][><]*|[^][><]+#', $texte, $parts);
-			$parts = &$parts[0];
+			preg_match_all ('#[][><][^][><]*|[^][><]+#', $texte, $matches);
+			$parts = $matches[0];
 			if (empty($parts))
 			{
 				return '';
@@ -159,6 +159,15 @@ class listener implements EventSubscriberInterface
 			// À chaque fois, une ligne pour armer, une ligne pour désarmer
 			foreach ($parts as $index => $part)
 			{
+				// Acronyms
+				if (strstr($part, '<acronym'))
+				{
+					$acro = true;
+				}
+				if (!empty($acro) && strstr($part, '</acronym'))
+				{
+					$acro = false;
+				}
 				// Code
 				if (strstr($part, '[code'))
 				{
@@ -206,7 +215,7 @@ class listener implements EventSubscriberInterface
 				}
 				if (!($part{0} == '<' && $parts[$index + 1]{0} == '>') &&
 					!($part{0} == '[' && $parts[$index + 1]{0} == ']') &&
-					empty($img) && empty($code) && empty($link) && empty($script))
+					empty($acro) && empty($img) && empty($code) && empty($link) && empty($script))
 				{
 					$part = preg_replace ($rech, $remp, $part);
 					$parts[$index] = $part;
