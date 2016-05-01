@@ -57,6 +57,6 @@ $lang = array_merge ($lang, array(
 	'POIDS'			=> 'Poids de l\'image',
 	'POIDS_EXPLAIN'	=> 'Indiquez ici le poids maximal de l\'image téléchargée (en ko).',
 	'TITLE_LENGTH'		=> 'Longueur du texte de l\'infobulle',
-	'TITLE_LENGTH_EXPLAIN'	=>'Indiquez ici le nombre de caractères auquel le texte de l\'infobulle doit être tronqué s\'il est trop long.',
+	'TITLE_LENGTH_EXPLAIN'	=>'Indiquez ici le nombre de caractères auquel le texte de l\'infobulle doit être tronqué si la description est trop longue.',
 
 ));

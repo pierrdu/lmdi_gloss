@@ -54,6 +54,6 @@ $lang = array_merge ($lang, array(
 	'POIDS'			=> 'Size in kB',
 	'POIDS_EXPLAIN'	=> 'Set here the maximum size (in kB) of the uploaded pictures.',
 	'TITLE_LENGTH'		=> 'Length of the tooltip text',
-	'TITLE_LENGTH_EXPLAIN'	=>'Set here the maximum length of the text displayed by the tooltip. The text will be truncated if longer.',
+	'TITLE_LENGTH_EXPLAIN'	=>'Set here the maximum length of the text displayed by the tooltip. The description text will be truncated if longer.',
 
 ));

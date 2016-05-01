@@ -56,6 +56,6 @@ $lang = array_merge ($lang, array(
 	'POIDS'			=> 'Größe in kB',
 	'POIDS_EXPLAIN'	=> 'Stell hier die max. Dateigröße der Bilder in kB ein.',
 	'TITLE_LENGTH'		=> 'Länge des Textes im Tootip',
-	'TITLE_LENGTH_EXPLAIN'	=>'Stell hier die max. Länge des Textes im Tooltip. Wenn der Text länger ist, wird er abgeschnitten.',
+	'TITLE_LENGTH_EXPLAIN'	=>'Stell hier die max. Länge des Textes im Tooltip. Wenn der Text der Begriffserklärung länger ist, wird er abgeschnitten.',
 
 ));
