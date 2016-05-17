@@ -275,7 +275,7 @@ class listener implements EventSubscriberInterface
 						continue;
 					}
 					$variant = strtolower ($variant);
-					$variant = preg_quote ($variant);
+					$variant = preg_quote ($variant, '/');
 					if (!in_array ($variant, $done))
 					{
 						$done[] = $variant;
