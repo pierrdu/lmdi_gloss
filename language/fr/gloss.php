@@ -58,5 +58,11 @@ $lang = array_merge ($lang, array(
 	'POIDS_EXPLAIN'	=> 'Indiquez ici le poids maximal de l\'image téléchargée (en ko).',
 	'TITLE_LENGTH'		=> 'Longueur du texte de l\'infobulle',
 	'TITLE_LENGTH_EXPLAIN'	=>'Indiquez ici le nombre de caractères auquel le texte de l\'infobulle doit être tronqué si la description est trop longue.',
+	'ACP_GLOSS_FORUMS'	=> 'Sélection des forums',
+	'ACP_GLOSS_ENABLED'	=> 'Valider le glossaire dans',
+	'ACP_GLOSS_CHECKALL'				=> 'Sélection/désélection',
+	'ACP_GLOSS_CHECKALL_EXPLAIN'			=> 'Vous pouvez sélectionner/déselectionner tous les forums en une seule fois.',
+	'ACP_GLOSS_ALL_FORUMS'				=> 'Tous les forums',
+
 
 ));

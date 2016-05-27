@@ -28,7 +28,7 @@ $lang = array_merge ($lang, array(
 	'GLOSS_BIBLIO'		=> "<p>
 		<span class=\"m\">
 		<u>Bibliography</u><br /> 
-		<br /><br /> 
+		<br />
 		<u>Webography</u><br /><br />
 		<br />
 		<u>Illustrations</u><br /><br />

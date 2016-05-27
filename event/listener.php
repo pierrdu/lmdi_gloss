@@ -114,19 +114,27 @@ class listener implements EventSubscriberInterface
 	}
 
 	// Event: core.viewtopic_post_rowset_data
-	// Called for each post in the topic
-	// event.rowset_data.post_text = text of the post
 	public function insertion_glossaire($event)
 	{
-		if ($this->user->data['lmdi_gloss'])
+		static $enabled_forums = "";
+		if (empty ($enabled_forums))
 		{
-			$rowset_data = $event['rowset_data'];
-			$post_text = $rowset_data['post_text'];
-
-			$post_text = $this->glossary_pass ($post_text);
-
-			$rowset_data['post_text'] = $post_text;
-			$event['rowset_data'] = $rowset_data;
+			$enabled_forums = $this->cache->get('_gloss_enabled_forums');
+		}
+		if (!empty ($enabled_forums))
+		{
+			if ($this->user->data['lmdi_gloss'])
+			{
+				$rowset_data = $event['rowset_data'];
+				$forum_id = $rowset_data['forum_id'];
+				if (in_array ($forum_id, $enabled_forums))
+				{
+					$post_text = $rowset_data['post_text'];
+					$post_text = $this->glossary_pass ($post_text);
+					$rowset_data['post_text'] = $post_text;
+					$event['rowset_data'] = $rowset_data;
+				}
+			}
 		}
 	}	// insertion_glossaire
 
@@ -204,9 +212,6 @@ class listener implements EventSubscriberInterface
 				{
 					$script = false;
 				}
-				/* if (!($part{0} == '<' && $parts[$index + 1]{0} == '>') &&
-					!($part{0} == '[' && $parts[$index + 1]{0} == ']') &&
-					empty($acro) && empty($img) && empty($code) && empty($link) && empty($script)) */
 				if (!($part{0} == '<') && !($part{0} == '[') &&
 					empty($acro) && empty($img) && empty($code) && empty($link) && empty($script))
 				{

@@ -46,7 +46,7 @@ $lang = array_merge ($lang, array(
 	'ALLOW_TITLE'		=> 'Tooltip aktivieren',
 	'ALLOW_TITLE_EXPLAIN'	=> 'Du kannst die Anzeige des Popups mit der Begriffserklärung beim Darüberfahren mit der Maus aktivieren/deaktivieren.',
 	'CREATE_UGROUP'		=> 'Benutzergruppe anlegen',
-	'CREATE_UGROUP_EXPLAIN'	=> 'Du kannst eine Benutzergruppe anlegen und ihr die Rolle zur Glossar-Bearbeitung zuweisen. Danach kannst Du Beareiter zu dieser Gruppe hinzufügen.',
+	'CREATE_UGROUP_EXPLAIN'	=> 'Du kannst eine Benutzergruppe anlegen und ihr die Rolle zur Glossar-Bearbeitung zuweisen. Danach kannst Du Bearbeiter zu dieser Gruppe hinzufügen.',
 	'CREATE_AGROUP'		=> 'Administratoren-Gruppe anlegen',
 	'CREATE_AGROUP_EXPLAIN'	=> 'Du kannst eine Gruppe für die Adminstration des Glossars anlegen. Danach kannst Du die Administatoren der Gruppe hinzufügen.',
 	'LANGUAGE'		=> 'Standard-Sprache',
@@ -57,5 +57,11 @@ $lang = array_merge ($lang, array(
 	'POIDS_EXPLAIN'	=> 'Stell hier die max. Dateigröße der Bilder in kB ein.',
 	'TITLE_LENGTH'		=> 'Länge des Textes im Tootip',
 	'TITLE_LENGTH_EXPLAIN'	=>'Stell hier die max. Länge des Textes im Tooltip. Wenn der Text der Begriffserklärung länger ist, wird er abgeschnitten.',
+	'ACP_GLOSS_FORUMS'	=> 'Forenauswahl',
+	'ACP_GLOSS_ENABLED'	=> 'Glossar arktivieren in',
+	'ACP_GLOSS_CHECKALL'				=> 'Wählen/abwählen',
+	'ACP_GLOSS_CHECKALL_EXPLAIN'			=> 'Alle Foren auf einmal wählen/abwählen.',
+	'ACP_GLOSS_ALL_FORUMS'				=> 'Alle Foren',
+
 
 ));

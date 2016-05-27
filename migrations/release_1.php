@@ -44,7 +44,7 @@ class release_1 extends \phpbb\db\migration\migration
 				),
 			),
 			'add_columns'	=> array(
-				$this->table_prefix . 'users'			=> array(
+				$this->table_prefix . 'users' => array(
 					'lmdi_gloss' => array('BOOL', 1),
 				),
 			),

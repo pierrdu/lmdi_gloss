@@ -29,9 +29,7 @@ $lang = array_merge ($lang, array(
 	'GLOSS_BIBLIO'		=> "<p>
 		<span class=\"m\">
 		<u>Bibliographie</u><br /> 
-		
 		<u>Webographie</u><br />
-		
 		<u>Illustrationen</u>
 		</span></p>",
 // Glossary edition page

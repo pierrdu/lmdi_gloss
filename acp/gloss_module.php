@@ -22,11 +22,14 @@ class gloss_module {
 
 		$user->add_lang_ext ('lmdi/gloss', 'gloss');
 
-		$this->tpl_name = 'acp_gloss_body';
-		$this->page_title = $user->lang('ACP_GLOSS_TITLE');
 
 		$this->gloss_helper = $phpbb_container->get('lmdi.gloss.core.helper');
 
+		$action = $request->variable ('action', '');
+		$action_config = $this->u_action . "&action=config";
+
+		$this->tpl_name = 'acp_gloss_body';
+		$this->page_title = $user->lang('ACP_GLOSS_TITLE');
 		$action = $request->variable ('action', '');
 		$action_config = $this->u_action . "&action=config";
 
@@ -123,6 +126,30 @@ class gloss_module {
 					$this->gloss_helper->group_deletion ($admingroup);
 				}
 			}
+			// Forum enabling/disabling
+				$enabled_forums = implode(',', $request->variable('mark_enable_forum', array(0), true));
+				$sql = 'UPDATE ' . FORUMS_TABLE . '
+					SET lmdi_glossary = 0';
+				$db->sql_query($sql);
+				if (!empty ($enabled_forums))
+				{
+					$eforums = explode (',', $enabled_forums);
+					$nbf = count ($eforums);
+					for ($i=0; $i<$nbf; $i++)
+					{
+						$numf = $eforums[$i];
+						$sql = 'UPDATE ' . FORUMS_TABLE . "
+							SET lmdi_glossary = 1
+							WHERE forum_id = $numf";
+						$db->sql_query($sql);
+					}
+					$cache->put('_gloss_enabled_forums', $eforums, 86400);		// 24 h
+				}
+				else
+				{
+					$cache->destroy ('_gloss_enabled_forums');
+				}
+
 			// Information message
 			$message = $user->lang['CONFIG_UPDATED'];
 			trigger_error($message . adm_back_link ($this->u_action));
@@ -147,6 +174,16 @@ class gloss_module {
 		{
 			$titlength = 50;
 		}
+		$forum_list = $this->get_forum_list();
+		foreach ($forum_list as $row)
+		{
+			$template->assign_block_vars('forums', array(
+				'FORUM_NAME'			=> $row['forum_name'],
+				'FORUM_ID'			=> $row['forum_id'],
+				'CHECKED_ENABLE_FORUM'	=> $row['lmdi_glossary']? 'checked="checked"' : '',
+			));
+		}
+
 		$template->assign_vars (array(
 			'C_ACTION'		=> $action_config,
 			'ALLOW_FEATURE_NO'	=> $config['lmdi_glossary_ucp'] == 0 ? 'checked="checked"' : '',
@@ -163,6 +200,19 @@ class gloss_module {
 			'S_TITLENGTH'		=> $titlength,
 			));
 
+	}
+
+	function get_forum_list()
+	{
+		global $db;
+		$sql = 'SELECT forum_id, forum_name, lmdi_glossary
+			FROM ' . FORUMS_TABLE . '
+			WHERE forum_type = ' . FORUM_POST . '
+			ORDER BY left_id ASC';
+		$result = $db->sql_query($sql);
+		$forum_list = $db->sql_fetchrowset($result);
+		$db->sql_freeresult($result);
+		return $forum_list;
 	}
 
 }

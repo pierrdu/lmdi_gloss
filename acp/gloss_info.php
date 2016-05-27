@@ -18,9 +18,9 @@ class gloss_info
 			'title'		=> 'ACP_GLOSS_TITLE',
 			'version'		=> '1.0.0',
 			'modes'		=> array (
-				'settings'	=> array('title' => 'ACP_GLOSS',
-				'auth' => 'ext_lmdi/gloss',
-				'cat' => array('ACP_GLOSS_TITLE')),
+				'settings' => array('title' => 'ACP_GLOSS_TITLE',
+						'auth' => 'ext_lmdi/gloss',
+						'cat' => array('ACP_GLOSS_TITLE')),
 			),
 		);
 	}

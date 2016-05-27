@@ -26,32 +26,9 @@ $lang = array_merge ($lang, array(
 	'GLOSS_ILINKS'		=> 'Voir aussi&nbsp;: ',
 	'GLOSS_ELINKS'		=> 'Lien externe&nbsp;: ',
 	'GLOSS_BIBLIO'		=> "<p>
-	<span><br><u>Bibliographie</u><br /> 
-<br />Aguilar d' (J.), Glossaire entomologique, Delachaux et Niestlé, Paris, 2004
-<br />Berland (L.), Faune de France n° 10 - Hyménoptères vespiformes. vol. I., 1925
-<br />Chinery (M.), Insectes de France et d'Europe occidentale, Flammarion, Paris, 2005
-<br />Chatenet du  (G.), Guide des coléoptès d'Europe, Delachaux et Niestlé, Paris, 1986
-<br />Haupt (J. et H.), Guide des mouches et des moustiques, Delachaux et Niestlé, Paris, 2000
-<br />Paulian (R.), Biologie des coléoptès, Éditions Lechevalier, Paris, 1988
-<br />Roth (M.), Initiation à la morphologie, la systématique et la biologie des Insectes, Initiations et documentations techniques, n° 23, Orstom, Paris, 1980
-<br />Séguy (E.), Faune de France n° 6 - Diptères Anthomyides, 1923
-<br />Séguy (E.), Dictionnaire des termes d'Entomologie, Éditions Paul Lechevalier, Paris, 1967
-<br />Tolman (T.), Lewintgton (R.), Guide des papillons d'Europe et d'Afrique du Nord, Delachaux et Niestlé, Paris, 2007
-<br />Villemant (C.), Blanchot (P.), Portraits d'insectes, Seuil 2004
-<br /><br /> 
+	<span><br><u>Bibliographie</u><br /><br /> 
 <u>Webographie</u><br /><br />
-<a href=\"http://www.galerie-insecte.org/galerie/fichier.php\">Galerie-insecte</a> <br />
-<a href=\"http://www7.inra.fr/hyppz/glossair.htm\">INRA, Le glossaire de HYPPZ</a><br />  
-<a href=\"http://www.libellules.org/fra/fra_index.php\">SFO Société Française d'Odonatologie, glossaire odonatologique</a><br />
-<a href=\"http://www.ird.fr/\">IRD, institut de recherche pour le développement </a><br />
-<br />
 <u>Illustrations</u><br /><br />
-<a href=\"http://www.faunedefrance.org\">Faune de France</a> <br /> <br /> 
-<u>Photographes et illustrateurs</u> <br /><br />
-<a href=\"http://www.galerie-insecte.org/galerie/auteur.php?aut=107\">Alastor</a>,
-<a href=\"http://www.galerie-insecte.org/galerie/auteur.php?aut=1574\">Fred Chevaillot</a>,
-<a href=\"http://www.galerie-insecte.org/galerie/auteur.php?aut=5\">bobgaia</a>,
-<a href=\"http://www.galerie-insecte.org/galerie/auteur.php?aut=2408\">lweit</a>, 
 <br /><br /> 
 </span></p>",
 // Glossary edition page
