@@ -22,7 +22,6 @@ class gloss_module {
 
 		$user->add_lang_ext ('lmdi/gloss', 'gloss');
 
-
 		$this->gloss_helper = $phpbb_container->get('lmdi.gloss.core.helper');
 
 		$action = $request->variable ('action', '');
