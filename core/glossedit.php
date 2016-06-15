@@ -270,9 +270,9 @@ class glossedit
 				$term	= $this->db->sql_escape(trim($this->request->variable('term',"",true)));
 				$variants	= $this->db->sql_escape(trim($this->request->variable('vari',"",true)));
 				$descript	= $this->db->sql_escape(trim($this->request->variable('desc',"",true)));
-				if (strlen ($descript) > 511)
+				if (mb_strlen ($descript) > 511)
 				{
-					$descript = substr ($descript, 0, 511);
+					$descript = mb_substr ($descript, 0, 511);
 				}
 				$cat		= $this->db->sql_escape(trim($this->request->variable ('cat',"",true)));
 				$ilinks	= $this->db->sql_escape(trim($this->request->variable ('ilinks',"",true)));

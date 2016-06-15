@@ -41,8 +41,9 @@ class helper
 		$string = "";
 		for ($i = 0; $i < $nb; $i++)
 		{
-			$term = trim ($data[$i]);
-			$sql = "SELECT term_id from $table where term = '$term'";
+			$term0 = trim($data[$i]);
+			$term1 = $this->db->sql_escape($term0);
+			$sql = "SELECT term_id from $table where term = '$term1'";
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow ($result);
 			$code = $row['term_id'];
@@ -53,7 +54,7 @@ class helper
 				{
 					$string .= ", ";
 				}
-				$string .= "<a class=\"ilinks\" href=\"#$code\">$term</a>";
+				$string .= "<a class=\"ilinks\" href=\"#$code\">$term0</a>";
 			}
 			else
 			{
@@ -61,7 +62,7 @@ class helper
 				{
 					$string .= ", ";
 				}
-				$string .= $term;
+				$string .= $term0;
 			}
 		}
 		return ($string);

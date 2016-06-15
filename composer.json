@@ -3,8 +3,8 @@
 	"type": "phpbb-extension",
 	"description": "Glossary for phpBB 3.1",
 	"homepage": "http://www.insecte.org/ext/readme.txt",
-	"version": "1.3.20",
-	"time": "2016-5-31",
+	"version": "1.3.21",
+	"time": "2016-6-15",
 	"license": "GPL-2.0",
 	"authors": 
 	[	{
@@ -20,14 +20,14 @@
 			"role": "Symfony calling scheme"
 		},
 		{
-			"name":	"Renate Regitz",
+			"name": "Renate Regitz",
 			"homepage": "http://www.kaninchenwissen.de/",
-			"role":	"Developer of original Lexicon MOD"
+			"role": "Developer of original Lexicon MOD"
 		},
 		{
-			"name":	"lugsciath",
+			"name": "lugsciath",
 			"homepage": "https://www.phpbb.com/community/memberlist.php?mode=viewprofile&u=352566",
-			"role":	"Developer of original Acronym MOD"
+			"role": "Developer of original Acronym MOD"
 		}
 	],
 	"require": {
