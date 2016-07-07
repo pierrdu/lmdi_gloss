@@ -198,10 +198,9 @@ class gloss_module {
 			'S_LANG_OPTIONS'	=> $select,
 			'S_TITLENGTH'		=> $titlength,
 			));
-
 	}
 
-	function get_forum_list()
+	protected function get_forum_list()
 	{
 		global $db;
 		$sql = 'SELECT forum_id, forum_name, lmdi_glossary
@@ -211,6 +210,7 @@ class gloss_module {
 		$result = $db->sql_query($sql);
 		$forum_list = $db->sql_fetchrowset($result);
 		$db->sql_freeresult($result);
+
 		return $forum_list;
 	}
 
