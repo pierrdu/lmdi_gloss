@@ -44,14 +44,17 @@ class gloss_module {
 				$ucp = $request->variable('lmdi_gloss_ucp', '0');
 				$config->set ('lmdi_glossary_ucp', $ucp);
 				$ucp = (int) $ucp;
+
 				// Update UCP module display toggle
 				$sql  = "UPDATE " . MODULES_TABLE;
 				$sql .= " SET module_display = $ucp ";
 				$sql .= "WHERE module_langname = 'UCP_GLOSS'";
 				$db->sql_query($sql);
+
 				// Update the lmdi_gloss column in table users
 				$sql  = 'UPDATE ' . USERS_TABLE . " SET lmdi_gloss = $ucp ";
 				$db->sql_query($sql);
+
 				// Tooltip validation
 				$title = $request->variable('lmdi_gloss_title', '0');
 				if ($title != $config['lmdi_gloss_title'])
@@ -59,6 +62,7 @@ class gloss_module {
 					$config->set ('lmdi_glossary_title', $title);
 					$cache->destroy('_glossterms');
 				}
+
 				// Tooltip length
 				$titlength = $request->variable('titlength', '0');
 				if ($titlength != $config['lmdi_glossary_tooltip'])
@@ -66,21 +70,25 @@ class gloss_module {
 					$config->set ('lmdi_glossary_tooltip', $titlength);
 					$cache->destroy('_glossterms');
 				}
+
 				// Language selection
 				$lang = $request->variable('lang', '');
 				$table = $table_prefix . 'glossary';
 				$lg = $this->gloss_helper->get_def_language ($table, 'lang');
 				if ($lang != $lg)
 				{
-					$sql = "ALTER TABLE ${table_prefix}glossary ALTER COLUMN lang SET DEFAULT '$lang'";
+					$sql = "ALTER TABLE $table ALTER COLUMN lang SET DEFAULT '$lang'";
 					$db->sql_query($sql);
 				}
+
 				// Pixel limit
 				$px = $request->variable('pixels', '400');
 				$config->set ('lmdi_glossary_pixels', $px);
+
 				// Picture weight
 				$ko = $request->variable('poids', '200');
 				$config->set ('lmdi_glossary_poids', $ko);
+
 				// Usergroup creation/deletion
 				$ug = $request->variable('lmdi_gloss_ugroup', '0');
 				if ($config['lmdi_glossary_usergroup'] != $ug)
@@ -103,6 +111,7 @@ class gloss_module {
 						$this->gloss_helper->group_deletion ($usergroup);
 					}
 				}
+
 				// Admin group creation/deletion
 				$ag = $request->variable('lmdi_gloss_agroup', '0');
 				if ($config['lmdi_glossary_admingroup'] != $ag)
@@ -125,6 +134,7 @@ class gloss_module {
 						$this->gloss_helper->group_deletion ($admingroup);
 					}
 				}
+
 				// Forum enabling/disabling
 				$enabled_forums = implode(',', $request->variable('mark_glossary_forum', array(0), true));
 				$sql = 'UPDATE ' . FORUMS_TABLE . '
