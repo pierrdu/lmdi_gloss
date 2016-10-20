@@ -11,8 +11,8 @@ namespace lmdi\gloss\acp;
 class gloss_module {
 
 	protected $gloss_helper;
-	var $u_action;
-	var $action;
+	public $u_action;
+	protected $action;
 
 	public function main ($id, $mode)
 	{
@@ -147,7 +147,7 @@ class gloss_module {
 					for ($i=0; $i<$nbf; $i++)
 					{
 						$numf = $eforums[$i];
-						$sql = 'UPDATE ' . FORUMS_TABLE . "
+						$sql = "UPDATE " . FORUMS_TABLE . "
 							SET lmdi_glossary = 1
 							WHERE forum_id = $numf";
 						$db->sql_query($sql);

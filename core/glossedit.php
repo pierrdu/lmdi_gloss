@@ -76,7 +76,7 @@ class glossedit
 		$this->ext_path_web = $this->path_helper->update_web_root_path($this->ext_path);
 	}
 
-	var $u_action;
+	public $u_action;
 
 	public function get_def_language ($table, $colonne)
 	{

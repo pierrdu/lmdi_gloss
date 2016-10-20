@@ -120,6 +120,10 @@ class listener implements EventSubscriberInterface
 		if (empty ($enabled_forums))
 		{
 			$enabled_forums = $this->cache->get('_gloss_enabled_forums');
+			if (empty ($enabled_forums))
+			{
+				$enabled_forums = $this->rebuild_cache_forums ();
+			}
 		}
 		if (!empty ($enabled_forums))
 		{
@@ -295,9 +299,21 @@ class listener implements EventSubscriberInterface
 			}
 			$this->db->sql_freeresult($result);
 			$this->cache->put('_glossterms', $glossterms, 86400);		// 24 h
-
 		}
 		return $glossterms;
 	}	// compute_glossary_list
+
+
+	function rebuild_cache_forums ()
+	{
+		$sql = 'SELECT * 
+				FROM ' . FORUMS_TABLE . '
+				WHERE lmdi_glossary = 1';
+		$result = $this->db->sql_query ($sql);
+		$result = $this->db->sql_query($sql);
+		$forum_list = $this->db->sql_fetchrowset($result);
+		$this->db->sql_freeresult($result);
+		$cache->put('_gloss_enabled_forums', $forum_list, 0);
+	}	// rebuild_cache_forums
 
 }

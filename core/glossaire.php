@@ -66,7 +66,7 @@ class glossaire
 		$this->ext_path_web = $this->path_helper->update_web_root_path($this->ext_path);
 	}
 
-	var $u_action;
+	public $u_action;
 
 	function main()
 	{
@@ -97,7 +97,7 @@ class glossaire
 			$l = $row['a'];
 			$abc_links .= "&nbsp;<a class=\"cap\" href =\"#$l\">$l</a>&nbsp;" ;
 
-			$sql  = "SELECT * 
+			$sql = "SELECT * 
 					FROM " . $this->glossary_table . "
 					WHERE LEFT($this->glossary_table.term, 1) = '$l' 
 					ORDER BY term";
