@@ -298,7 +298,7 @@ class listener implements EventSubscriberInterface
 				}
 			}
 			$this->db->sql_freeresult($result);
-			$this->cache->put('_glossterms', $glossterms, 86400);		// 24 h
+			$this->cache->put('_glossterms', $glossterms, 86400); // 24 h
 		}
 		return $glossterms;
 	}	// compute_glossary_list
@@ -313,7 +313,7 @@ class listener implements EventSubscriberInterface
 		$result = $this->db->sql_query($sql);
 		$forum_list = $this->db->sql_fetchrowset($result);
 		$this->db->sql_freeresult($result);
-		$cache->put('_gloss_enabled_forums', $forum_list, 0);
+		$cache->put('_gloss_enabled_forums', $forum_list, 86400);
 	}	// rebuild_cache_forums
 
 }
