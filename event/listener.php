@@ -313,7 +313,7 @@ class listener implements EventSubscriberInterface
 		$result = $this->db->sql_query($sql);
 		$forum_list = $this->db->sql_fetchrowset($result);
 		$this->db->sql_freeresult($result);
-		$cache->put('_gloss_enabled_forums', $forum_list, 86400);
+		$this->cache->put('_gloss_enabled_forums', $forum_list, 86400);
 	}	// rebuild_cache_forums
 
 }
