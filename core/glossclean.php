@@ -1,6 +1,6 @@
 <?php
 // glossclean.php
-// (c) 2016 - LMDI - Pierre Duhem
+// (c) 2016-2017 - LMDI - Pierre Duhem
 // PHP script displaying the MySQL commands to be run to delete all entries
 // created by the extension in the database.
 // To be used if the normal desactivation/data deletion doesn't work.

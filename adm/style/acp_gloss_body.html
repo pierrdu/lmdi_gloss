@@ -67,11 +67,6 @@
 		value="0" class="radio" {CREATE_AGROUP_NO}/>{L_NO}</label>
 		</dd>
 	</dl>
-	<dl>
-		<dt><label for="checkall">{L_ACP_GLOSS_CHECKALL}{L_COLON}</label><br />
-			{L_ACP_GLOSS_CHECKALL_EXPLAIN}</dt>
-		<dd><input type="checkbox" name="checkall" onchange="glossary_check_all(this)" id="checkall" value="" /> {L_ACP_GLOSS_ALL_FORUMS}</dd>
-	</dl>
 	<table class="table1">
 		<col class="row1" /><col class="row2" />
 		<thead>
@@ -98,6 +93,9 @@
 			</tbody>
 		</table>
 	</div>
+	<fieldset class="quick">
+		<p class="small"><a href="#" onclick="marklist('acp_lexicon', 'mark_glossary_forum', true); return false;">{L_MARK_ALL}</a> &bull; <a href="#" onclick="marklist('acp_lexicon', 'mark_glossary_forum', false); return false;">{L_UNMARK_ALL}</a></p>
+	</fieldset>
 
 	<p class="submit-buttons">
 		<input class="button1" type="submit" id="submit" name="config"

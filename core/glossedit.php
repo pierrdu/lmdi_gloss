@@ -1,6 +1,6 @@
 <?php
 // glossedit.php
-// (c) 2015-2016 - LMDI Pierre Duhem
+// (c) 2015-2017 - LMDI Pierre Duhem
 // Page d'édition du glossaire pour les administrateurs
 // Glossary edition page for administrators
 

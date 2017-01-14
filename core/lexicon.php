@@ -1,6 +1,6 @@
 <?php
 /**
-* (c) LMDI Pierre Duhem 2015-2016
+* (c) LMDI Pierre Duhem 2015-2017
 * Original author Renate Regitz http://www.kaninchenwissen.de/
 * Rewritten by Pierre Duhem for the Glossary extension
 * This code extracts the contents of term id from glossary table.

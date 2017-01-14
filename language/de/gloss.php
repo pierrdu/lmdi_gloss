@@ -2,7 +2,7 @@
 /**
 * gloss.php
 * @package phpBB Extension - LMDI Glossary
-* @copyright (c) 2015-2016 LMDI - Pierre Duhem
+* @copyright (c) 2015-2017 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 * Deutsche übersetzung: Frank Ingermann
 *
@@ -58,10 +58,7 @@ $lang = array_merge ($lang, array(
 	'TITLE_LENGTH'		=> 'Länge des Textes im Tootip',
 	'TITLE_LENGTH_EXPLAIN'	=>'Stell hier die max. Länge des Textes im Tooltip. Wenn der Text der Begriffserklärung länger ist, wird er abgeschnitten.',
 	'ACP_GLOSS_FORUMS'	=> 'Forenauswahl',
-	'ACP_GLOSS_ENABLED'	=> 'Glossar arktivieren in',
-	'ACP_GLOSS_CHECKALL'				=> 'Wählen/abwählen',
-	'ACP_GLOSS_CHECKALL_EXPLAIN'			=> 'Alle Foren auf einmal wählen/abwählen.',
-	'ACP_GLOSS_ALL_FORUMS'				=> 'Alle Foren',
+	'ACP_GLOSS_ENABLED'	=> 'Glossar arktivieren',
 
 
 ));

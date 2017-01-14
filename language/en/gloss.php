@@ -2,7 +2,7 @@
 /**
 * gloss.php
 * @package phpBB Extension - LMDI Glossary
-* @copyright (c) 2015-2016 LMDI - Pierre Duhem
+* @copyright (c) 2015-2017 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -19,7 +19,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge ($lang, array(
 	'LGLOSSAIRE'	=> 'Glossary',
-	'TGLOSSAIRE'	=> 'Glossary',
+	'TGLOSSAIRE'	=> 'Extension setting',
 // UCP
 	'UCP_GLOSS_TITLE'	=> 'Glossary',
 	'UCP_GLOSS'		=> 'Main page',
@@ -56,9 +56,6 @@ $lang = array_merge ($lang, array(
 	'TITLE_LENGTH'		=> 'Length of the tooltip text',
 	'TITLE_LENGTH_EXPLAIN'	=>'Set here the maximum length of the text displayed by the tooltip. The description text will be truncated if longer.',
 	'ACP_GLOSS_FORUMS'	=> 'Forum selection',
-	'ACP_GLOSS_ENABLED'	=> 'Enable glossary in',
-	'ACP_GLOSS_CHECKALL'			=> 'Select/deselect',
-	'ACP_GLOSS_CHECKALL_EXPLAIN'		=> 'Here you can check/uncheck all forums together.',
-	'ACP_GLOSS_ALL_FORUMS'			=> 'All forums',
+	'ACP_GLOSS_ENABLED'	=> 'Enable glossary',
 
 ));

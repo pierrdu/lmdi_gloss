@@ -45,13 +45,13 @@ class gloss_module {
 				$ucp = (int) $ucp;
 
 				// Update UCP module display toggle
-				$sql  = "UPDATE " . MODULES_TABLE;
-				$sql .= " SET module_display = $ucp ";
-				$sql .= "WHERE module_langname = 'UCP_GLOSS'";
+				$sql  = "UPDATE " . MODULES_TABLE . "
+						SET module_display = $ucp 
+						WHERE module_langname = 'UCP_GLOSS'";
 				$db->sql_query($sql);
 
 				// Update the lmdi_gloss column in table users
-				$sql  = 'UPDATE ' . USERS_TABLE . " SET lmdi_gloss = $ucp ";
+				$sql  = "UPDATE " . USERS_TABLE . " SET lmdi_gloss = $ucp ";
 				$db->sql_query($sql);
 
 				// Tooltip validation
@@ -139,7 +139,6 @@ class gloss_module {
 				$sql = 'UPDATE ' . FORUMS_TABLE . '
 					SET lmdi_glossary = 0';
 				$db->sql_query($sql);
-				// var_dump ($enabled_forums);
 				if (!empty ($enabled_forums))
 				{
 					$eforums = explode (',', $enabled_forums);

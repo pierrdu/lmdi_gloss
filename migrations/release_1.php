@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - LMDI Glossary extension
-* @copyright (c) 2015-2016 Pierre Duhem - LMDI
+* @copyright (c) 2015-2017 Pierre Duhem - LMDI
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -130,17 +130,6 @@ class release_1 extends \phpbb\db\migration\migration
 			array('config.remove', array('lmdi_glossary_pixels')),
 			array('config.remove', array('lmdi_glossary_poids')),
 
-			/*
-			array('module.remove', array(
-				'acp',
-				'ACP_GLOSS_TITLE',
-				array(
-					'module_basename'	=> '\lmdi\gloss\acp\gloss_module',
-					'modes'			=> array('settings'),
-				),
-			)),
-			*/
-
 			array('module.remove', array(
 				'acp',
 				'ACP_CAT_DOT_MODS',
@@ -158,27 +147,6 @@ class release_1 extends \phpbb\db\migration\migration
 			// Remove permissions
 			array('permission.remove', array('a_lmdi_glossary')),
 			array('permission.remove', array('u_lmdi_glossary')),
-
-			/*
-			array('module.remove', array(
-				'ucp',
-				'UCP_GLOSS_TITLE',
-				array(
-					'module_basename'	=> '\lmdi\gloss\ucp\ucp_gloss_module',
-					'module_mode'		=> array('settings'),
-					'module_auth'       => 'ext_lmdi/gloss',
-					'module_display'	=> 0,
-					'module_enabled'	=> 1,
-					'module_class'		=> 'ucp',
-				),
-			)),
-
-			array('module.remove', array(
-				'ucp',
-				'0',
-				'UCP_GLOSS_TITLE',
-			)),
-			*/
 		);
 	}
 

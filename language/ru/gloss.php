@@ -2,7 +2,7 @@
 /**
 * gloss.php
 * @package phpBB Extension - LMDI Glossary
-* @copyright (c) 2015-2016 LMDI - Pierre Duhem
+* @copyright (c) 2015-2017 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 * Russian translation by rua and MaxTr
 *
@@ -56,9 +56,6 @@ $lang = array_merge ($lang, array(
 	'TITLE_LENGTH'			 => 'Длина текста подсказки',
 	'TITLE_LENGTH_EXPLAIN'  => 'Укажите максимальную длину текста (количество знаков), отображаемого в всплывающей подсказке. Значение термина будет обрезано, если привысит кол-во знаков.',
 	'ACP_GLOSS_FORUMS'	=> 'Forum selection',
-	'ACP_GLOSS_ENABLED'	=> 'Enable glossary in',
-	'ACP_GLOSS_CHECKALL'			=> 'Select/deselect',
-	'ACP_GLOSS_CHECKALL_EXPLAIN'		=> 'Here you can check/uncheck all forums together.',
-	'ACP_GLOSS_ALL_FORUMS'			=> 'All forums',
+	'ACP_GLOSS_ENABLED'	=> 'Enable glossary',
 
 ));
