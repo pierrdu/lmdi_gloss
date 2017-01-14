@@ -1,7 +1,7 @@
 <?php
 /**
 * @package phpBB Extension - LMDI Glossary
-* @copyright (c) 2015-2016 Pierre Duhem - LMDI
+* @copyright (c) 2015-2017 Pierre Duhem - LMDI
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -16,9 +16,8 @@ class gloss_module {
 
 	public function main ($id, $mode)
 	{
-		global $db, $user, $auth, $template, $cache, $request;
-		global $config, $phpbb_root_path, $phpbb_admin_path, $phpEx;
-		global $table_prefix, $phpbb_container;
+		global $db, $user, $template, $cache, $request;
+		global $config, $table_prefix, $phpbb_container;
 
 		$user->add_lang_ext ('lmdi/gloss', 'gloss');
 
@@ -140,6 +139,7 @@ class gloss_module {
 				$sql = 'UPDATE ' . FORUMS_TABLE . '
 					SET lmdi_glossary = 0';
 				$db->sql_query($sql);
+				// var_dump ($enabled_forums);
 				if (!empty ($enabled_forums))
 				{
 					$eforums = explode (',', $enabled_forums);

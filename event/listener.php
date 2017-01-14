@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - LMDI Glossary extension
-* @copyright (c) 2015-2016 LMDI - Pierre Duhem
+* @copyright (c) 2015-2017 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -58,7 +58,7 @@ class listener implements EventSubscriberInterface
 		'core.user_setup'				=> 'load_language_on_setup',
 		'core.page_header'				=> 'build_url',
 		'core.permissions'				=> 'add_permissions',
-		'core.viewtopic_post_rowset_data'	=> 'insertion_glossaire',
+		'core.viewtopic_post_rowset_data'	=> 'glossary_insertion',
 		);
 	}
 
@@ -114,15 +114,16 @@ class listener implements EventSubscriberInterface
 	}
 
 	// Event: core.viewtopic_post_rowset_data
-	public function insertion_glossaire($event)
+	public function glossary_insertion($event)
 	{
 		static $enabled_forums = "";
 		if (empty ($enabled_forums))
 		{
-			$enabled_forums = $this->cache->get('_gloss_enabled_forums');
+			$enabled_forums = $this->cache->get('_gloss_forums');
 			if (empty ($enabled_forums))
 			{
-				$enabled_forums = $this->rebuild_cache_forums ();
+				$this->rebuild_cache_forums ();
+				$enabled_forums = $this->cache->get('_gloss_forums');
 			}
 		}
 		if (!empty ($enabled_forums))
@@ -140,7 +141,7 @@ class listener implements EventSubscriberInterface
 				}
 			}
 		}
-	}	// insertion_glossaire
+	}	// glossary_insertion
 
 
 	function glossary_pass ($texte)
@@ -148,7 +149,8 @@ class listener implements EventSubscriberInterface
 		static $glossterms;
 		if (!isset ($glossterms) || !is_array ($glossterms))
 		{
-			$glossterms = $this->compute_glossary_list();
+			$this->compute_glossary_list();
+			$glossterms = $this->cache->get('_glossterms');
 		}
 		if (sizeof($glossterms))
 		{
@@ -300,7 +302,6 @@ class listener implements EventSubscriberInterface
 			$this->db->sql_freeresult($result);
 			$this->cache->put('_glossterms', $glossterms, 86400); // 24 h
 		}
-		return $glossterms;
 	}	// compute_glossary_list
 
 
@@ -310,10 +311,12 @@ class listener implements EventSubscriberInterface
 				FROM ' . FORUMS_TABLE . '
 				WHERE lmdi_glossary = 1';
 		$result = $this->db->sql_query ($sql);
-		$result = $this->db->sql_query($sql);
-		$forum_list = $this->db->sql_fetchrowset($result);
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$forum_list[] = $row['forum_id'];
+		}
 		$this->db->sql_freeresult($result);
-		$this->cache->put('_gloss_enabled_forums', $forum_list, 86400);
+		$this->cache->put('_gloss_forums', $forum_list, 86400);
 	}	// rebuild_cache_forums
 
 }
