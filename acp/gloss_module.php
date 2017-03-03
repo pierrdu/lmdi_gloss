@@ -19,13 +19,9 @@ class gloss_module {
 		global $db, $user, $template, $cache, $request;
 		global $config, $table_prefix, $phpbb_container;
 
-		$user->add_lang_ext ('lmdi/gloss', 'gloss');
-
 		$this->gloss_helper = $phpbb_container->get('lmdi.gloss.core.helper');
 
-		$action = $request->variable ('action', '');
-		$action_config = $this->u_action . "&action=config";
-
+		$user->add_lang_ext ('lmdi/gloss', 'gloss');
 		$this->tpl_name = 'acp_gloss_body';
 		$this->page_title = $user->lang('ACP_GLOSS_TITLE');
 		$action = $request->variable ('action', '');
