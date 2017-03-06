@@ -221,7 +221,8 @@ class listener implements EventSubscriberInterface
 		$row = $event['row'];
 		var_dump ($row);
 	}	// examination
-	
+
+
 	/**
 	* Modify the post rowset containing data to be displayed with posts
 	*
