@@ -219,7 +219,7 @@ class listener implements EventSubscriberInterface
 	public function examination4 ($event)
 	{
 		$row = $event['row'];
-		var_dump ($row);
+		// var_dump ($row);
 	}	// examination
 
 
