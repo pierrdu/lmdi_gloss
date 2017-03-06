@@ -59,6 +59,10 @@ class listener implements EventSubscriberInterface
 		'core.page_header'				=> 'build_url',
 		'core.permissions'				=> 'add_permissions',
 		'core.viewtopic_post_rowset_data'	=> 'glossary_insertion',
+		'core.viewtopic_modify_post_data'	=> 'examination',
+		'core.viewtopic_modify_post_action_conditions'	=> 'examination2',
+		'core.viewtopic_modify_post_row'	=> 'examination3',
+		'core.viewtopic_post_row_after'	=> 'examination4',
 		);
 	}
 
@@ -98,6 +102,7 @@ class listener implements EventSubscriberInterface
 		));
 	}
 
+
 	/**
 	* Add custom permissions language variables
 	*
@@ -110,7 +115,121 @@ class listener implements EventSubscriberInterface
 		$event['permissions'] = $permissions;
 	}
 
-	// Event: core.viewtopic_post_rowset_data
+
+	/**
+	* Event to modify the post, poster and attachment data before assigning the posts
+	*
+	* @event core.viewtopic_modify_post_data
+	* @var	int		forum_id	Forum ID
+	* @var	int		topic_id	Topic ID
+	* @var	array	topic_data	Array with topic data
+	* @var	array	post_list	Array with post_ids we are going to display
+	* @var	array	rowset		Array with post_id => post data
+	* @var	array	user_cache	Array with prepared user data
+	* @var	int		start		Pagination information
+	* @var	int		sort_days	Display posts of previous x days
+	* @var	string	sort_key	Key the posts are sorted by
+	* @var	string	sort_dir	Direction the posts are sorted by
+	* @var	bool	display_notice				Shall we display a notice instead of attachments
+	* @var	bool	has_approved_attachments	Does the topic have approved attachments
+	* @var	array	attachments					List of attachments post_id => array of attachments
+	* @var	array	permanently_banned_users	List of permanently banned users
+	* @var	array	can_receive_pm_list			Array with posters that can receive pms
+	* @since 3.1.0-RC3
+	* Line 1590 & ss.
+	*/
+	public function examination ($event)
+	{
+		$rowset = $event['rowset'];
+		// var_dump ($rowset);
+	}	// examination
+
+
+	/**
+	* This event allows you to modify the conditions for the "can edit post" and "can delete post" checks
+	*
+	* @event core.viewtopic_modify_post_action_conditions
+	* @var	array	row			Array with post data
+	* @var	array	topic_data	Array with topic data
+	* @var	bool	force_edit_allowed		Allow the user to edit the post (all permissions and conditions are ignored)
+	* @var	bool	s_cannot_edit			User can not edit the post because it's not his
+	* @var	bool	s_cannot_edit_locked	User can not edit the post because it's locked
+	* @var	bool	s_cannot_edit_time		User can not edit the post because edit_time has passed
+	* @var	bool	force_delete_allowed		Allow the user to delete the post (all permissions and conditions are ignored)
+	* @var	bool	s_cannot_delete				User can not delete the post because it's not his
+	* @var	bool	s_cannot_delete_lastpost	User can not delete the post because it's not the last post of the topic
+	* @var	bool	s_cannot_delete_locked		User can not delete the post because it's locked
+	* @var	bool	s_cannot_delete_time		User can not delete the post because edit_time has passed
+	* @since 3.1.0-b4
+	* Line 1835 & ss.
+	*/
+	public function examination2 ($event)
+	{
+		$row = $event['row'];
+		// var_dump ($row);
+	}	// examination
+
+
+	/**
+	* Modify the posts template block
+	*
+	* @event core.viewtopic_modify_post_row
+	* @var	int		start				Start item of this page
+	* @var	int		current_row_number	Number of the post on this page
+	* @var	int		end					Number of posts on this page
+	* @var	int		total_posts			Total posts count
+	* @var	int		poster_id			Post author id
+	* @var	array	row					Array with original post and user data
+	* @var	array	cp_row				Custom profile field data of the poster
+	* @var	array	attachments			List of attachments
+	* @var	array	user_poster_data	Poster's data from user cache
+	* @var	array	post_row			Template block array of the post
+	* @var	array	topic_data			Array with topic data
+	* @since 3.1.0-a1
+	* @change 3.1.0-a3 Added vars start, current_row_number, end, attachments
+	* @change 3.1.0-b3 Added topic_data array, total_posts
+	* @change 3.1.0-RC3 Added poster_id
+	* Line 2002 & ss.
+	*/
+	public function examination3 ($event)
+	{
+		$row = $event['row'];
+		// var_dump ($row);
+	}	// examination
+
+
+/**
+	* Event after the post data has been assigned to the template
+	*
+	* @event core.viewtopic_post_row_after
+	* @var	int		start				Start item of this page
+	* @var	int		current_row_number	Number of the post on this page
+	* @var	int		end					Number of posts on this page
+	* @var	int		total_posts			Total posts count
+	* @var	array	row					Array with original post and user data
+	* @var	array	cp_row				Custom profile field data of the poster
+	* @var	array	attachments			List of attachments
+	* @var	array	user_poster_data	Poster's data from user cache
+	* @var	array	post_row			Template block array of the post
+	* @var	array	topic_data			Array with topic data
+	* @since 3.1.0-a3
+	* @change 3.1.0-b3 Added topic_data array, total_posts
+	* Line 2103 & ss.
+	*/
+	public function examination4 ($event)
+	{
+		$row = $event['row'];
+		var_dump ($row);
+	}	// examination
+	
+	/**
+	* Modify the post rowset containing data to be displayed with posts
+	*
+	* @event core.viewtopic_post_rowset_data
+	* @var	array	rowset_data	Array with the rowset data for this post
+	* @var	array	row			Array with original user and post data
+	* @since 3.1.0-a1
+	*/
 	// Line 1292 of viewtopic.php
 	public function glossary_insertion($event)
 	{
@@ -238,7 +357,7 @@ class listener implements EventSubscriberInterface
 					$part2 = preg_replace ($rech, $remp, $part);
 					$parts[$index] = $part2;
 					/*
-					if ($part != $part2) 
+					if ($part != $part2)
 					{
 						var_dump ($index);
 						var_dump ($part);
