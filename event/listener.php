@@ -84,26 +84,23 @@ class listener implements EventSubscriberInterface
 	{
 		if (version_compare ($this->config['version'], '3.2.x', '<'))
 		{
-			$gloss_class = 0;
+			$gloss_320 = 0;
 		}
 		else
 		{
-			$gloss_class = 1;
+			$gloss_320 = 1;
 		}
 		$this->template->assign_vars(array(
 			'U_GLOSSAIRE'	=> $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossaire')),
 			'L_GLOSSAIRE'	=> $this->user->lang['LGLOSSAIRE'],
 			'T_GLOSSAIRE'	=> $this->user->lang['TGLOSSAIRE'],
-			'S_320'	=> $gloss_class,
+			'S_320'	=> $gloss_320,
 		));
 	}
 
 	/**
 	* Add custom permissions language variables
 	*
-	* @param object $event The event object
-	* @return null
-	* @access public
 	*/
 	public function add_permissions($event)
 	{
@@ -114,6 +111,7 @@ class listener implements EventSubscriberInterface
 	}
 
 	// Event: core.viewtopic_post_rowset_data
+	// Line 1292 of viewtopic.php
 	public function glossary_insertion($event)
 	{
 		static $enabled_forums = "";
@@ -131,6 +129,9 @@ class listener implements EventSubscriberInterface
 			if ($this->user->data['lmdi_gloss'])
 			{
 				$rowset_data = $event['rowset_data'];
+				// var_dump ($rowset_data);
+				// $row = $event['row'];
+				// var_dump ($row);
 				$forum_id = $rowset_data['forum_id'];
 				if (in_array ($forum_id, $enabled_forums))
 				{
@@ -154,6 +155,7 @@ class listener implements EventSubscriberInterface
 		}
 		if (sizeof($glossterms))
 		{
+			$acro = $code = $quote = $img = $link = $script = false;
 			$rech = $glossterms['rech'];
 			$remp = $glossterms['remp'];
 			preg_match_all ('#[][><][^][><]*|[^][><]+#', $texte, $matches);
@@ -162,6 +164,8 @@ class listener implements EventSubscriberInterface
 			{
 				return '';
 			}
+			// var_dump ("Nouvelle passe");
+			// var_dump ($parts);
 			foreach ($parts as $index => $part)
 			{
 				// Acronyms
@@ -181,6 +185,15 @@ class listener implements EventSubscriberInterface
 				if (!empty($code) && strstr($part, '[/code'))
 				{
 					$code = false;
+				}
+				// quote 3.2.0
+				if (strstr($part, '[quote'))
+				{
+					$quote = true;
+				}
+				if (!empty($quote) && strstr($part, '[/quote'))
+				{
+					$quote = false;
 				}
 				// Images - Pictures
 				if (strstr($part, '[img'))
@@ -219,10 +232,19 @@ class listener implements EventSubscriberInterface
 					$script = false;
 				}
 				if (!($part{0} == '<') && !($part{0} == '[') &&
-					empty($acro) && empty($img) && empty($code) && empty($link) && empty($script))
+					empty($acro) && empty($code) && empty($quote) &&
+					empty($img) && empty($link) && empty($script))
 				{
-					$part = preg_replace ($rech, $remp, $part);
-					$parts[$index] = $part;
+					$part2 = preg_replace ($rech, $remp, $part);
+					$parts[$index] = $part2;
+					/*
+					if ($part != $part2) 
+					{
+						var_dump ($index);
+						var_dump ($part);
+						var_dump ($part2);
+					}
+					*/
 				}
 			}
 			unset ($part);
@@ -266,7 +288,7 @@ class listener implements EventSubscriberInterface
 				if ($title)
 				{
 					$desc = trim ($row['description']);
-					if (strlen ($desc) > 500)
+					if (mb_strlen ($desc) > 500)
 					{
 						$desc = mb_substr ($desc, 0, 500);
 					}

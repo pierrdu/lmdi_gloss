@@ -147,11 +147,11 @@ class gloss_module {
 							WHERE forum_id = $numf";
 						$db->sql_query($sql);
 					}
-					$cache->put('_gloss_enabled_forums', $eforums, 86400);		// 24 h
+					$cache->put('_gloss_forums', $eforums, 86400);	// 24 h
 				}
 				else
 				{
-					$cache->destroy ('_gloss_enabled_forums');
+					$cache->destroy ('_gloss_forums');
 				}
 
 				// Information message
