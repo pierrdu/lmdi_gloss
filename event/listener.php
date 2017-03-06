@@ -380,13 +380,13 @@ class listener implements EventSubscriberInterface
 
 	/*	Production of the term list and the replacement list, in an array named glossterms.
 		The replacement string follows this model:
-		<acronym class='id302' title=''>$1</acronym>
+		<lmdigloss class='id302' title=''>$1</lmdigloss>
 		The title element can contain the first 50 characters of description (see ACP).
 		Production de la liste des termes et calcul d'une chaîne de remplacement.
 		Les éléments sont placés dans le tableau glossterms. Ce tableau contient pour
 		chaque rubrique un élément rech qui est la chaîne à rechercher et un
 		élément remp qui est la chaîne de remplacement :
-		<acronym class='id302' title=''>$1</acronym>
+		<lmdigloss class='id302' title=''>$1</lmdigloss>
 		L'élément 'title' peut contenir les 50 premiers caractères de la chaîne de
 		description (voir le panneau d'administration).
 		*/
@@ -432,7 +432,7 @@ class listener implements EventSubscriberInterface
 					if (!in_array ($variant, $done))
 					{
 						$done[] = $variant;
-						$remp  = "<acronym class=\"id{$term_id}\" title=\"$desc\">$1</acronym>";
+						$remp  = "<lmdigloss class=\"id{$term_id}\" title=\"$desc\">$1</lmdigloss>";
 						$firstspace = '/\b(';
 						$lastspace = ')\b/ui';	// PCRE - u = UTF-8 - i = case insensitive
 						$rech = $firstspace . $variant . $lastspace;

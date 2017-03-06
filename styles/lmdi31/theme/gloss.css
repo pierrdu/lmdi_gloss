@@ -2,7 +2,7 @@
 Style elements for the Glossary Extension - lmdi31 version
 */
 
-acronym {
+lmdigloss {
 	/* border-bottom: none ; */
 	text-decoration: none;
 	cursor: help;

@@ -2,7 +2,7 @@
 Style elements for the Glossary Extension - lmdi31 version
 */
 
-acronym {
+lmdigloss {
 	/* border-bottom: none ; */
 	text-decoration: none;
 	cursor: help;
@@ -37,7 +37,7 @@ a#lexiconClose {
 	}
 a#lexiconClose:hover, a#lexiconClose:active {
 	color:#000000;
-	background:#FD6C9E;
+	background:#2e7602;
 	border:1px solid #000000;
 	}
 #lexiconEntry.loading {

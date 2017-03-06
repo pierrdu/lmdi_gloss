@@ -1,12 +1,10 @@
-var $acronym;
+var $lmdigloss;
 
 function showEntry(e) 
 {
 	var cache = [];	// cache MRU list
 	var cacheSize = 0;	// size of cache in chars (bytes?)
 	var id = this.className.substr(2);
-	// var source = "ext/lmdi/gloss/core/lexicon.php";
-	// var source = "app.php/gloss?mode=lexicon&amp;id=" . id;
 	var source = "app.php/gloss?mode=lexicon&amp;id=";
 
 	$("#lexiconEntry").remove();
@@ -17,8 +15,8 @@ function showEntry(e)
 	//	if (cached) {
 	//	displayEntry(cached['id']);
 	//	} else{
-	$acronym = this;
-	$('<div class="loading" id="lexiconEntry"><br><br><br></div>').insertAfter($acronym);
+	$lmdigloss = this;
+	$('<div class="loading" id="lexiconEntry"><br><br><br></div>').insertAfter($lmdigloss);
 	$.get(source, {id: id}, function(txt) {
 		$('#lexiconEntry').html(txt).removeClass('loading');
 		$('#lexiconClose').click(function() { $("#lexiconEntry").remove(); return false; } );
@@ -62,7 +60,7 @@ function displayEntry(entry)
 }
 
 $(document).ready(function() {
-	$("acronym").each(function(e){
+	$("lmdigloss").each(function(e){
 		if (this.className) $(this).bind("click",showEntry);
 		});
 	});
