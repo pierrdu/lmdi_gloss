@@ -11,6 +11,7 @@ services:
             - '@template'
             - '@cache'
             - '@user'
+            - '@request'
             - '%lmdi.gloss.tables.glossary%'
         tags:
             - { name: event.listener }

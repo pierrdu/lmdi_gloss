@@ -19,19 +19,17 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 */
 class listener implements EventSubscriberInterface
 {
-	/** @var \phpbb\cache\service */
 	protected $cache;
-	/* @var \phpbb\user */
 	protected $user;
-	/* @var \phpbb\db\driver\driver_interface */
 	protected $db;
-	/* @var \phpbb\template\template */
 	protected $template;
-	/* @var \phpbb\config\config */
 	protected $config;
-	/* @var \phpbb\controller\helper */
 	protected $helper;
+	protected $request;
 	protected $glossary_table;
+
+	protected $tid;	// Topic id
+	protected $gloss = array();
 
 	public function __construct(
 		\phpbb\db\driver\driver_interface $db,
@@ -40,6 +38,7 @@ class listener implements EventSubscriberInterface
 		\phpbb\template\template $template,
 		\phpbb\cache\service $cache,
 		\phpbb\user $user,
+		\phpbb\request\request $request,
 		$glossary_table
 		)
 	{
@@ -49,22 +48,10 @@ class listener implements EventSubscriberInterface
 		$this->template = $template;
 		$this->cache = $cache;
 		$this->user = $user;
+		$this->request = $request;		// Only used under 3.2.x
 		$this->glossary_table = $glossary_table;
 	}
 
-	static public function getSubscribedEvents ()
-	{
-	return array(
-		'core.user_setup'				=> 'load_language_on_setup',
-		'core.page_header'				=> 'build_url',
-		'core.permissions'				=> 'add_permissions',
-		'core.viewtopic_post_rowset_data'	=> 'glossary_insertion',
-		'core.viewtopic_modify_post_data'	=> 'examination',
-		'core.viewtopic_modify_post_action_conditions'	=> 'examination2',
-		'core.viewtopic_modify_post_row'	=> 'examination3',
-		'core.viewtopic_post_row_after'	=> 'examination4',
-		);
-	}
 
 	public function load_language_on_setup($event)
 	{
@@ -83,6 +70,7 @@ class listener implements EventSubscriberInterface
 			);
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
+
 
 	public function build_url ($event)
 	{
@@ -116,122 +104,91 @@ class listener implements EventSubscriberInterface
 	}
 
 
-	/**
-	* Event to modify the post, poster and attachment data before assigning the posts
-	*
-	* @event core.viewtopic_modify_post_data
-	* @var	int		forum_id	Forum ID
-	* @var	int		topic_id	Topic ID
-	* @var	array	topic_data	Array with topic data
-	* @var	array	post_list	Array with post_ids we are going to display
-	* @var	array	rowset		Array with post_id => post data
-	* @var	array	user_cache	Array with prepared user data
-	* @var	int		start		Pagination information
-	* @var	int		sort_days	Display posts of previous x days
-	* @var	string	sort_key	Key the posts are sorted by
-	* @var	string	sort_dir	Direction the posts are sorted by
-	* @var	bool	display_notice				Shall we display a notice instead of attachments
-	* @var	bool	has_approved_attachments	Does the topic have approved attachments
-	* @var	array	attachments					List of attachments post_id => array of attachments
-	* @var	array	permanently_banned_users	List of permanently banned users
-	* @var	array	can_receive_pm_list			Array with posters that can receive pms
-	* @since 3.1.0-RC3
-	* Line 1590 & ss.
-	*/
-	public function examination ($event)
+	static public function getSubscribedEvents ()
 	{
-		$rowset = $event['rowset'];
-		// var_dump ($rowset);
-	}	// examination
+	return array(
+		'core.user_setup'				=> 'load_language_on_setup',
+		'core.page_header'				=> 'build_url',
+		'core.permissions'				=> 'add_permissions',
+		'core.viewtopic_post_rowset_data'	=> 'glossary_insertion',
+		'core.text_formatter_s9e_render_before' => 's9e_before',
+		'core.text_formatter_s9e_render_after' => 's9e_after',
+		);
+	}
 
 
-	/**
-	* This event allows you to modify the conditions for the "can edit post" and "can delete post" checks
-	*
-	* @event core.viewtopic_modify_post_action_conditions
-	* @var	array	row			Array with post data
-	* @var	array	topic_data	Array with topic data
-	* @var	bool	force_edit_allowed		Allow the user to edit the post (all permissions and conditions are ignored)
-	* @var	bool	s_cannot_edit			User can not edit the post because it's not his
-	* @var	bool	s_cannot_edit_locked	User can not edit the post because it's locked
-	* @var	bool	s_cannot_edit_time		User can not edit the post because edit_time has passed
-	* @var	bool	force_delete_allowed		Allow the user to delete the post (all permissions and conditions are ignored)
-	* @var	bool	s_cannot_delete				User can not delete the post because it's not his
-	* @var	bool	s_cannot_delete_lastpost	User can not delete the post because it's not the last post of the topic
-	* @var	bool	s_cannot_delete_locked		User can not delete the post because it's locked
-	* @var	bool	s_cannot_delete_time		User can not delete the post because edit_time has passed
-	* @since 3.1.0-b4
-	* Line 1835 & ss.
-	*/
-	public function examination2 ($event)
+	public function s9e_before ($event)
 	{
-		$row = $event['row'];
-		// var_dump ($row);
-	}	// examination
+		$xml = $event['xml'];
+		// Texts with <t> are dumped as is. Texts with <r> are raw and must be parsed.
+		// We have to protect ourselves against this parser.
+		if (substr($xml, 0, 3) === '<r>')
+		{
+			$this->tid = $this->request->variable ('t', 0);
+			unset($GLOBALS['$this->gloss']);
+			while (1)
+			{
+				// var_dump ($xml);
+				$pos1 = strpos ($xml, '<lmdigloss');
+				if ($pos1 === false)
+				{
+					break;
+				}
+				else
+				{
+					$pos2 = strpos ($xml, '</lmdigloss>');
+					$lg = ($pos2 - $pos1) + 12;
+					$item = substr ($xml, $pos1, $lg);
+					$pos3 = strpos ($item, 'class="id');
+					$pos3 += 9;
+					$num = substr ($item, $pos3, $pos3+6);
+					$pos4 = strpos ($num, '"');
+					$num = substr ($num, 0, $pos4);
+					$remp = "lmdigloss*($num)*lmdigloss";
+					$this->gloss[] = $item;
+					$xml = substr_replace ($xml, $remp, $pos1, strlen ($item));
+				}
+			}
+		$event['xml'] = $xml;
+		}
+	}
 
 
-	/**
-	* Modify the posts template block
-	*
-	* @event core.viewtopic_modify_post_row
-	* @var	int		start				Start item of this page
-	* @var	int		current_row_number	Number of the post on this page
-	* @var	int		end					Number of posts on this page
-	* @var	int		total_posts			Total posts count
-	* @var	int		poster_id			Post author id
-	* @var	array	row					Array with original post and user data
-	* @var	array	cp_row				Custom profile field data of the poster
-	* @var	array	attachments			List of attachments
-	* @var	array	user_poster_data	Poster's data from user cache
-	* @var	array	post_row			Template block array of the post
-	* @var	array	topic_data			Array with topic data
-	* @since 3.1.0-a1
-	* @change 3.1.0-a3 Added vars start, current_row_number, end, attachments
-	* @change 3.1.0-b3 Added topic_data array, total_posts
-	* @change 3.1.0-RC3 Added poster_id
-	* Line 2002 & ss.
-	*/
-	public function examination3 ($event)
+	public function s9e_after ($event)
 	{
-		$row = $event['row'];
-		// var_dump ($row);
-	}	// examination
+		if ($this->tid == $this->request->variable ('t', 0))
+		{
+			$html = $event['html'];
+			$nb = count ($this->gloss);
+			for ($i = 0; $i < $nb; $i++)
+			{
+				// var_dump ($html);
+				$pos1 = strpos ($html, 'lmdigloss*(');
+				if ($pos1 === false)
+				{
+					break;
+				}
+				else
+				{
+					$pos2 = strpos ($html, ')*lmdigloss');
+					$lg = ($pos2 - $pos1) + 11;
+					$item = substr ($html, $pos1, $lg);
+					$pos3 = strpos ($item, '(');
+					$pos4 = strpos ($item, ')');
+					$lg = ($pos4) - ($pos3 + 1);
+					$num = substr ($item, $pos3+1, $lg);
+					$tag = $this->gloss[$i];
+					if (strpos ($tag, $num))
+					{
+						$html = substr_replace ($html, $tag, $pos1, strlen ($item));
+					}
+				}
+			}
+			$event['html'] = $html;
+		}
+	}
 
 
-/**
-	* Event after the post data has been assigned to the template
-	*
-	* @event core.viewtopic_post_row_after
-	* @var	int		start				Start item of this page
-	* @var	int		current_row_number	Number of the post on this page
-	* @var	int		end					Number of posts on this page
-	* @var	int		total_posts			Total posts count
-	* @var	array	row					Array with original post and user data
-	* @var	array	cp_row				Custom profile field data of the poster
-	* @var	array	attachments			List of attachments
-	* @var	array	user_poster_data	Poster's data from user cache
-	* @var	array	post_row			Template block array of the post
-	* @var	array	topic_data			Array with topic data
-	* @since 3.1.0-a3
-	* @change 3.1.0-b3 Added topic_data array, total_posts
-	* Line 2103 & ss.
-	*/
-	public function examination4 ($event)
-	{
-		$row = $event['row'];
-		// var_dump ($row);
-	}	// examination
-
-
-	/**
-	* Modify the post rowset containing data to be displayed with posts
-	*
-	* @event core.viewtopic_post_rowset_data
-	* @var	array	rowset_data	Array with the rowset data for this post
-	* @var	array	row			Array with original user and post data
-	* @since 3.1.0-a1
-	*/
-	// Line 1292 of viewtopic.php
 	public function glossary_insertion($event)
 	{
 		static $enabled_forums = "";
@@ -244,14 +201,19 @@ class listener implements EventSubscriberInterface
 				$enabled_forums = $this->cache->get('_gloss_forums');
 			}
 		}
-		if (!empty ($enabled_forums))
+		if (version_compare ($this->config['version'], '3.2.x', '<'))
 		{
-			if ($this->user->data['lmdi_gloss'])
+			$gloss_320 = 0;
+		}
+		else
+		{
+			$gloss_320 = 1;
+		}
+		if (!empty ($enabled_forums) && $this->user->data['lmdi_gloss'])
+		{
+			if (defined ('DEBUG'))
 			{
 				$rowset_data = $event['rowset_data'];
-				// var_dump ($rowset_data);
-				// $row = $event['row'];
-				// var_dump ($row);
 				$forum_id = $rowset_data['forum_id'];
 				if (in_array ($forum_id, $enabled_forums))
 				{
@@ -260,7 +222,8 @@ class listener implements EventSubscriberInterface
 					$rowset_data['post_text'] = $post_text;
 					$event['rowset_data'] = $rowset_data;
 				}
-			}
+			}	// endif sur DEBUG
+
 		}
 	}	// glossary_insertion
 
@@ -284,8 +247,6 @@ class listener implements EventSubscriberInterface
 			{
 				return '';
 			}
-			// var_dump ("Nouvelle passe");
-			// var_dump ($parts);
 			foreach ($parts as $index => $part)
 			{
 				// Acronyms
@@ -460,5 +421,6 @@ class listener implements EventSubscriberInterface
 		$this->db->sql_freeresult($result);
 		$this->cache->put('_gloss_forums', $forum_list, 86400);
 	}	// rebuild_cache_forums
+
 
 }

@@ -22,12 +22,14 @@ lmdigloss {
 	text-align: center;
 	z-index: 10;
 	}
+
 #lexiconEntry h3{
 	font-size:1.5em;
 	color:#2e7602;
 	/* background:transparent; */
 	display:inline;
 	}
+
 a#lexiconClose {
 	color:#2e7602;
 	background:#E3E8D5;
@@ -35,14 +37,17 @@ a#lexiconClose {
 	border:1px solid #0177B3;
 	float:right;
 	}
+
 a#lexiconClose:hover, a#lexiconClose:active {
 	color:#000000;
 	background:#2e7602;
 	border:1px solid #000000;
 	}
+
 #lexiconEntry.loading {
 	background: #FFFFFF;
 	}
+
 img.popgloss {
 	max-width:500px;
 	}
