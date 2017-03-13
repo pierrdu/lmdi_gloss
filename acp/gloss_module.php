@@ -36,22 +36,15 @@ class gloss_module {
 			else
 			{
 				// Update configuration
-				$ucp = $request->variable('lmdi_gloss_ucp', '0');
-				$config->set ('lmdi_glossary_ucp', $ucp);
-				$ucp = (int) $ucp;
-
-				// Update UCP module display toggle
-				$sql  = "UPDATE " . MODULES_TABLE . "
-						SET module_display = $ucp 
-						WHERE module_langname = 'UCP_GLOSS'";
-				$db->sql_query($sql);
+				$acp = (int) $request->variable('lmdi_gloss_acp', 0);
+				$config->set ('lmdi_glossary_acp', $acp);
 
 				// Update the lmdi_gloss column in table users
-				$sql  = "UPDATE " . USERS_TABLE . " SET lmdi_gloss = $ucp ";
+				$sql  = "UPDATE " . USERS_TABLE . " SET lmdi_gloss = $acp ";
 				$db->sql_query($sql);
 
 				// Tooltip validation
-				$title = $request->variable('lmdi_gloss_title', '0');
+				$title = $request->variable('lmdi_gloss_title', 0);
 				if ($title != $config['lmdi_gloss_title'])
 				{
 					$config->set ('lmdi_glossary_title', $title);
@@ -59,7 +52,7 @@ class gloss_module {
 				}
 
 				// Tooltip length
-				$titlength = $request->variable('titlength', '0');
+				$titlength = $request->variable('titlength', 0);
 				if ($titlength != $config['lmdi_glossary_tooltip'])
 				{
 					$config->set ('lmdi_glossary_tooltip', $titlength);
@@ -77,15 +70,15 @@ class gloss_module {
 				}
 
 				// Pixel limit
-				$px = $request->variable('pixels', '400');
+				$px = $request->variable('pixels', 400);
 				$config->set ('lmdi_glossary_pixels', $px);
 
 				// Picture weight
-				$ko = $request->variable('poids', '200');
-				$config->set ('lmdi_glossary_poids', $ko);
+				$ko = $request->variable('weight', 200);
+				$config->set ('lmdi_glossary_weight', $ko);
 
 				// Usergroup creation/deletion
-				$ug = $request->variable('lmdi_gloss_ugroup', '0');
+				$ug = $request->variable('lmdi_gloss_ugroup', 0);
 				if ($config['lmdi_glossary_usergroup'] != $ug)
 				{
 					$config->set ('lmdi_glossary_usergroup', $ug);
@@ -108,7 +101,7 @@ class gloss_module {
 				}
 
 				// Admin group creation/deletion
-				$ag = $request->variable('lmdi_gloss_agroup', '0');
+				$ag = $request->variable('lmdi_gloss_agroup', 0);
 				if ($config['lmdi_glossary_admingroup'] != $ag)
 				{
 					$config->set ('lmdi_glossary_admingroup', $ag);
@@ -168,10 +161,10 @@ class gloss_module {
 		{
 			$pixels = 500;
 		}
-		$poids  = $config['lmdi_glossary_poids'];
-		if (!$poids)
+		$weight  = $config['lmdi_glossary_weight'];
+		if (!$weight)
 		{
-			$poids = 150;
+			$weight = 150;
 		}
 		$titlength = $config['lmdi_glossary_tooltip'];
 		if (!$titlength)
@@ -190,8 +183,8 @@ class gloss_module {
 
 		$template->assign_vars (array(
 			'C_ACTION'		=> $action_config,
-			'ALLOW_FEATURE_NO'	=> $config['lmdi_glossary_ucp'] == 0 ? 'checked="checked"' : '',
-			'ALLOW_FEATURE_YES'	=> $config['lmdi_glossary_ucp'] == 1 ? 'checked="checked"' : '',
+			'ALLOW_FEATURE_NO'	=> $config['lmdi_glossary_acp'] == 0 ? 'checked="checked"' : '',
+			'ALLOW_FEATURE_YES'	=> $config['lmdi_glossary_acp'] == 1 ? 'checked="checked"' : '',
 			'ALLOW_TITLE_NO'	=> $config['lmdi_glossary_title'] == 0 ? 'checked="checked"' : '',
 			'ALLOW_TITLE_YES'	=> $config['lmdi_glossary_title'] == 1 ? 'checked="checked"' : '',
 			'CREATE_UGROUP_NO'	=> $config['lmdi_glossary_usergroup'] == 0 ? 'checked="checked"' : '',
@@ -199,7 +192,7 @@ class gloss_module {
 			'CREATE_AGROUP_NO'	=> $config['lmdi_glossary_admingroup'] == 0 ? 'checked="checked"' : '',
 			'CREATE_AGROUP_YES'	=> $config['lmdi_glossary_admingroup'] == 1 ? 'checked="checked"' : '',
 			'S_PIXELS'		=> $pixels,
-			'S_POIDS'			=> $poids,
+			'S_WEIGHT'		=> $weight,
 			'S_LANG_OPTIONS'	=> $select,
 			'S_TITLENGTH'		=> $titlength,
 			));

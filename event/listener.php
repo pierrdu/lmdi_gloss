@@ -55,14 +55,6 @@ class listener implements EventSubscriberInterface
 
 	public function load_language_on_setup($event)
 	{
-		// Initial reset of the module_display row in the module table
-		if (!$this->config['lmdi_glossary_ucp'])
-		{
-			$sql  = "UPDATE " . MODULES_TABLE;
-			$sql .= " SET module_display = 0 ";
-			$sql .= "WHERE module_langname = 'UCP_GLOSS'";
-			$this->db->sql_query($sql);
-		}
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
 			'ext_name' => 'lmdi/gloss',
@@ -191,27 +183,19 @@ class listener implements EventSubscriberInterface
 
 	public function glossary_insertion($event)
 	{
-		static $enabled_forums = "";
-		if (empty ($enabled_forums))
+		static $enabled_forums;
+		if ($this->config['lmdi_glossary_acp'])
 		{
-			$enabled_forums = $this->cache->get('_gloss_forums');
 			if (empty ($enabled_forums))
 			{
-				$this->rebuild_cache_forums ();
 				$enabled_forums = $this->cache->get('_gloss_forums');
+				if (empty ($enabled_forums))
+				{
+					$this->rebuild_cache_forums ();
+					$enabled_forums = $this->cache->get('_gloss_forums');
+				}
 			}
-		}
-		if (version_compare ($this->config['version'], '3.2.x', '<'))
-		{
-			$gloss_320 = 0;
-		}
-		else
-		{
-			$gloss_320 = 1;
-		}
-		if (!empty ($enabled_forums) && $this->user->data['lmdi_gloss'])
-		{
-			if (defined ('DEBUG'))
+			if (!empty ($enabled_forums))
 			{
 				$rowset_data = $event['rowset_data'];
 				$forum_id = $rowset_data['forum_id'];
@@ -222,8 +206,7 @@ class listener implements EventSubscriberInterface
 					$rowset_data['post_text'] = $post_text;
 					$event['rowset_data'] = $rowset_data;
 				}
-			}	// endif sur DEBUG
-
+			}
 		}
 	}	// glossary_insertion
 

@@ -21,11 +21,13 @@ $lang = array_merge ($lang, array(
 	'LGLOSSAIRE'	=> 'Glossary',
 	'TGLOSSAIRE'	=> 'Extension setting',
 // UCP
+/*
 	'UCP_GLOSS_TITLE'	=> 'Glossary',
 	'UCP_GLOSS'		=> 'Main page',
 	'UCP_CONFIG_SAVED'	=> 'User configuration updated successfully<br /><br />%sClick here to return to the previous page.%s',
 	'UCP_ENABLE'		=> 'Enable the glossary feature',
 	'UCP_ENABLE_EXPLAIN' => 'The glossary displays an explanation and optionally a picture when you click on technical terms in the posts.',
+*/
 
 // Installation
 	'ROLE_GLOSS_ADMIN'	=> 'Glossary Administrators',
@@ -40,7 +42,7 @@ $lang = array_merge ($lang, array(
 	'ACP_GLOSS_TITLE'	=> 'Glossary',
 	'ACP_GLOSS'		=> 'Settings',
 	'ALLOW_FEATURE'		=> 'Enable Glossary Feature',
-	'ALLOW_FEATURE_EXPLAIN'	=> 'You may enable/disable the glossary tagging feature for the whole board. Each user can disable the tagging feature in posts from the user control panel.',
+	'ALLOW_FEATURE_EXPLAIN'	=> 'You may enable/disable the glossary tagging feature for the whole board.',
 	'ALLOW_TITLE'		=> 'Enable Tooltip',
 	'ALLOW_TITLE_EXPLAIN'	=> 'You may enable/disable the display of the term description in a tooltip when hovering over the term.',
 	'CREATE_UGROUP'		=> 'Creation of an usergroup',
@@ -51,8 +53,8 @@ $lang = array_merge ($lang, array(
 	'LANGUAGE_EXPLAIN'	=> 'Language code (board language by default) which will be registered in the base for the glossary term if you don\'t specify another language in the edition form.',
 	'GLOSS_PIXELS'			=> 'Size of uploaded pictures in pixels',
 	'GLOSS_PIXELS_EXPLAIN'	=> 'Set here the size (in pixels) of the long side of the uploaded pictures.',
-	'POIDS'			=> 'Size in kB',
-	'POIDS_EXPLAIN'	=> 'Set here the maximum size (in kB) of the uploaded pictures.',
+	'GLOSS_WEIGHT'			=> 'Size in kB',
+	'GLOSS_WEIGHT_EXPLAIN'	=> 'Set here the maximum size (in kB) of the uploaded pictures.',
 	'TITLE_LENGTH'		=> 'Length of the tooltip text',
 	'TITLE_LENGTH_EXPLAIN'	=>'Set here the maximum length of the text displayed by the tooltip. The description text will be truncated if longer.',
 	'ACP_GLOSS_FORUMS'	=> 'Forum selection',

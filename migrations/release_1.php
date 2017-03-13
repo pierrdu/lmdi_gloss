@@ -17,42 +17,47 @@ class release_1 extends \phpbb\db\migration\migration
 		return isset($this->config['lmdi_glossary']);
 	}
 
+
 	static public function depends_on()
 	{
 		return array('\phpbb\db\migration\data\v310\alpha2');
 	}
 
+
 	public function update_schema()
 	{
+		global $table_prefix;
 		return array(
 			'add_tables'   => array(
-				$this->table_prefix . 'glossary'   => array(
+				$table_prefix . 'glossary'   => array(
 					'COLUMNS'   => array(
-						'term_id'	=> array ('UINT', null, 'auto_increment'),
+						'term_id'		=> array ('UINT', null, 'auto_increment'),
 						'variants'	=> array ('VCHAR:80', ''),
-						'term'	=> array ('VCHAR:80', ''),
+						'term'		=> array ('VCHAR:80', ''),
 						'description'	=> array ('VCHAR:512', ''),
-						'cat'		=> array('VCHAR:32', ''),
-						'ilinks'		=> array('VCHAR:256', ''),
-						'elinks'		=> array('VCHAR:256', ''),
-						'label'		=> array('VCHAR:32', ''),
-						'picture'	=> array ('VCHAR:80', ''),
-						'lang'	=> array ('VCHAR:2', 'en'),
+						'cat'		=> array ('VCHAR:32', ''),
+						'ilinks'		=> array ('VCHAR:256', ''),
+						'elinks'		=> array ('VCHAR:256', ''),
+						'label'		=> array ('VCHAR:32', ''),
+						'picture'		=> array ('VCHAR:80', ''),
+						'lang'		=> array ('VCHAR:2', 'en'),
 					),
 					'PRIMARY_KEY'	=> 'term_id',
 					'KEYS'  => array('term'  => array ('INDEX', 'term')),
 				),
 			),
 			'add_columns'	=> array(
-				$this->table_prefix . 'users' => array(
+				$table_prefix . 'users' => array(
 					'lmdi_gloss' => array('BOOL', 1),
 				),
 			),
 		);
 	}
 
+
 	public function update_data()
 	{
+		global $table_prefix;
 		return array(
 			// ACP modules
 			array('module.add', array(
@@ -65,10 +70,12 @@ class release_1 extends \phpbb\db\migration\migration
 				'ACP_GLOSS_TITLE',
 				array(
 					'module_basename'	=> '\lmdi\gloss\acp\gloss_module',
+					'auth'			=> 'ext_lmdi/gloss && acl_a_board',
 					'modes'			=> array('settings'),
 				),
 			)),
 
+			/*
 			// UCP modules
 			array('module.add', array(
 				'ucp',
@@ -81,21 +88,22 @@ class release_1 extends \phpbb\db\migration\migration
 				array(
 					'module_basename'	=> '\lmdi\gloss\ucp\ucp_gloss_module',
 					'module_mode'		=> array('settings'),
-					'module_auth'       => 'ext_lmdi/gloss',
+					'module_auth'		=> 'ext_lmdi/gloss',
 					'module_display'	=> 0,
 					'module_enabled'	=> 0,
 					'module_class'		=> 'ucp',
 				),
 			)),
+			*/
 
 			// Configuration rows
 			array('config.add', array('lmdi_glossary', 1)),
-			array('config.add', array('lmdi_glossary_ucp', 0)),
+			array('config.add', array('lmdi_glossary_acp', 0)),
 			array('config.add', array('lmdi_glossary_title', 0)),
 			array('config.add', array('lmdi_glossary_usergroup', 0)),
 			array('config.add', array('lmdi_glossary_admingroup', 0)),
 			array('config.add', array('lmdi_glossary_pixels', 500)),
-			array('config.add', array('lmdi_glossary_poids', 150)),
+			array('config.add', array('lmdi_glossary_weight', 150)),
 
 			// Modify collation setting of the glossary table
 			array('custom', array(array(&$this, 'utf8_unicode_ci'))),
@@ -114,9 +122,9 @@ class release_1 extends \phpbb\db\migration\migration
 			// Assign permissions to the roles
 			array('permission.permission_set', array('ROLE_GLOSS_ADMIN', 'a_lmdi_glossary', 'role')),
 			array('permission.permission_set', array('ROLE_GLOSS_EDITOR', 'u_lmdi_glossary', 'role')),
-
 		);
 	}
+
 
 	public function revert_data()
 	{
@@ -128,7 +136,7 @@ class release_1 extends \phpbb\db\migration\migration
 			array('config.remove', array('lmdi_glossary_usergroup')),
 			array('config.remove', array('lmdi_glossary_admingroup')),
 			array('config.remove', array('lmdi_glossary_pixels')),
-			array('config.remove', array('lmdi_glossary_poids')),
+			array('config.remove', array('lmdi_glossary_weight')),
 
 			array('module.remove', array(
 				'acp',
@@ -150,12 +158,14 @@ class release_1 extends \phpbb\db\migration\migration
 		);
 	}
 
+
 	public function utf8_unicode_ci()
 	{
 		global $table_prefix;
 		$sql = "alter table ${table_prefix}glossary convert to character set utf8 collate utf8_unicode_ci";
 		$this->db->sql_query($sql);
 	}
+
 
 	public function insert_sample_data()
 	{
@@ -188,14 +198,50 @@ class release_1 extends \phpbb\db\migration\migration
 		$this->db->sql_multi_insert($this->table_prefix . 'glossary', $sample_data);
 	}
 
+
+	public function revert_schema()
+	{
+		global $table_prefix;
+		$table = $table_prefix . 'glossary';
+		/*
+		$nbrows = $this->get_nbrows($table);
+		if ($nbrows > 5)
+		{
+			$this->rename_table ($table);
+			return array(
+				'drop_columns' => array(
+					$table_prefix . 'users' => array(
+						'lmdi_gloss',
+					),
+				),
+			);
+		}
+		else
+		{
+		*/
+			return array(
+				'drop_columns'	=> array(
+					$table_prefix . 'users' => array(
+						'lmdi_gloss',
+					),
+				),
+				'drop_tables'   => array(
+					$table,
+				)
+			);
+		// }
+	}
+
+
 	public function get_nbrows ($table)
 	{
 		$sql = "SELECT COUNT(*) as nb FROM $table WHERE 1";
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
-		$nb = $row['nb'];
-		return ((int) $nb);
+		$nb = (int) $row['nb'];
+		return $nb;
 	}
+
 
 	public function rename_table($table)
 	{
@@ -215,24 +261,5 @@ class release_1 extends \phpbb\db\migration\migration
 		$this->db->sql_query($sql);
 	}
 
-	public function revert_schema()
-	{
-		$table = $this->table_prefix . 'glossary';
-		$nbrows = $this->get_nbrows($table);
-		if ($nbrows > 5)
-		{
-			$this->rename_table ($table);
-		}
-		return array(
-		'drop_columns'	=> array(
-			$this->table_prefix . 'users'	=> array(
-				'lmdi_gloss',
-			),
-		),
-		'drop_tables'   => array(
-			$table,
-		),
-		);
-	}
 
 }

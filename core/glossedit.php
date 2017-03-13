@@ -517,9 +517,9 @@ class glossedit
 		$upload->set_allowed_extensions(array('jpg', 'jpeg', 'gif', 'png'));
 		$pixels = (int) $this->config['lmdi_glossary_pixels'];
 		$upload->set_allowed_dimensions(false, false, $pixels, $pixels);
-		$poids = $this->config['lmdi_glossary_poids'];
-		$poids *= 1024;
-		$upload->set_max_filesize($poids);
+		$weight = $this->config['lmdi_glossary_weight'];
+		$weight *= 1024;
+		$upload->set_max_filesize($weight);
 		$file = $upload->form_upload('upload_file');
 		if (empty($file->filename))
 		{
@@ -527,7 +527,7 @@ class glossedit
 			return (false);
 		}
 		$file->move_file($upload_dir, true);
-		if ($file->filesize > $poids)
+		if ($file->filesize > $weight)
 		{
 			if (sizeof($file->error))
 			{
@@ -563,14 +563,14 @@ class glossedit
 		$pixels = (int) $this->config['lmdi_glossary_pixels'];
 		$pmini = 0;
 		$upload->set_allowed_dimensions($pmini, $pmini, $pixels, $pixels);
-		$poids = (int) $this->config['lmdi_glossary_poids'];
-		$poids *= 1024;
-		$upload->set_max_filesize($poids);
+		$weight = (int) $this->config['lmdi_glossary_weight'];
+		$weight *= 1024;
+		$upload->set_max_filesize($weight);
 		// Uploading from a form, form name
 		$file = $upload->handle_upload ('files.types.form', 'upload_file');
 		$file->move_file($upload_dir, true);
 		$filesize = $file->get('filesize');
-		if ($filesize > $poids)
+		if ($filesize > $weight)
 		{
 			if (sizeof($file->error))
 			{
