@@ -48,7 +48,7 @@ class listener implements EventSubscriberInterface
 		$this->template = $template;
 		$this->cache = $cache;
 		$this->user = $user;
-		$this->request = $request;		// Only used under 3.2.x
+		$this->request = $request;
 		$this->glossary_table = $glossary_table;
 	}
 
@@ -137,7 +137,10 @@ class listener implements EventSubscriberInterface
 					$pos4 = strpos ($num, '"');
 					$num = substr ($num, 0, $pos4);
 					$remp = "lmdigloss*($num)*lmdigloss";
-					$this->gloss[] = $item;
+					if (!isset ($this->gloss[$num]))
+					{
+						$this->gloss[$num] = $item;
+					}
 					$xml = substr_replace ($xml, $remp, $pos1, strlen ($item));
 				}
 			}
@@ -154,7 +157,6 @@ class listener implements EventSubscriberInterface
 			$nb = count ($this->gloss);
 			for ($i = 0; $i < $nb; $i++)
 			{
-				// var_dump ($html);
 				$pos1 = strpos ($html, 'lmdigloss*(');
 				if ($pos1 === false)
 				{
@@ -169,11 +171,8 @@ class listener implements EventSubscriberInterface
 					$pos4 = strpos ($item, ')');
 					$lg = ($pos4) - ($pos3 + 1);
 					$num = substr ($item, $pos3+1, $lg);
-					$tag = $this->gloss[$i];
-					if (strpos ($tag, $num))
-					{
-						$html = substr_replace ($html, $tag, $pos1, strlen ($item));
-					}
+					$tag = $this->gloss[$num];
+					$html = substr_replace ($html, $tag, $pos1, strlen ($item));
 				}
 			}
 			$event['html'] = $html;
