@@ -103,107 +103,85 @@ class listener implements EventSubscriberInterface
 		'core.page_header'				=> 'build_url',
 		'core.permissions'				=> 'add_permissions',
 		'core.viewtopic_post_rowset_data'	=> 'glossary_insertion',
-		'core.text_formatter_s9e_render_before' => 's9e_before',
-		'core.text_formatter_s9e_render_after' => 's9e_after',
+		'core.modify_text_for_display_after'	=> 'glossary_insertion_32x',
 		);
 	}
 
 
-	public function s9e_before ($event)
+
+	/**
+	* Use this event to modify the text after it is parsed
+	*
+	* @event core.modify_text_for_display_after
+	* @var string	text		The text to parse
+	* @var string	uid		The BBCode UID
+	* @var string	bitfield	The BBCode Bitfield
+	* @var int	flags	The BBCode Flags
+	* @since 3.1.0-a1
+	* Line 532 & ss. of includes/functions_content.php
+	*/
+	public function glossary_insertion_32x ($event)
 	{
-		$xml = $event['xml'];
-		// Texts with <t> are dumped as is. Texts with <r> are raw and must be parsed.
-		// We have to protect ourselves against this parser.
-		if (substr($xml, 0, 3) === '<r>')
+		static $enabled_forums;
+		if (version_compare ($this->config['version'], '3.2.x', '>='))
 		{
-			$this->tid = $this->request->variable ('t', 0);
-			unset($GLOBALS['$this->gloss']);
-			while (1)
+			if ($this->config['lmdi_glossary_acp'])
 			{
-				// var_dump ($xml);
-				$pos1 = strpos ($xml, '<lmdigloss');
-				if ($pos1 === false)
+				if (empty ($enabled_forums))
 				{
-					break;
-				}
-				else
-				{
-					$pos2 = strpos ($xml, '</lmdigloss>');
-					$lg = ($pos2 - $pos1) + 12;
-					$item = substr ($xml, $pos1, $lg);
-					$pos3 = strpos ($item, 'class="id');
-					$pos3 += 9;
-					$num = substr ($item, $pos3, $pos3+6);
-					$pos4 = strpos ($num, '"');
-					$num = substr ($num, 0, $pos4);
-					$remp = "lmdigloss*($num)*lmdigloss";
-					if (!isset ($this->gloss[$num]))
+					$enabled_forums = $this->cache->get('_gloss_forums');
+					if (empty ($enabled_forums))
 					{
-						$this->gloss[$num] = $item;
+						$this->rebuild_cache_forums ();
+						$enabled_forums = $this->cache->get('_gloss_forums');
 					}
-					$xml = substr_replace ($xml, $remp, $pos1, strlen ($item));
+				}
+				if (!empty ($enabled_forums))
+				{
+					$forum_id = $this->request->variable ('f', 0);
+					if (in_array ($forum_id, $enabled_forums))
+					{
+						$text = $event['text'];
+						$flags = $event['flags'];
+						if ($flags == 2)
+						{
+							$text = $this->glossary_pass ($text);
+							$event['text'] = $text;
+						}
+					}
 				}
 			}
-		$event['xml'] = $xml;
 		}
-	}
-
-
-	public function s9e_after ($event)
-	{
-		if ($this->tid == $this->request->variable ('t', 0))
-		{
-			$html = $event['html'];
-			$nb = count ($this->gloss);
-			for ($i = 0; $i < $nb; $i++)
-			{
-				$pos1 = strpos ($html, 'lmdigloss*(');
-				if ($pos1 === false)
-				{
-					break;
-				}
-				else
-				{
-					$pos2 = strpos ($html, ')*lmdigloss');
-					$lg = ($pos2 - $pos1) + 11;
-					$item = substr ($html, $pos1, $lg);
-					$pos3 = strpos ($item, '(');
-					$pos4 = strpos ($item, ')');
-					$lg = ($pos4) - ($pos3 + 1);
-					$num = substr ($item, $pos3+1, $lg);
-					$tag = $this->gloss[$num];
-					$html = substr_replace ($html, $tag, $pos1, strlen ($item));
-				}
-			}
-			$event['html'] = $html;
-		}
-	}
+	}	// glossary_insertion_32x
 
 
 	public function glossary_insertion($event)
 	{
 		static $enabled_forums;
-		if ($this->config['lmdi_glossary_acp'])
+		if (version_compare ($this->config['version'], '3.2.x', '<'))
 		{
-			if (empty ($enabled_forums))
+			if ($this->config['lmdi_glossary_acp'])
 			{
-				$enabled_forums = $this->cache->get('_gloss_forums');
 				if (empty ($enabled_forums))
 				{
-					$this->rebuild_cache_forums ();
 					$enabled_forums = $this->cache->get('_gloss_forums');
+					if (empty ($enabled_forums))
+					{
+						$this->rebuild_cache_forums ();
+						$enabled_forums = $this->cache->get('_gloss_forums');
+					}
 				}
-			}
-			if (!empty ($enabled_forums))
-			{
-				$rowset_data = $event['rowset_data'];
-				$forum_id = $rowset_data['forum_id'];
-				if (in_array ($forum_id, $enabled_forums))
+				if (!empty ($enabled_forums))
 				{
-					$post_text = $rowset_data['post_text'];
-					$post_text = $this->glossary_pass ($post_text);
-					$rowset_data['post_text'] = $post_text;
-					$event['rowset_data'] = $rowset_data;
+					$rowset_data = $event['rowset_data'];
+					$forum_id = $rowset_data['forum_id'];
+					if (in_array ($forum_id, $enabled_forums))
+					{
+						$post_text = $rowset_data['post_text'];
+						$post_text = $this->glossary_pass ($post_text);
+						$rowset_data['post_text'] = $post_text;
+						$event['rowset_data'] = $rowset_data;
+					}
 				}
 			}
 		}
