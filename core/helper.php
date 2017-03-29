@@ -96,7 +96,7 @@ class helper
 		$group_id = $this->get_group_id($group);
 		if ($group_id)
 		{
-			if (!function_exists('group_delete') )
+			if (!function_exists('group_delete'))
 			{
 				include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
 			}
@@ -159,7 +159,7 @@ class helper
 			'group_receive_pm'		=> 0,
 			);
 		// Function in file includes/functions_user.php
-		if (!function_exists('group_create') )
+		if (!function_exists('group_create'))
 		{
 			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
 		}

@@ -338,7 +338,7 @@ class listener implements EventSubscriberInterface
 						$done[] = $variant;
 						$remp  = "<lmdigloss class=\"id{$term_id}\" title=\"$desc\">$1</lmdigloss>";
 						$begin = '/\b(';
-						$end = ')\b/ui';	// PCRE - u = UTF-8 - i = case insensitive
+						$end = ')\b/ui'; // PCRE - u = UTF-8 - i = case insensitive
 						$rech = $begin . $variant . $end;
 						$glossterms['rech'][] = $rech;
 						$glossterms['remp'][] = $remp;
