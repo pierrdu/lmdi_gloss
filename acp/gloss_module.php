@@ -32,7 +32,8 @@ class gloss_module {
 			if (!check_form_key('acp_gloss_body'))
 			{
 				trigger_error('FORM_INVALID');
-			} else
+			}
+			else
 			{
 				// Update configuration
 				$acp = (int) $request->variable('lmdi_gloss_acp', 0);
@@ -126,8 +127,9 @@ class gloss_module {
 					$sql = 'UPDATE ' . FORUMS_TABLE . '
 						SET lmdi_glossary = 1
 						WHERE forum_id IN (' . $enabled_forums . ')';
-						$db->sql_query($sql);
-					$cache->put('_gloss_forums', $enabled_forums, 86400);	// 24 h
+					$db->sql_query($sql);
+					$farray = explode(',', $enabled_forums);
+					$cache->put('_gloss_forums', $farray, 86400);	// 24 h
 				}
 				else
 				{

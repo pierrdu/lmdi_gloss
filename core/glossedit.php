@@ -113,10 +113,11 @@ class glossedit
 		}
 
 		$str_colon = $this->user->lang['COLON'];
+		$str_action = $this->user->lang['GLOSS_VIEW'];
 
 		switch ($action)
 		{
-			case "edit" :
+			case "edit":
 				if ($num < 0)	// Item creation - Création d'une fiche
 				{
 					$code = "";
@@ -265,7 +266,7 @@ class glossedit
 				$form .= "\n</div></div></div>";
 				$abc_links = $form;
 				break;
-			case "save" :
+			case "save":
 				$term_id	= $this->db->sql_escape(trim($this->request->variable('term_id', 0)));
 				$term	= $this->db->sql_escape(trim($this->request->variable('term',"",true)));
 				$variants	= $this->db->sql_escape(trim($this->request->variable('vari',"",true)));
@@ -280,13 +281,13 @@ class glossedit
 				$label	= $this->db->sql_escape(trim($this->request->variable ('label',"",true)));
 				$lang	= $this->db->sql_escape($this->request->variable ('lang',"fr",true));
 				$coche	= $this->request->variable ('upload', "", true);
+				$picture = $str_nopict;
 				switch ($coche)
 				{
 					case "existe":
 						$picture = $this->request->variable ('pict', "", true);
 					break;
 					case "noup":
-						$picture = $str_nopict;
 					break;
 					case "reuse":
 						$picture = $this->request->variable ('reuse', "", true);
@@ -355,7 +356,7 @@ class glossedit
 				redirect ($url);
 				// */
 				break;
-			case "delete" :
+			case "delete":
 				$term_id = $this->db->sql_escape ($this->request->variable ('term_id', 0));
 				$sql  = "DELETE ";
 				$sql .= "FROM $table ";
@@ -371,10 +372,9 @@ class glossedit
 				$url .= "#$cap";		// Anchor target = initial cap
 				redirect ($url);
 				break;
-			case "rien" :
+			case "rien":
 				$sql  = "SELECT DISTINCT UPPER(LEFT(TRIM(term),1)) AS a ";
 				$sql .= "FROM $table ";
-				// $sql .= " WHERE lang = '" . $this->user->lang['USER_LANG'] . "'";
 				$sql .= " ORDER BY a" ;
 				$result = $this->db->sql_query ($sql);
 
@@ -405,7 +405,6 @@ class glossedit
 					$sql  = "SELECT * ";
 					$sql .= "FROM $table ";
 					$sql .= "WHERE LEFT($table.term, 1) = \"$l\" ";
-					// $sql .= "WHERE lang = '" . $this->user->lang['USER_LANG'] . "' ";
 					$sql .= "ORDER BY term";
 					$result2 = $this->db->sql_query ($sql);
 
@@ -415,7 +414,7 @@ class glossedit
 					while ($arow = $this->db->sql_fetchrow ($result2))
 					{
 						$code  = $arow['term_id'];
-						$vari  = $arow['variants'];
+						// $vari  = $arow['variants'];
 						$term  = $arow['term'];
 						$desc  = $arow['description'];
 						$cat   = $arow['cat'];
@@ -489,8 +488,8 @@ class glossedit
 		$params = "mode=glossedit";
 		$str_glossedit = append_sid ($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
 		$this->template->assign_block_vars('navlinks', array(
-				'U_VIEW_FORUM'	=> $str_glossedit,
-				'FORUM_NAME'	=> $this->user->lang['GLOSS_EDITION'],
+			'U_VIEW_FORUM'	=> $str_glossedit,
+			'FORUM_NAME'	=> $this->user->lang['GLOSS_EDITION'],
 			));
 
 		$this->template->assign_vars (array (

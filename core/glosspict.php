@@ -57,7 +57,7 @@ class glosspict
 
 	public $u_action;
 
-	function main()
+	public function main()
 	{
 
 		$click = $this->user->lang['GLOSS_CLICK'];
@@ -92,7 +92,7 @@ class glosspict
 			'FORUM_NAME'	=> $this->user->lang['GLOSS_VIEW'],
 		));
 
-		$this->template->assign_vars (array (
+		$this->template->assign_vars(array (
 			'TITRE'			=> $view,
 			'ILLUST'		=> $terme,
 			'CORPS'			=> $corps,

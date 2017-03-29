@@ -276,8 +276,8 @@ class listener implements EventSubscriberInterface
 					$parts[$index] = $part2;
 				}
 			}
-			unset ($part);
-			return implode ("", $parts);
+			unset($part);
+			return implode("", $parts);
 		}
 	// Totally empty glossary, we must at least return the raw text.
 	else
@@ -305,18 +305,17 @@ class listener implements EventSubscriberInterface
 		if ($glossterms === false)
 		{
 			$sql  = "SELECT * FROM $this->glossary_table ";
-			// WHERE lang = '" . $user->data['user_lang'] . "'
 			$sql .= "ORDER BY LENGTH(TRIM(variants)) DESC";
 			$result = $this->db->sql_query($sql);
 			$glossterms = array();
 			$title = $this->config['lmdi_glossary_title'];
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				$variants = explode (",", $row['variants']);
+				$variants = explode(",", $row['variants']);
 				$term_id  = $row['term_id'];
 				if ($title)
 				{
-					$desc = trim ($row['description']);
+					$desc = trim($row['description']);
 					if (mb_strlen ($desc) > 500)
 					{
 						$desc = mb_substr ($desc, 0, 500);
@@ -326,19 +325,19 @@ class listener implements EventSubscriberInterface
 				{
 					$desc = '';
 				}
-				$cnt = count ($variants);
+				$cnt = count($variants);
 				$done = array ();
 				for ($i = 0; $i < $cnt; $i++)
 				{
 					$variant = trim ($variants[$i]);
-					// comma at end of variants => empty string
+					// if user puts a comma at end of variants => empty string
 					if (!strlen ($variant))
 					{
 						continue;
 					}
-					$variant = strtolower ($variant);
-					$variant = preg_quote ($variant, '/');
-					if (!in_array ($variant, $done))
+					$variant = strtolower($variant);
+					$variant = preg_quote($variant, '/');
+					if (!in_array($variant, $done))
 					{
 						$done[] = $variant;
 						$remp  = "<lmdigloss class=\"id{$term_id}\" title=\"$desc\">$1</lmdigloss>";
