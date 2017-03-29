@@ -14,17 +14,17 @@ class gloss_module {
 	public $u_action;
 	protected $action;
 
-	public function main ($id, $mode)
+	public function main($id, $mode)
 	{
 		global $db, $user, $template, $cache, $request;
 		global $config, $table_prefix, $phpbb_container;
 
 		$this->gloss_helper = $phpbb_container->get('lmdi.gloss.core.helper');
 
-		$user->add_lang_ext ('lmdi/gloss', 'gloss');
+		$user->add_lang_ext('lmdi/gloss', 'gloss');
 		$this->tpl_name = 'acp_gloss_body';
 		$this->page_title = $user->lang('ACP_GLOSS_TITLE');
-		$action = $request->variable ('action', '');
+		$action = $request->variable('action', '');
 		$action_config = $this->u_action . "&action=config";
 
 		if ($action == 'config')
@@ -32,22 +32,21 @@ class gloss_module {
 			if (!check_form_key('acp_gloss_body'))
 			{
 				trigger_error('FORM_INVALID');
-			}
-			else
+			} else
 			{
 				// Update configuration
 				$acp = (int) $request->variable('lmdi_gloss_acp', 0);
-				$config->set ('lmdi_glossary_acp', $acp);
+				$config->set('lmdi_glossary_acp', $acp);
 
 				// Update the lmdi_gloss column in table users
-				$sql  = "UPDATE " . USERS_TABLE . " SET lmdi_gloss = $acp ";
+				$sql = "UPDATE " . USERS_TABLE . " SET lmdi_gloss = $acp ";
 				$db->sql_query($sql);
 
 				// Tooltip validation
 				$title = $request->variable('lmdi_gloss_title', 0);
 				if ($title != $config['lmdi_gloss_title'])
 				{
-					$config->set ('lmdi_glossary_title', $title);
+					$config->set('lmdi_glossary_title', $title);
 					$cache->destroy('_glossterms');
 				}
 
@@ -55,14 +54,14 @@ class gloss_module {
 				$titlength = $request->variable('titlength', 0);
 				if ($titlength != $config['lmdi_glossary_tooltip'])
 				{
-					$config->set ('lmdi_glossary_tooltip', $titlength);
+					$config->set('lmdi_glossary_tooltip', $titlength);
 					$cache->destroy('_glossterms');
 				}
 
 				// Language selection
 				$lang = $request->variable('lang', '');
 				$table = $table_prefix . 'glossary';
-				$lg = $this->gloss_helper->get_def_language ($table, 'lang');
+				$lg = $this->gloss_helper->get_def_language($table, 'lang');
 				if ($lang != $lg)
 				{
 					$sql = "ALTER TABLE $table ALTER COLUMN lang SET DEFAULT '$lang'";
@@ -71,29 +70,29 @@ class gloss_module {
 
 				// Pixel limit
 				$px = $request->variable('pixels', 400);
-				$config->set ('lmdi_glossary_pixels', $px);
+				$config->set('lmdi_glossary_pixels', $px);
 
 				// Picture weight
 				$ko = $request->variable('weight', 200);
-				$config->set ('lmdi_glossary_weight', $ko);
+				$config->set('lmdi_glossary_weight', $ko);
 
 				// Usergroup creation/deletion
 				$ug = $request->variable('lmdi_gloss_ugroup', 0);
 				if ($config['lmdi_glossary_usergroup'] != $ug)
 				{
-					$config->set ('lmdi_glossary_usergroup', $ug);
+					$config->set('lmdi_glossary_usergroup', $ug);
 					$usergroup = $user->lang('GROUP_GLOSS_EDITOR');
 					$groupdesc = $user->lang('GROUP_DESCRIPTION_GLOSS_EDITOR');
 					$userrole  = 'ROLE_GLOSS_EDITOR';
 					if ($ug)
 					{
-						$this->gloss_helper->group_creation ($usergroup, $groupdesc);
-						$this->gloss_helper->role_addition ($usergroup, $userrole);
+						$this->gloss_helper->group_creation($usergroup, $groupdesc);
+						$this->gloss_helper->role_addition($usergroup, $userrole);
 					}
 					else
 					{
-						$this->gloss_helper->role_deletion ($usergroup, $userrole);
-						$this->gloss_helper->group_deletion ($usergroup);
+						$this->gloss_helper->role_deletion($usergroup, $userrole);
+						$this->gloss_helper->group_deletion($usergroup);
 					}
 				}
 
@@ -101,19 +100,19 @@ class gloss_module {
 				$ag = $request->variable('lmdi_gloss_agroup', 0);
 				if ($config['lmdi_glossary_admingroup'] != $ag)
 				{
-					$config->set ('lmdi_glossary_admingroup', $ag);
+					$config->set('lmdi_glossary_admingroup', $ag);
 					$admingroup = $user->lang('GROUP_GLOSS_ADMIN');
 					$groupdesc  = $user->lang('GROUP_DESCRIPTION_GLOSS_ADMIN');
 					$adminrole  = 'ROLE_GLOSS_ADMIN';
 					if ($ag)
 					{
-						$this->gloss_helper->group_creation ($admingroup, $groupdesc);
-						$this->gloss_helper->role_addition ($admingroup, $adminrole);
+						$this->gloss_helper->group_creation($admingroup, $groupdesc);
+						$this->gloss_helper->role_addition($admingroup, $adminrole);
 					}
 					else
 					{
-						$this->gloss_helper->role_deletion ($admingroup, $adminrole);
-						$this->gloss_helper->group_deletion ($admingroup);
+						$this->gloss_helper->role_deletion($admingroup, $adminrole);
+						$this->gloss_helper->group_deletion($admingroup);
 					}
 				}
 
@@ -165,11 +164,11 @@ class gloss_module {
 			$template->assign_block_vars('forums', array(
 				'FORUM_NAME'			=> $row['forum_name'],
 				'FORUM_ID'			=> $row['forum_id'],
-				'CHECKED_ENABLE_FORUM'	=> $row['lmdi_glossary']? 'checked="checked"' : '',
+				'CHECKED_ENABLE_FORUM'	=> $row['lmdi_glossary'] ? 'checked="checked"' : '',
 			));
 		}
 
-		$template->assign_vars (array(
+		$template->assign_vars(array(
 			'C_ACTION'		=> $action_config,
 			'ALLOW_FEATURE_NO'	=> $config['lmdi_glossary_acp'] == 0 ? 'checked="checked"' : '',
 			'ALLOW_FEATURE_YES'	=> $config['lmdi_glossary_acp'] == 1 ? 'checked="checked"' : '',
