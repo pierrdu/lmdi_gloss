@@ -128,7 +128,7 @@ class gloss_module {
 						SET lmdi_glossary = 1
 						WHERE forum_id IN (' . $enabled_forums . ')';
 						$db->sql_query($sql);
-					$cache->put('_gloss_forums', $eforums, 86400);	// 24 h
+					$cache->put('_gloss_forums', $enabled_forums, 86400);	// 24 h
 				}
 				else
 				{
