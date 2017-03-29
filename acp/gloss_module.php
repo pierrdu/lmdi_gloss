@@ -83,11 +83,8 @@ class gloss_module {
 				{
 					$config->set ('lmdi_glossary_usergroup', $ug);
 					$usergroup = $user->lang('GROUP_GLOSS_EDITOR');
-					// $userrole  = $user->lang('ROLE_GLOSS_EDITOR');
 					$groupdesc = $user->lang('GROUP_DESCRIPTION_GLOSS_EDITOR');
-					// $usergroup = 'GROUP_GLOSS_EDITOR';
 					$userrole  = 'ROLE_GLOSS_EDITOR';
-					// $groupdesc = 'GROUP_DESCRIPTION_GLOSS_EDITOR';
 					if ($ug)
 					{
 						$this->gloss_helper->group_creation ($usergroup, $groupdesc);
@@ -106,11 +103,8 @@ class gloss_module {
 				{
 					$config->set ('lmdi_glossary_admingroup', $ag);
 					$admingroup = $user->lang('GROUP_GLOSS_ADMIN');
-					// $adminrole  = $user->lang('ROLE_GLOSS_ADMIN');
 					$groupdesc  = $user->lang('GROUP_DESCRIPTION_GLOSS_ADMIN');
-					// $admingroup = 'GROUP_GLOSS_ADMIN';
 					$adminrole  = 'ROLE_GLOSS_ADMIN';
-					// $groupdesc  = 'GROUP_DESCRIPTION_GLOSS_ADMIN';
 					if ($ag)
 					{
 						$this->gloss_helper->group_creation ($admingroup, $groupdesc);
@@ -130,16 +124,10 @@ class gloss_module {
 				$db->sql_query($sql);
 				if (!empty ($enabled_forums))
 				{
-					$eforums = explode (',', $enabled_forums);
-					$nbf = count ($eforums);
-					for ($i=0; $i<$nbf; $i++)
-					{
-						$numf = $eforums[$i];
-						$sql = "UPDATE " . FORUMS_TABLE . "
-							SET lmdi_glossary = 1
-							WHERE forum_id = $numf";
+					$sql = 'UPDATE ' . FORUMS_TABLE . '
+						SET lmdi_glossary = 1
+						WHERE forum_id IN (' . $enabled_forums . ')';
 						$db->sql_query($sql);
-					}
 					$cache->put('_gloss_forums', $eforums, 86400);	// 24 h
 				}
 				else
