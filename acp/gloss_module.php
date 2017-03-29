@@ -129,7 +129,7 @@ class gloss_module {
 						WHERE forum_id IN (' . $enabled_forums . ')';
 					$db->sql_query($sql);
 					$farray = explode(',', $enabled_forums);
-					$cache->put('_gloss_forums', $farray, 86400);	// 24 h
+					$cache->put('_gloss_forums', $farray, 86400); // 24 h
 				}
 				else
 				{

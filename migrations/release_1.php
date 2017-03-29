@@ -31,19 +31,19 @@ class release_1 extends \phpbb\db\migration\migration
 			'add_tables'   => array(
 				$table_prefix . 'glossary'   => array(
 					'COLUMNS'   => array(
-						'term_id'		=> array ('UINT', null, 'auto_increment'),
-						'variants'	=> array ('VCHAR:80', ''),
-						'term'		=> array ('VCHAR:80', ''),
-						'description'	=> array ('VCHAR:512', ''),
-						'cat'		=> array ('VCHAR:32', ''),
-						'ilinks'		=> array ('VCHAR:256', ''),
-						'elinks'		=> array ('VCHAR:256', ''),
-						'label'		=> array ('VCHAR:32', ''),
-						'picture'		=> array ('VCHAR:80', ''),
-						'lang'		=> array ('VCHAR:2', 'en'),
+						'term_id'		=> array('UINT', null, 'auto_increment'),
+						'variants'	=> array('VCHAR:80', ''),
+						'term'		=> array('VCHAR:80', ''),
+						'description'	=> array('VCHAR:512', ''),
+						'cat'		=> array('VCHAR:32', ''),
+						'ilinks'		=> array('VCHAR:256', ''),
+						'elinks'		=> array('VCHAR:256', ''),
+						'label'		=> array('VCHAR:32', ''),
+						'picture'		=> array('VCHAR:80', ''),
+						'lang'		=> array('VCHAR:2', 'en'),
 					),
 					'PRIMARY_KEY'	=> 'term_id',
-					'KEYS'  => array('term'  => array ('INDEX', 'term')),
+					'KEYS'  => array('term'  => array('INDEX', 'term')),
 				),
 			),
 			'add_columns'	=> array(
@@ -171,7 +171,7 @@ class release_1 extends \phpbb\db\migration\migration
 	{
 		// Define sample data
 		$sample_data = array(
-				array (
+				array(
 					'variants' => 'test, tests, tested',
 					'term' => 'Test',
 					'description' => 'Test definition, etc.',
@@ -182,7 +182,7 @@ class release_1 extends \phpbb\db\migration\migration
 					'picture' => 'nopict.jpg',
 					'lang' => 'en',
 				),
-				array (
+				array(
 					'variants' => 'try, demo, trial',
 					'term' => 'Trial',
 					'description' => 'Second test definition, etc.',
@@ -233,7 +233,7 @@ class release_1 extends \phpbb\db\migration\migration
 	}
 
 
-	public function get_nbrows ($table)
+	public function get_nbrows($table)
 	{
 		$sql = "SELECT COUNT(*) as nb FROM $table WHERE 1";
 		$result = $this->db->sql_query($sql);

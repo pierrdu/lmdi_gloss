@@ -28,11 +28,6 @@ class glosspict
 	protected $ext_path;
 	protected $ext_path_web;
 
-	/**
-	* Constructor
-	*
-	*
-	*/
 	public function __construct(
 		\phpbb\template\template $template,
 		\phpbb\user $user,
@@ -43,13 +38,13 @@ class glosspict
 		$phpbb_root_path
 		)
 	{
-		$this->template 		= $template;
-		$this->user 			= $user;
+		$this->template		= $template;
+		$this->user			= $user;
 		$this->ext_manager	 	= $ext_manager;
 		$this->path_helper	 	= $path_helper;
-		$this->request 		= $request;
-		$this->phpEx 			= $phpEx;
-		$this->phpbb_root_path 	= $phpbb_root_path;
+		$this->request			= $request;
+		$this->phpEx			= $phpEx;
+		$this->phpbb_root_path	= $phpbb_root_path;
 
 		$this->ext_path = $this->ext_manager->get_extension_path('lmdi/gloss', true);
 		$this->ext_path_web = $this->path_helper->update_web_root_path($this->ext_path);
@@ -62,23 +57,23 @@ class glosspict
 
 		$click = $this->user->lang['GLOSS_CLICK'];
 		$view = $this->user->lang['GLOSS_VIEW'];
-		$pict = $this->request->variable ('pict', '');
+		$pict = $this->request->variable('pict', '');
 		$pict = $this->ext_path_web . "glossaire/" . $pict;
-		$term = $this->request->variable ('term', '', true);
-		$code = $this->request->variable ('code', '0', true);
+		$term = $this->request->variable('term', '', true);
+		$code = $this->request->variable('code', '0', true);
 		$terme = "<p class=\"copyright\"><b>$term</b></p>";
 		$corps = "<p class=\"copyright\"><a href=\"javascript:history.go(-1);\"><img src=\"$pict\"></a></p>";
 		$retour = "<p class=\"copyright\">$click</p>";
 
 		page_header($view);
-		$this->template->set_filenames (array (
+		$this->template->set_filenames(array(
 			'body' => 'glossaire.html',
 		));
 
 		if ($code == -1)
 		{
 			$params = "mode=glossedit";
-			$str_glossedit = append_sid ($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
+			$str_glossedit = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
 			$this->template->assign_block_vars('navlinks', array(
 				'U_VIEW_FORUM'	=> $str_glossedit,
 				'FORUM_NAME'	=> $this->user->lang['GLOSS_EDITION'],
@@ -86,13 +81,13 @@ class glosspict
 		}
 
 		$params = "mode=glosspict";
-		$str_glosspict = append_sid ($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
+		$str_glosspict = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
 		$this->template->assign_block_vars('navlinks', array(
 			'U_VIEW_FORUM'	=> $str_glosspict,
 			'FORUM_NAME'	=> $this->user->lang['GLOSS_VIEW'],
 		));
 
-		$this->template->assign_vars(array (
+		$this->template->assign_vars(array(
 			'TITRE'			=> $view,
 			'ILLUST'		=> $terme,
 			'CORPS'			=> $corps,

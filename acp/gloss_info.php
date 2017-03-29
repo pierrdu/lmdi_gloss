@@ -11,13 +11,13 @@ namespace lmdi\gloss\acp;
 
 class gloss_info
 {
-	function module()
+	public function module()
 	{
 		return array(
 			'filename'	=> '\lmdi\gloss\acp\gloss_module',
 			'title'		=> 'ACP_GLOSS_TITLE',
 			'version'		=> '1.0.0',
-			'modes'		=> array (
+			'modes'		=> array(
 				'settings' => array('title' => 'ACP_GLOSS',
 						'auth' => 'ext_lmdi/gloss',
 						'cat' => array('ACP_GLOSS_TITLE')),

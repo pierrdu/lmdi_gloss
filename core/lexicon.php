@@ -5,7 +5,7 @@
 * Rewritten by Pierre Duhem for the Glossary extension
 * This code extracts the contents of term id from glossary table.
 * The returned contents is displayed in the popup window.
-* This code gets called from module jquery.lexicon.js.
+* This code is called from module jquery.lexicon.js.
 **/
 
 namespace lmdi\gloss\core;
@@ -20,10 +20,6 @@ class lexicon
 	protected $request;
 	protected $glossary_table;
 
-	/**
-	* Constructor
-	*
-	*/
 	public function __construct(
 		\phpbb\user $user,
 		\phpbb\db\driver\driver_interface $db,
@@ -36,12 +32,12 @@ class lexicon
 		$this->glossary_table 	= $glossary_table;
 	}
 
-	function main()
+	public function main()
 	{
 		// String loading
 		$this->user->add_lang_ext('lmdi/gloss', 'edit_gloss');
 
-		$id = $this->request->variable ('id', 0);
+		$id = $this->request->variable('id', 0);
 		if ($id)
 		{
 			// Extract glossary entry
@@ -73,6 +69,6 @@ class lexicon
 			$this->db->sql_freeresult($result);
 		}
 		$json_response = new \phpbb\json_response;
-		$json_response->send ($entry, true);
+		$json_response->send($entry, true);
 	}
 }

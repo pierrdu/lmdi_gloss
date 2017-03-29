@@ -17,9 +17,8 @@ class helper
 	protected $phpbb_root_path;
 	/** @var string phpEx */
 	protected $php_ext;
-	/**
-	* Constructor
-	*/
+
+
 	public function __construct(
 		\phpbb\db\driver\driver_interface $db,
 		$table_prefix,
@@ -36,8 +35,8 @@ class helper
 	public function calcul_ilinks($ilinks)
 	{
 		$table = $this->glossary_table;
-		$data = explode (",", $ilinks);
-		$nb = count ($data);
+		$data = explode(",", $ilinks);
+		$nb = count($data);
 		$string = "";
 		for ($i = 0; $i < $nb; $i++)
 		{
@@ -45,12 +44,12 @@ class helper
 			$term1 = $this->db->sql_escape($term0);
 			$sql = "SELECT term_id from $table where term = '$term1'";
 			$result = $this->db->sql_query($sql);
-			$row = $this->db->sql_fetchrow ($result);
+			$row = $this->db->sql_fetchrow($result);
 			$code = $row['term_id'];
-			$this->db->sql_freeresult ($result);
+			$this->db->sql_freeresult($result);
 			if ($code)
 			{
-				if (strlen ($string))
+				if (strlen($string))
 				{
 					$string .= ", ";
 				}
@@ -58,7 +57,7 @@ class helper
 			}
 			else
 			{
-				if (strlen ($string))
+				if (strlen($string))
 				{
 					$string .= ", ";
 				}
@@ -74,9 +73,9 @@ class helper
 		$prefix = $this->table_prefix;
 		$sql = "SELECT role_id from {$prefix}acl_roles where role_name = '$role_name'";
 		$result = $this->db->sql_query($sql);
-		$row = $this->db->sql_fetchrow ($result);
+		$row = $this->db->sql_fetchrow($result);
 		$role_id = (int) $row['role_id'];
-		$this->db->sql_freeresult ($result);
+		$this->db->sql_freeresult($result);
 		return ($role_id);
 	}
 
@@ -87,14 +86,14 @@ class helper
 		$sql = "SELECT group_id from {$prefix}groups where group_name = '$group_name'";
 		$result = $this->db->sql_query($sql);
 		$group_id = (int) $this->db->sql_fetchfield('group_id');
-		$this->db->sql_freeresult ($result);
+		$this->db->sql_freeresult($result);
 		return ($group_id);
 	}
 
 
 	public function group_deletion($group)
 	{
-		$group_id = $this->get_group_id ($group);
+		$group_id = $this->get_group_id($group);
 		if ($group_id)
 		{
 			if (!function_exists('group_delete') )
@@ -110,9 +109,9 @@ class helper
 	{
 		$sql = "SELECT DEFAULT($colonne) lg FROM (SELECT 1) AS dummy LEFT JOIN $table ON True";
 		$result = $this->db->sql_query_limit($sql, 1);
-		$row = $this->db->sql_fetchrow ($result);
+		$row = $this->db->sql_fetchrow($result);
 		$default = $row['lg'];
-		$this->db->sql_freeresult ($result);
+		$this->db->sql_freeresult($result);
 		return ($default);
 	}
 
@@ -120,8 +119,8 @@ class helper
 	public function role_addition($group, $role)
 	{
 		$prefix = $this->table_prefix;
-		$group_id = $this->get_group_id ($group);
-		$role_id = $this->get_role_id ($role);
+		$group_id = $this->get_group_id($group);
+		$role_id = $this->get_role_id($role);
 		$sql = "INSERT into {$prefix}acl_groups 
 			(group_id, forum_id, auth_option_id, auth_role_id, auth_setting)
 			VALUES ($group_id, 0, 0, $role_id, 0)";
@@ -132,8 +131,8 @@ class helper
 	public function role_deletion($group, $role)
 	{
 		$prefix = $this->table_prefix;
-		$group_id = $this->get_group_id ($group);
-		$role_id = $this->get_role_id ($role);
+		$group_id = $this->get_group_id($group);
+		$role_id = $this->get_role_id($role);
 		$sql = "DELETE from {$prefix}acl_groups 
 			WHERE group_id = '$group_id' AND auth_role_id = '$role_id'";
 		// DELETE from phpbb3_acl_groups WHERE group_id = '4415' AND auth_role_id = '52'
@@ -174,7 +173,7 @@ class helper
 	public function build_lang_select()
 	{
 		$table = $this->table_prefix . 'glossary';
-		$lg = $this->get_def_language ($table, 'lang');
+		$lg = $this->get_def_language($table, 'lang');
 		$select = "";
 
 		$sql = 'SELECT lang_iso FROM ' . LANG_TABLE . ' ORDER BY lang_iso';

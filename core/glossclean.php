@@ -36,11 +36,6 @@ class glossclean
 	protected $ext_path;
 	protected $ext_path_web;
 
-	/**
-	* Constructor
-	*
-	*
-	*/
 	public function __construct(
 		\phpbb\template\template $template,
 		\phpbb\user $user,
@@ -80,7 +75,7 @@ class glossclean
 
 		$prefix = $this->table_prefix;
 
-		$mig = $this->db->sql_escape ("\lmdi\gloss\migrations\release_1");
+		$mig = $this->db->sql_escape("\lmdi\gloss\migrations\release_1");
 		$sql1 = "DELETE FROM ${prefix}acl_roles WHERE role_name LIKE 'ROLE_GLOSS%'";
 		$sql2 = "DELETE FROM ${prefix}acl_options WHERE auth_option LIKE '%lmdi_glossary'";
 		$sql3 = "DELETE FROM ${prefix}config WHERE config_name LIKE 'lmdi_glossary%'";
@@ -107,7 +102,7 @@ class glossclean
 		$this->db->sql_query($sql5);
 		$this->db->sql_query($sql6);
 		$this->db->sql_query($sql7);
-		$this->cache->purge ();
+		$this->cache->purge();
 		*/
 
 		$titre = $this->user->lang['TGLOSSAIRE'];
@@ -124,7 +119,7 @@ class glossclean
 				'FORUM_NAME'	=> $this->user->lang['GLOSS_EDITION'],
 			));
 
-		$this->template->assign_vars(array (
+		$this->template->assign_vars(array(
 			'TITRE'			=> $titre,
 			'ABC'			=> $abc_links,
 			'ILLUST'		=> $illustration,

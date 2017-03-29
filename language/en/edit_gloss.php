@@ -2,7 +2,7 @@
 /**
 * edit_gloss.php
 * @package phpBB Extension - LMDI Glossary
-* @copyright (c) 2015-2017 LMDI - Pierre Duhem
+* @copyright (c) 2015-2016 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -17,7 +17,7 @@ if (empty($lang) || !is_array($lang))
 	$lang = array();
 }
 
-$lang = array_merge ($lang, array(
+$lang = array_merge($lang, array(
 // Static Glossary page
 	'ILLUSTRATION'	=>  "<p>Some terms have an explicative illustration.<br />In such a case, there is a link at the end of the row.<br />Click on it to display the picture.<br />Click on the picture again to come back.</p>",
 	'GLOSS_DISPLAY'	=> 'Display',
@@ -28,7 +28,7 @@ $lang = array_merge ($lang, array(
 	'GLOSS_BIBLIO'		=> "<p>
 		<span class=\"m\">
 		<u>Bibliography</u><br /> 
-		<br />
+		<br /><br /> 
 		<u>Webography</u><br /><br />
 		<br />
 		<u>Illustrations</u><br /><br />

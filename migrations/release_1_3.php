@@ -14,7 +14,7 @@ class release_1_3 extends \phpbb\db\migration\migration
 
 	public function effectively_installed()
 	{
-		return ($this->config['lmdi_glossary_version'] >= 1324);
+		return ($this->config['lmdi_glossary_version'] == 1324);
 	}
 
 	static public function depends_on()
@@ -26,7 +26,7 @@ class release_1_3 extends \phpbb\db\migration\migration
 	{
 		return array(
 			array('config.add' => array('lmdi_glossary_version', '1324')),
-			array('custom', array (array(&$this, 'wider_lang_column'))),
+			array('custom', array(array(&$this, 'wider_lang_colun'))),
 		);
 	}
 

@@ -2,7 +2,7 @@
 /**
 * edit_gloss.php
 * @package phpBB Extension - LMDI Glossary
-* @copyright (c) 2015-2017 LMDI - Pierre Duhem
+* @copyright (c) 2015-2016 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 * Russian translation by rua and MaxTr
 *
@@ -18,7 +18,7 @@ if (empty($lang) || !is_array($lang))
 	$lang = array();
 }
 
-$lang = array_merge ($lang, array(
+$lang = array_merge($lang, array(
 // Static Glossary page
 	'ILLUSTRATION'	=>  "Некоторые термины имеют поясняющие иллюстрации.<br />В этом случае, в конце строки есть ссылка на изображение.<br />Нажмите на нее, чтобы открыть рисунок.<br />Нажмите на картинку еще раз, чтобы свернуть.",
 	'GLOSS_DISPLAY'			  => 'Отобразить',

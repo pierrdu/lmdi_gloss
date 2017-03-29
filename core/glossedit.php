@@ -34,10 +34,6 @@ class glossedit
 	protected $ext_path;
 	protected $ext_path_web;
 
-	/**
-	* Constructor
-	*
-	*/
 	public function __construct(
 		\phpbb\template\template $template,
 		\phpbb\user $user,
@@ -78,7 +74,7 @@ class glossedit
 
 	public $u_action;
 
-	public function get_def_language($table, $colonne)
+	private function get_def_language($table, $colonne)
 	{
 		$sql = "SELECT DEFAULT($colonne) lg 
 			FROM (SELECT 1) AS dummy
@@ -129,7 +125,7 @@ class glossedit
 					$ilinks = "";
 					$elinks = "";
 					$label = "";
-					$lang = $this->get_def_language ($table, 'lang');
+					$lang = $this->get_def_language($table, 'lang');
 					$str_action = $this->user->lang['GLOSS_CREAT'];
 				}
 				else			// Item edition - Édition d'une fiche
@@ -137,8 +133,8 @@ class glossedit
 					$sql  = "SELECT * ";
 					$sql .= "FROM $table ";
 					$sql .= "WHERE term_id = '$num' ";
-					$result = $this->db->sql_query ($sql);
-					$row = $this->db->sql_fetchrow ($result);
+					$result = $this->db->sql_query($sql);
+					$row = $this->db->sql_fetchrow($result);
 					$code   = $row['term_id'];
 					$vari   = $row['variants'];
 					$term   = $row['term'];
@@ -149,7 +145,7 @@ class glossedit
 					$label  = $row['label'];
 					$pict   = $row['picture'];
 					$lang   = $row['lang'];
-					$this->db->sql_freeresult ($result);
+					$this->db->sql_freeresult($result);
 					$str_action = $this->user->lang['GLOSS_EDIT'];
 				}
 				$str_variants = $this->user->lang['GLOSS_VARIANTS'] . $str_colon;
@@ -175,7 +171,7 @@ class glossedit
 				$str_regis = $this->user->lang['GLOSS_REGIS'];
 				$str_suppr = $this->user->lang['GLOSS_SUPPR'];
 				$form  = "<form action=\"";
-				$form .= append_sid ($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss?mode=glossedit');
+				$form .= append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss?mode=glossedit');
 				$form .= "\" method=\"post\" id=\"glossedit\" enctype=\"multipart/form-data\">";
 				$form .= "\n<div class=\"panel\">\n<div class=\"inner\">\n<div class=\"content\">";
 				$form .= "\n<input type=\"hidden\" name=\"term_id\" id=\"term_id\" value=\"$code\">";
@@ -271,40 +267,40 @@ class glossedit
 				$term	= $this->db->sql_escape(trim($this->request->variable('term',"",true)));
 				$variants	= $this->db->sql_escape(trim($this->request->variable('vari',"",true)));
 				$descript	= $this->db->sql_escape(trim($this->request->variable('desc',"",true)));
-				if (mb_strlen ($descript) > 511)
+				if (mb_strlen($descript) > 511)
 				{
-					$descript = mb_substr ($descript, 0, 511);
+					$descript = mb_substr($descript, 0, 511);
 				}
-				$cat		= $this->db->sql_escape(trim($this->request->variable ('cat',"",true)));
-				$ilinks	= $this->db->sql_escape(trim($this->request->variable ('ilinks',"",true)));
-				$elinks	= $this->db->sql_escape(trim($this->request->variable ('elinks',"",true)));
-				$label	= $this->db->sql_escape(trim($this->request->variable ('label',"",true)));
-				$lang	= $this->db->sql_escape($this->request->variable ('lang',"fr",true));
-				$coche	= $this->request->variable ('upload', "", true);
+				$cat		= $this->db->sql_escape(trim($this->request->variable('cat',"",true)));
+				$ilinks	= $this->db->sql_escape(trim($this->request->variable('ilinks',"",true)));
+				$elinks	= $this->db->sql_escape(trim($this->request->variable('elinks',"",true)));
+				$label	= $this->db->sql_escape(trim($this->request->variable('label',"",true)));
+				$lang	= $this->db->sql_escape($this->request->variable('lang',"fr",true));
+				$coche	= $this->request->variable('upload', "", true);
 				$picture = $str_nopict;
 				switch ($coche)
 				{
 					case "existe":
-						$picture = $this->request->variable ('pict', "", true);
+						$picture = $this->request->variable('pict', "", true);
 					break;
 					case "noup":
 					break;
 					case "reuse":
-						$picture = $this->request->variable ('reuse', "", true);
+						$picture = $this->request->variable('reuse', "", true);
 					break;
 					case "nouv":
-						$errors = array ();
-						if (version_compare ($this->config['version'], '3.2.*', '>='))
+						$errors = array();
+						if (version_compare($this->config['version'], '3.2.*', '>='))
 						{
-							$picture = $this->upload_32x ($errors);
+							$picture = $this->upload_32x($errors);
 						}
 						else
 						{
-							$picture = $this->upload_31x ($errors);
+							$picture = $this->upload_31x($errors);
 						}
 						if (!$picture)
 						{
-							$nb = count ($errors);
+							$nb = count($errors);
 							$message = "";
 							for ($i = 0; $i < $nb; $i++)
 							{
@@ -316,7 +312,7 @@ class glossedit
 						}
 						else
 						{
-							$picture = $this->db->sql_escape ($picture);
+							$picture = $this->db->sql_escape($picture);
 						}
 					break;
 				}
@@ -326,7 +322,7 @@ class glossedit
 					$sql .= "(variants, term, description, cat, ilinks, elinks, label, picture, lang) ";
 					$sql .= " VALUES ";
 					$sql .= "(\"$variants\", \"$term\", \"$descript\", \"$cat\", \"$ilinks\", '$elinks', \"$label\", \"$picture\", \"$lang\")";
-					$this->db->sql_query ($sql);
+					$this->db->sql_query($sql);
 					$term_id = $this->db->sql_nextid();
 				}
 				else
@@ -344,39 +340,39 @@ class glossedit
 					$sql .= "lang			= \"$lang\" ";
 					$sql .= "WHERE term_id   = \"$term_id\" ";
 					$sql .= "LIMIT 1";
-					$this->db->sql_query ($sql);
+					$this->db->sql_query($sql);
 				}
 				// Purge the cache
 				$this->cache->destroy('_glossterms');
 				// Redirection
 				// /*
 				$params = "mode=glossedit&code=$term_id";
-				$url  = append_sid ($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
+				$url  = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
 				$url .= "#$term_id";	// Anchor target = term_id
-				redirect ($url);
+				redirect($url);
 				// */
 				break;
 			case "delete":
-				$term_id = $this->db->sql_escape ($this->request->variable ('term_id', 0));
+				$term_id = $this->db->sql_escape($this->request->variable('term_id', 0));
 				$sql  = "DELETE ";
 				$sql .= "FROM $table ";
 				$sql .= "WHERE term_id = \"$term_id\" ";
 				$sql .= "LIMIT 1";
-				$this->db->sql_query ($sql);
+				$this->db->sql_query($sql);
 				// Purge the cache
 				$this->cache->destroy('_glossterms');
 				// Redirection
-				$cap = substr ($this->request->variable ('term', "", true), 0, 1);
+				$cap = substr($this->request->variable('term', "", true), 0, 1);
 				$params = "mode=glossedit";
-				$url  = append_sid ($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
+				$url  = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
 				$url .= "#$cap";		// Anchor target = initial cap
-				redirect ($url);
+				redirect($url);
 				break;
 			case "rien":
 				$sql  = "SELECT DISTINCT UPPER(LEFT(TRIM(term),1)) AS a ";
 				$sql .= "FROM $table ";
 				$sql .= " ORDER BY a" ;
-				$result = $this->db->sql_query ($sql);
+				$result = $this->db->sql_query($sql);
 
 				$str_action = $this->user->lang['GLOSS_EDITION'];
 				$str_terme  = $this->user->lang['GLOSS_ED_TERM'];
@@ -397,7 +393,7 @@ class glossedit
 				$cpt  = 0;
 				$str_edit2  = $this->user->lang['GLOSS_ED_EDIT'];
 				$top = $this->ext_path_web . "/styles/top.gif";
-				while ($row = $this->db->sql_fetchrow ($result))
+				while ($row = $this->db->sql_fetchrow($result))
 				{
 					$l = $row['a'];
 					$abc_links .= "&nbsp;<a class=\"cap\" href =\"#$l\">$l</a>&nbsp;" ;
@@ -406,12 +402,12 @@ class glossedit
 					$sql .= "FROM $table ";
 					$sql .= "WHERE LEFT($table.term, 1) = \"$l\" ";
 					$sql .= "ORDER BY term";
-					$result2 = $this->db->sql_query ($sql);
+					$result2 = $this->db->sql_query($sql);
 
 					$cpt++;
 					$corps .= "\n<tr class=\"deg\"><td class=\"glossi\" colspan=\"3\" id=\"$l\">&nbsp;$l</td>";
 					$corps .= "<td class=\"haut\"><a href=\"#haut\"><img src=\"$top\"></a></td></tr>";
-					while ($arow = $this->db->sql_fetchrow ($result2))
+					while ($arow = $this->db->sql_fetchrow($result2))
 					{
 						$code  = $arow['term_id'];
 						// $vari  = $arow['variants'];
@@ -424,21 +420,21 @@ class glossedit
 						$pict  = $arow['picture'];
 						$corps .= "\n<tr class=\"deg\">";
 						$corps .= "<td class=\"deg0\" id=\"$code\"><b>$term</b>";
-						if (strlen ($cat))
+						if (strlen($cat))
 						{
 							$corps .= "<br>$cat";
 						}
 						$corps .= "<br>$code";
 						$corps .= "</td>";
 						$corps .= "<td class=\"deg0\">$desc";
-						if (strlen ($ilinks))
+						if (strlen($ilinks))
 						{
-							$ilinks = $this->gloss_helper->calcul_ilinks ($ilinks);
+							$ilinks = $this->gloss_helper->calcul_ilinks($ilinks);
 							$corps .= "<br>$str_ilinks $ilinks";
 						}
-						if (strlen ($elinks))
+						if (strlen($elinks))
 						{
-							if (strlen ($label))
+							if (strlen($label))
 							{
 								$corps .= "<br>$str_elinks <a class=\"ilinks\" href=\"$elinks\">$label</a>";
 							}
@@ -451,7 +447,7 @@ class glossedit
 						if ($pict != $str_nopict)
 						{
 							$params  = "mode=glosspict&code=-1&pict=$pict&terme=$term";
-							$url = append_sid ($this->phpbb_root_path .'app.'.$this->phpEx .'/gloss', $params);
+							$url = append_sid($this->phpbb_root_path .'app.'.$this->phpEx .'/gloss', $params);
 							$corps .= "<td class=\"deg1\"><a href=\"$url\">$pict</a></td>";
 						}
 						else
@@ -461,38 +457,38 @@ class glossedit
 						$corps .= "<td class=\"deg1\">";
 						$corps .= "<a href=\"";
 						$params = "mode=glossedit&code=$code&action=edit";
-						$corps .= append_sid ($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
+						$corps .= append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
 						$corps .= "\">$str_edit2</a></td>";
 						$corps .= "</tr>";
 					}	// Fin du while sur le contenu - End of while on contents
-					$this->db->sql_freeresult ($result2);
+					$this->db->sql_freeresult($result2);
 				}	// Fin du while sur les initiales - End of while on initial caps
-				$this->db->sql_freeresult ($result);
+				$this->db->sql_freeresult($result);
 				$corps .= "</table>";
 				$abc_links .= "</p>\n";
 
 				$string = $this->user->lang['GLOSS_ED_EXPL'];
 				$url  = "<a href=\"";
-				$url .= append_sid ($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', 'mode=glossedit&code=-1&action=edit');
+				$url .= append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', 'mode=glossedit&code=-1&action=edit');
 				$url .= "\"";
-				$illustration = sprintf ($string, $url, "</a>");
+				$illustration = sprintf($string, $url, "</a>");
 				break;
 			}
 
 		page_header($this->user->lang['TGLOSSAIRE']);
 
-		$this->template->set_filenames (array(
+		$this->template->set_filenames(array(
 			'body' => 'glossaire.html',
 		));
 
 		$params = "mode=glossedit";
-		$str_glossedit = append_sid ($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
+		$str_glossedit = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
 		$this->template->assign_block_vars('navlinks', array(
 			'U_VIEW_FORUM'	=> $str_glossedit,
 			'FORUM_NAME'	=> $this->user->lang['GLOSS_EDITION'],
 			));
 
-		$this->template->assign_vars (array (
+		$this->template->assign_vars(array(
 			'TITLE'		=> $str_action,
 			'ABC'		=> $abc_links,
 			'ILLUST'		=> $illustration,
@@ -522,7 +518,7 @@ class glossedit
 		$file = $upload->form_upload('upload_file');
 		if (empty($file->filename))
 		{
-			$errors = array_merge ($errors, array ($this->user->lang('LMDI_GLOSS_NOFILE')));
+			$errors = array_merge($errors, array($this->user->lang('LMDI_GLOSS_NOFILE')));
 			return (false);
 		}
 		$file->move_file($upload_dir, true);
@@ -530,7 +526,7 @@ class glossedit
 		{
 			if (sizeof($file->error))
 			{
-				$errors = array_merge ($errors, $file->error);
+				$errors = array_merge($errors, $file->error);
 				$file->remove();
 				return (false);
 			}
@@ -539,7 +535,7 @@ class glossedit
 		{
 			if (sizeof($file->error))
 			{
-				$errors = array_merge ($errors, $file->error);
+				$errors = array_merge($errors, $file->error);
 				$file->remove();
 				return (false);
 			}
@@ -566,21 +562,21 @@ class glossedit
 		$weight *= 1024;
 		$upload->set_max_filesize($weight);
 		// Uploading from a form, form name
-		$file = $upload->handle_upload ('files.types.form', 'upload_file');
+		$file = $upload->handle_upload('files.types.form', 'upload_file');
 		$file->move_file($upload_dir, true);
 		$filesize = $file->get('filesize');
 		if ($filesize > $weight)
 		{
 			if (sizeof($file->error))
 			{
-				$errors = array_merge ($errors, $file->error);
+				$errors = array_merge($errors, $file->error);
 				$file->remove();
 				return (false);
 			}
 		}
 		$filename = $file->get('realname');
 		$filepath = $upload_dir . '/' . $filename;
-		$fdata = getimagesize ($filepath);
+		$fdata = getimagesize($filepath);
 		$width = $fdata[0];
 		$height = $fdata[1];
 		if ($width > $pixels || $height > $pixels)
