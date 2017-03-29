@@ -33,7 +33,7 @@ class helper
 		$this->php_ext			= $php_ext;
 	}
 
-	public function calcul_ilinks ($ilinks)
+	public function calcul_ilinks($ilinks)
 	{
 		$table = $this->glossary_table;
 		$data = explode (",", $ilinks);
@@ -69,7 +69,7 @@ class helper
 	}
 
 
-	public function get_role_id ($role_name)
+	public function get_role_id($role_name)
 	{
 		$prefix = $this->table_prefix;
 		$sql = "SELECT role_id from {$prefix}acl_roles where role_name = '$role_name'";
@@ -81,7 +81,7 @@ class helper
 	}
 
 
-	public function get_group_id ($group_name)
+	public function get_group_id($group_name)
 	{
 		$prefix = $this->table_prefix;
 		$sql = "SELECT group_id from {$prefix}groups where group_name = '$group_name'";
@@ -92,7 +92,7 @@ class helper
 	}
 
 
-	public function group_deletion ($group)
+	public function group_deletion($group)
 	{
 		$group_id = $this->get_group_id ($group);
 		if ($group_id)
@@ -106,7 +106,7 @@ class helper
 	}
 
 
-	public function get_def_language ($table, $colonne)
+	public function get_def_language($table, $colonne)
 	{
 		$sql = "SELECT DEFAULT($colonne) lg FROM (SELECT 1) AS dummy LEFT JOIN $table ON True";
 		$result = $this->db->sql_query_limit($sql, 1);
@@ -117,7 +117,7 @@ class helper
 	}
 
 
-	public function role_addition ($group, $role)
+	public function role_addition($group, $role)
 	{
 		$prefix = $this->table_prefix;
 		$group_id = $this->get_group_id ($group);
@@ -129,7 +129,7 @@ class helper
 	}
 
 
-	public function role_deletion ($group, $role)
+	public function role_deletion($group, $role)
 	{
 		$prefix = $this->table_prefix;
 		$group_id = $this->get_group_id ($group);
@@ -171,7 +171,7 @@ class helper
 	}
 
 
-	public function build_lang_select ()
+	public function build_lang_select()
 	{
 		$table = $this->table_prefix . 'glossary';
 		$lg = $this->get_def_language ($table, 'lang');

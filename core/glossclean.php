@@ -71,7 +71,7 @@ class glossclean
 
 	public $u_action;
 
-	function main()
+	public function main()
 	{
 		$abc_links = "";
 		$illustration = "";
@@ -113,18 +113,18 @@ class glossclean
 		$titre = $this->user->lang['TGLOSSAIRE'];
 		page_header($titre);
 
-		$this->template->set_filenames (array(
+		$this->template->set_filenames(array(
 			'body' => 'glossaire.html',
 		));
 
 		$params = "mode=glossedit";
-		$str_glossedit = append_sid ($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
+		$str_glossedit = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
 		$this->template->assign_block_vars('navlinks', array(
 				'U_VIEW_FORUM'	=> $str_glossedit,
 				'FORUM_NAME'	=> $this->user->lang['GLOSS_EDITION'],
 			));
 
-		$this->template->assign_vars (array (
+		$this->template->assign_vars(array (
 			'TITRE'			=> $titre,
 			'ABC'			=> $abc_links,
 			'ILLUST'		=> $illustration,

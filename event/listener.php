@@ -28,9 +28,6 @@ class listener implements EventSubscriberInterface
 	protected $request;
 	protected $glossary_table;
 
-	protected $tid;	// Topic id
-	protected $gloss = array();
-
 	public function __construct(
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\config\config $config,
@@ -64,7 +61,7 @@ class listener implements EventSubscriberInterface
 	}
 
 
-	public function build_url ($event)
+	public function build_url($event)
 	{
 		if (version_compare ($this->config['version'], '3.2.x', '<'))
 		{
@@ -108,7 +105,6 @@ class listener implements EventSubscriberInterface
 	}
 
 
-
 	/**
 	* Use this event to modify the text after it is parsed
 	*
@@ -120,7 +116,7 @@ class listener implements EventSubscriberInterface
 	* @since 3.1.0-a1
 	* Line 532 & ss. of includes/functions_content.php
 	*/
-	public function glossary_insertion_32x ($event)
+	public function glossary_insertion_32x($event)
 	{
 		static $enabled_forums;
 		if (version_compare ($this->config['version'], '3.2.x', '>='))
@@ -188,7 +184,7 @@ class listener implements EventSubscriberInterface
 	}	// glossary_insertion
 
 
-	function glossary_pass ($texte)
+	private function glossary_pass($texte)
 	{
 		static $glossterms;
 		if (!isset ($glossterms) || !is_array ($glossterms))
@@ -278,14 +274,6 @@ class listener implements EventSubscriberInterface
 				{
 					$part2 = preg_replace ($rech, $remp, $part);
 					$parts[$index] = $part2;
-					/*
-					if ($part != $part2)
-					{
-						var_dump ($index);
-						var_dump ($part);
-						var_dump ($part2);
-					}
-					*/
 				}
 			}
 			unset ($part);
@@ -311,7 +299,7 @@ class listener implements EventSubscriberInterface
 		L'élément 'title' peut contenir les 50 premiers caractères de la chaîne de
 		description (voir le panneau d'administration).
 		*/
-	function compute_glossary_list()
+	private function compute_glossary_list()
 	{
 		$glossterms = $this->cache->get('_glossterms');
 		if ($glossterms === false)
@@ -354,9 +342,9 @@ class listener implements EventSubscriberInterface
 					{
 						$done[] = $variant;
 						$remp  = "<lmdigloss class=\"id{$term_id}\" title=\"$desc\">$1</lmdigloss>";
-						$firstspace = '/\b(';
-						$lastspace = ')\b/ui';	// PCRE - u = UTF-8 - i = case insensitive
-						$rech = $firstspace . $variant . $lastspace;
+						$begin = '/\b(';
+						$end = ')\b/ui';	// PCRE - u = UTF-8 - i = case insensitive
+						$rech = $begin . $variant . $end;
 						$glossterms['rech'][] = $rech;
 						$glossterms['remp'][] = $remp;
 					}
@@ -368,7 +356,7 @@ class listener implements EventSubscriberInterface
 	}	// compute_glossary_list
 
 
-	function rebuild_cache_forums ()
+	private function rebuild_cache_forums()
 	{
 		$sql = 'SELECT * 
 				FROM ' . FORUMS_TABLE . '

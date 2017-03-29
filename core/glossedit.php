@@ -78,7 +78,7 @@ class glossedit
 
 	public $u_action;
 
-	public function get_def_language ($table, $colonne)
+	public function get_def_language($table, $colonne)
 	{
 		$sql = "SELECT DEFAULT($colonne) lg 
 			FROM (SELECT 1) AS dummy
@@ -90,7 +90,7 @@ class glossedit
 		return ($default);
 	}
 
-	function main()
+	public function main()
 	{
 		$abc_links = "";
 		$illustration = "";
@@ -506,7 +506,7 @@ class glossedit
 	}
 
 	// Uploading function for phpBB 3.1.x
-	function upload_31x (&$errors)
+	function upload_31x(&$errors)
 	{
 		include_once($this->phpbb_root_path . 'includes/functions_upload.' . $this->phpEx);
 		// Set upload directory
@@ -551,7 +551,7 @@ class glossedit
 	}
 
 	// Uploading function for phpBB 3.2.x
-	function upload_32x (&$errors)
+	function upload_32x(&$errors)
 	{
 		// Set upload directory
 		$upload_dir = $this->ext_path . 'glossaire';
@@ -597,6 +597,6 @@ class glossedit
 			return (false);
 		}
 		@chmod($filepath, 0644);
-		return ($filename);
+		return($filename);
 	}
 }

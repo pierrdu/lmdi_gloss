@@ -121,7 +121,7 @@ class gloss_module {
 				$sql = 'UPDATE ' . FORUMS_TABLE . '
 					SET lmdi_glossary = 0';
 				$db->sql_query($sql);
-				if (!empty ($enabled_forums))
+				if (!empty($enabled_forums))
 				{
 					$sql = 'UPDATE ' . FORUMS_TABLE . '
 						SET lmdi_glossary = 1
@@ -131,18 +131,18 @@ class gloss_module {
 				}
 				else
 				{
-					$cache->destroy ('_gloss_forums');
+					$cache->destroy('_gloss_forums');
 				}
 
 				// Information message
 				$message = $user->lang['CONFIG_UPDATED'];
-				trigger_error($message . adm_back_link ($this->u_action));
+				trigger_error($message . adm_back_link($this->u_action));
 			}
 		}
 
 		$form_key = 'acp_gloss_body';
-		add_form_key ($form_key);
-		$select = $this->gloss_helper->build_lang_select ();
+		add_form_key($form_key);
+		$select = $this->gloss_helper->build_lang_select();
 		$pixels = $config['lmdi_glossary_pixels'];
 		if (!$pixels)
 		{

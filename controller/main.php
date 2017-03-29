@@ -72,8 +72,6 @@ class main
 
 		// Variables
 		$mode   = $this->request->variable('mode', '');
-		$action = $this->request->variable('action', '');
-		$code   = $this->request->variable('code', '-1');
 
 		// String loading
 		$this->user->add_lang_ext('lmdi/gloss', 'edit_gloss');
@@ -82,7 +80,6 @@ class main
 		$this->template->assign_block_vars('navlinks', array(
 			'U_VIEW_FORUM'	=> $this->helper->route('lmdi_gloss_controller'),
 			'FORUM_NAME'	=> $this->user->lang['LGLOSSAIRE'],
-			// 'code'		=> $code,
 		));
 
 		switch ($mode)
