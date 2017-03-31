@@ -19,8 +19,8 @@ function showEntry(e)
 	$('<div class="loading" id="lexiconEntry"><br><br><br></div>').insertAfter($lmdigloss);
 	$.get(source, {id: id}, function(txt) {
 		$('#lexiconEntry').html(txt).removeClass('loading');
-		$('#lexiconEntry').click(function() { $("#lexiconEntry").remove(); return false; } );
-		// $('#lexiconClose').click(function() { $("#lexiconEntry").remove(); return false; } );
+		// $('#lexiconEntry').click(function() { $("#lexiconEntry").remove(); return false; } );
+		$('#lexiconClose').click(function() { $("#lexiconEntry").remove(); return false; } );
 		// addToCache(id, entry, txt.length);
 	});
 	// }
