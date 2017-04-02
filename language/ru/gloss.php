@@ -23,7 +23,7 @@ $lang = array_merge($lang, array(
 	'TGLOSSAIRE'	=> 'Глоссарий',
 
 	'GLOSS_ELINK'	=> 'Внешняя ссылка: ',
-	
+
 // Installation
 	'ROLE_GLOSS_ADMIN'	=> 'Администраторы Глоссария',
 	'ROLE_GLOSS_EDITOR'  => 'Редакторы Глоссария',

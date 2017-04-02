@@ -98,7 +98,6 @@ class listener implements EventSubscriberInterface
 		'core.page_header'				=> 'build_url',
 		'core.permissions'				=> 'add_permissions',
 		'core.viewtopic_post_rowset_data'	=> 'glossary_insertion',
-		// 'core.modify_text_for_display_after'	=> 'glossary_insertion_32x',
 		'core.text_formatter_s9e_render_before' => 's9e_before',
 		'core.text_formatter_s9e_render_after' => 's9e_after',
 		);
