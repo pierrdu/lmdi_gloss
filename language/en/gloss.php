@@ -20,14 +20,7 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'LGLOSSAIRE'	=> 'Glossary',
 	'TGLOSSAIRE'	=> 'Extension setting',
-// UCP
-/*
-	'UCP_GLOSS_TITLE'	=> 'Glossary',
-	'UCP_GLOSS'		=> 'Main page',
-	'UCP_CONFIG_SAVED'	=> 'User configuration updated successfully<br /><br />%sClick here to return to the previous page.%s',
-	'UCP_ENABLE'		=> 'Enable the glossary feature',
-	'UCP_ENABLE_EXPLAIN' => 'The glossary displays an explanation and optionally a picture when you click on technical terms in the posts.',
-*/
+
 
 // Installation
 	'ROLE_GLOSS_ADMIN'	=> 'Glossary Administrators',
@@ -38,6 +31,8 @@ $lang = array_merge($lang, array(
 	'GROUP_DESCRIPTION_GLOSS_ADMIN'	=> 'Group of the glossary administrators',
 	'GROUP_GLOSS_EDITOR'			=> 'Glossary Editors',
 	'GROUP_DESCRIPTION_GLOSS_EDITOR'	=> 'Group of the glossary editors',
+
+	'GLOSS_ELINK'				=> 'External link: ',
 
 // ACP
 	'ACP_GLOSS_TITLE'	=> 'Glossary',

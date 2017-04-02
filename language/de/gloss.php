@@ -21,14 +21,8 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'LGLOSSAIRE'	=> 'Glossar',
 	'TGLOSSAIRE'	=> 'Glossar',
-// UCP
-/*
-	'UCP_GLOSS_TITLE'	=> 'Glossar',
-	'UCP_GLOSS'		=> 'Hauptseite',
-	'UCP_CONFIG_SAVED'	=> 'Benutzer-Konfiguration erfolgreich aktualisiert<br /><br />%sHier klicken um zur vorherigen Seite zurückzukehren.%s',
-	'UCP_ENABLE'		=> 'Glossar aktivieren',
-	'UCP_ENABLE_EXPLAIN' => 'Das Glossar zeigt eine Erklärung und Optional ein Bild beim Klick auf technische Begriffe in Beiträgen',
-*/
+
+	'GLOSS_ELINK'				=> 'Externer Link: ',
 
 // Installation
 	'ROLE_GLOSS_ADMIN'	=> 'Glossar-Administratoren',

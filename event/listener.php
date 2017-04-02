@@ -188,82 +188,34 @@ class listener implements EventSubscriberInterface
 		}
 	}
 
-	/**
-	* Use this event to modify the text after it is parsed
-	*
-	* @event core.modify_text_for_display_after
-	* @var string	text		The text to parse
-	* @var string	uid		The BBCode UID
-	* @var string	bitfield	The BBCode Bitfield
-	* @var int	flags	The BBCode Flags
-	* @since 3.1.0-a1
-	* Line 532 & ss. of includes/functions_content.php
-	*/
-	public function glossary_insertion_32x($event)
-	{
-		static $enabled_forums;
-		if (version_compare($this->config['version'], '3.2.x', '>='))
-		{
-			if ($this->config['lmdi_glossary_acp'])
-			{
-				if (empty($enabled_forums))
-				{
-					$enabled_forums = $this->cache->get('_gloss_forums');
-					if (empty($enabled_forums))
-					{
-						$this->rebuild_cache_forums();
-						$enabled_forums = $this->cache->get('_gloss_forums');
-					}
-				}
-				if (!empty($enabled_forums))
-				{
-					$forum_id = $this->request->variable('f', 0);
-					if (in_array($forum_id, $enabled_forums))
-					{
-						$text = $event['text'];
-						$flags = $event['flags'];
-						if ($flags == 2)
-						{
-							$text = $this->glossary_pass($text);
-							$event['text'] = $text;
-						}
-					}
-				}
-			}
-		}
-	}	// glossary_insertion_32x
-
 
 	public function glossary_insertion($event)
 	{
 		static $enabled_forums;
-		// if (version_compare($this->config['version'], '3.2.x', '<'))
-		// {
-			if ($this->config['lmdi_glossary_acp'])
+		if ($this->config['lmdi_glossary_acp'])
+		{
+			if (empty($enabled_forums))
 			{
+				$enabled_forums = $this->cache->get('_gloss_forums');
 				if (empty($enabled_forums))
 				{
+					$this->rebuild_cache_forums();
 					$enabled_forums = $this->cache->get('_gloss_forums');
-					if (empty($enabled_forums))
-					{
-						$this->rebuild_cache_forums();
-						$enabled_forums = $this->cache->get('_gloss_forums');
-					}
-				}
-				if (!empty($enabled_forums))
-				{
-					$rowset_data = $event['rowset_data'];
-					$forum_id = $rowset_data['forum_id'];
-					if (in_array($forum_id, $enabled_forums))
-					{
-						$post_text = $rowset_data['post_text'];
-						$post_text = $this->glossary_pass($post_text);
-						$rowset_data['post_text'] = $post_text;
-						$event['rowset_data'] = $rowset_data;
-					}
 				}
 			}
-		// }
+			if (!empty($enabled_forums))
+			{
+				$rowset_data = $event['rowset_data'];
+				$forum_id = $rowset_data['forum_id'];
+				if (in_array($forum_id, $enabled_forums))
+				{
+					$post_text = $rowset_data['post_text'];
+					$post_text = $this->glossary_pass($post_text);
+					$rowset_data['post_text'] = $post_text;
+					$event['rowset_data'] = $rowset_data;
+				}
+			}
+		}
 	}	// glossary_insertion
 
 

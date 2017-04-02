@@ -51,15 +51,16 @@ class lexicon
 			}
 			$elinks = $row['elinks'];
 			$label = $row['label'];
+			$str_elink = $this->user->lang['GLOSS_ELINK'];
 			if ($elinks != "")
 			{
 				if ($label == "")
 				{
-					$entry .= '<p><a href="'.$elinks.'">'.$elinks.'</a></p>';
+					$entry .= '<p id="elinks">' . $str_elink . '<a href="'.$elinks.'">'.$elinks.'</a></p>';
 				}
 				else
 				{
-					$entry .= '<p><a href="'.$elinks.'">'.$label.'</a></p>';
+					$entry .= '<p id="elinks">' . $str_elink . '<a href="'.$elinks.'">'.$label.'</a></p>';
 				}
 			}
 			$this->db->sql_freeresult($result);
