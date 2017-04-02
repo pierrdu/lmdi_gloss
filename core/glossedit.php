@@ -152,22 +152,22 @@ class glossedit
 				$str_terme = $this->user->lang['GLOSS_TERM'] . $str_colon;
 				$str_varex = $this->user->lang['GLOSS_VARIANTS_EX'];
 				$str_terex = $this->user->lang['GLOSS_TERM_EX'];
-				$str_desc  = $this->user->lang['GLOSS_DESC'] . $str_colon;
-				$str_pict  = $this->user->lang['GLOSS_ED_PICT'] . $str_colon;
+				$str_desc = $this->user->lang['GLOSS_DESC'] . $str_colon;
+				$str_pict = $this->user->lang['GLOSS_ED_PICT'] . $str_colon;
 				$str_pictex= $this->user->lang['GLOSS_ED_PIEXPL'];
 				$str_upload= $this->user->lang['GLOSS_ED_UPLOAD'];
-				$str_noup  = $this->user->lang['GLOSS_ED_NOUP'];
+				$str_noup = $this->user->lang['GLOSS_ED_NOUP'];
 				$str_reuse = $this->user->lang['GLOSS_ED_REUSE'] . $str_colon;
 				$str_existe= $this->user->lang['GLOSS_ED_EXISTE'] . $str_colon;
-				$str_cat   = $this->user->lang['GLOSS_ED_CAT'] . $str_colon;
+				$str_cat = $this->user->lang['GLOSS_ED_CAT'] . $str_colon;
 				$str_catex = $this->user->lang['GLOSS_ED_CATEX'];
 				$str_ilinks= $this->user->lang['GLOSS_ED_ILINKS'] . $str_colon;
-				$str_ilex  = $this->user->lang['GLOSS_ED_ILEXP'];
+				$str_ilex = $this->user->lang['GLOSS_ED_ILEXP'];
 				$str_elinks= $this->user->lang['GLOSS_ED_ELINKS'] . $str_colon;
-				$str_elex  = $this->user->lang['GLOSS_ED_ELEXP'];
+				$str_elex = $this->user->lang['GLOSS_ED_ELEXP'];
 				$str_label = $this->user->lang['GLOSS_ED_LABEL'] . $str_colon;
 				$str_labex = $this->user->lang['GLOSS_ED_LABEX'];
-				$str_lang  = $this->user->lang['GLOSS_LANG'] . $str_colon;
+				$str_lang = $this->user->lang['GLOSS_LANG'] . $str_colon;
 				$str_regis = $this->user->lang['GLOSS_REGIS'];
 				$str_suppr = $this->user->lang['GLOSS_SUPPR'];
 				$form  = "<form action=\"";
@@ -263,20 +263,20 @@ class glossedit
 				$abc_links = $form;
 				break;
 			case "save":
-				$term_id	= $this->db->sql_escape(trim($this->request->variable('term_id', 0)));
-				$term	= $this->db->sql_escape(trim($this->request->variable('term',"",true)));
-				$variants	= $this->db->sql_escape(trim($this->request->variable('vari',"",true)));
-				$descript	= $this->db->sql_escape(trim($this->request->variable('desc',"",true)));
+				$term_id = $this->db->sql_escape(trim($this->request->variable('term_id', 0)));
+				$term = $this->db->sql_escape(trim($this->request->variable('term',"",true)));
+				$variants = $this->db->sql_escape(trim($this->request->variable('vari',"",true)));
+				$descript = $this->db->sql_escape(trim($this->request->variable('desc',"",true)));
 				if (mb_strlen($descript) > 511)
 				{
 					$descript = mb_substr($descript, 0, 511);
 				}
-				$cat		= $this->db->sql_escape(trim($this->request->variable('cat',"",true)));
-				$ilinks	= $this->db->sql_escape(trim($this->request->variable('ilinks',"",true)));
-				$elinks	= $this->db->sql_escape(trim($this->request->variable('elinks',"",true)));
-				$label	= $this->db->sql_escape(trim($this->request->variable('label',"",true)));
-				$lang	= $this->db->sql_escape($this->request->variable('lang',"fr",true));
-				$coche	= $this->request->variable('upload', "", true);
+				$cat = $this->db->sql_escape(trim($this->request->variable('cat',"",true)));
+				$ilinks = $this->db->sql_escape(trim($this->request->variable('ilinks',"",true)));
+				$elinks = $this->db->sql_escape(trim($this->request->variable('elinks',"",true)));
+				$label = $this->db->sql_escape(trim($this->request->variable('label',"",true)));
+				$lang = $this->db->sql_escape($this->request->variable('lang',"fr",true));
+				$coche = $this->request->variable('upload', "", true);
 				$picture = $str_nopict;
 				switch ($coche)
 				{
@@ -327,38 +327,32 @@ class glossedit
 				}
 				else
 				{
-					$sql  = "UPDATE $table SET ";
-					$sql .= "term_id		= \"$term_id\", ";
-					$sql .= "variants		= \"$variants\", ";
-					$sql .= "term			= \"$term\", ";
-					$sql .= "description	= \"$descript\", ";
-					$sql .= "cat			= \"$cat\", ";
-					$sql .= "ilinks		= \"$ilinks\", ";
-					$sql .= "elinks		= \"$elinks\", ";
-					$sql .= "label			= \"$label\", ";
-					$sql .= "picture		= \"$picture\", ";
-					$sql .= "lang			= \"$lang\" ";
-					$sql .= "WHERE term_id   = \"$term_id\" ";
-					$sql .= "LIMIT 1";
-					$this->db->sql_query($sql);
+					$sql = "UPDATE $table SET ";
+					$sql .= "term_id = \"$term_id\", ";
+					$sql .= "variants = \"$variants\", ";
+					$sql .= "term = \"$term\", ";
+					$sql .= "description = \"$descript\", ";
+					$sql .= "cat = \"$cat\", ";
+					$sql .= "ilinks = \"$ilinks\", ";
+					$sql .= "elinks = \"$elinks\", ";
+					$sql .= "label = \"$label\", ";
+					$sql .= "picture = \"$picture\", ";
+					$sql .= "lang = \"$lang\" ";
+					$sql .= "WHERE term_id = \"$term_id\"";
+					$this->db->sql_query_limit($sql, 1);
 				}
 				// Purge the cache
 				$this->cache->destroy('_glossterms');
 				// Redirection
-				// /*
 				$params = "mode=glossedit&code=$term_id";
-				$url  = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
-				$url .= "#$term_id";	// Anchor target = term_id
+				$url = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
+				$url .= "#$term_id"; // Anchor target = term_id
 				redirect($url);
-				// */
 				break;
 			case "delete":
 				$term_id = $this->db->sql_escape($this->request->variable('term_id', 0));
-				$sql  = "DELETE ";
-				$sql .= "FROM $table ";
-				$sql .= "WHERE term_id = \"$term_id\" ";
-				$sql .= "LIMIT 1";
-				$this->db->sql_query($sql);
+				$sql  = "DELETE FROM $table WHERE term_id = \"$term_id\"";
+				$this->db->sql_query_limit($sql, 1);
 				// Purge the cache
 				$this->cache->destroy('_glossterms');
 				// Redirection
@@ -369,22 +363,20 @@ class glossedit
 				redirect($url);
 				break;
 			case "rien":
-				$sql  = "SELECT DISTINCT UPPER(LEFT(TRIM(term),1)) AS a ";
-				$sql .= "FROM $table ";
-				$sql .= " ORDER BY a" ;
+				$sql  = "SELECT DISTINCT UPPER(LEFT(TRIM(term),1)) AS a FROM $table ORDER BY a" ;
 				$result = $this->db->sql_query($sql);
 
 				$str_action = $this->user->lang['GLOSS_EDITION'];
-				$str_terme  = $this->user->lang['GLOSS_ED_TERM'];
-				$str_defin  = $this->user->lang['GLOSS_ED_DEF'];
-				$str_illus  = $this->user->lang['GLOSS_ED_PICT'];
-				$str_edit   = $this->user->lang['GLOSS_ED_ACT'];
+				$str_terme = $this->user->lang['GLOSS_ED_TERM'];
+				$str_defin = $this->user->lang['GLOSS_ED_DEF'];
+				$str_illus = $this->user->lang['GLOSS_ED_PICT'];
+				$str_edit = $this->user->lang['GLOSS_ED_ACT'];
 				$str_ilinks = $this->user->lang['GLOSS_ILINKS'];
 				$str_elinks = $this->user->lang['GLOSS_ELINKS'];
 
 				$abc_links = "<span id=\"haut\"></span>";
 
-				$corps  = "<table class=\"deg\"><tr class=\"deg\">";
+				$corps = "<table class=\"deg\"><tr class=\"deg\">";
 				$corps .= "<th class=\"deg0\">$str_terme</th>";
 				$corps .= "<th class=\"deg0\">$str_defin</th>";
 				$corps .= "<th class=\"deg1\">$str_illus</th>";
@@ -398,10 +390,7 @@ class glossedit
 					$l = $row['a'];
 					$abc_links .= "&nbsp;<a class=\"cap\" href =\"#$l\">$l</a>&nbsp;" ;
 
-					$sql  = "SELECT * ";
-					$sql .= "FROM $table ";
-					$sql .= "WHERE LEFT($table.term, 1) = \"$l\" ";
-					$sql .= "ORDER BY term";
+					$sql  = "SELECT * FROM $table WHERE LEFT($table.term, 1) = \"$l\" ORDER BY term";
 					$result2 = $this->db->sql_query($sql);
 
 					$cpt++;

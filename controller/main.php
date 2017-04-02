@@ -16,23 +16,11 @@ class main
 	protected $glosspict;
 	protected $glossclean;
 	protected $lexicon;
-	/** @var \phpbb\template\template */
 	protected $template;
-	/** @var \phpbb\user */
 	protected $user;
-	/** @var \phpbb\request\request */
 	protected $request;
-	/** @var \phpbb\controller\helper */
-	protected $helper;
-	/** @var string phpBB root path */
-	protected $phpbb_root_path;
-	/** @var string phpEx */
-	protected $phpEx;
 
-	/**
-	* Constructor
-	*
-	*/
+
 	public function __construct(
 		\lmdi\gloss\core\glossaire $glossaire,
 		\lmdi\gloss\core\glossedit $glossedit,
@@ -41,29 +29,21 @@ class main
 		\lmdi\gloss\core\lexicon $lexicon,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
-		\phpbb\request\request $request,
-		\phpbb\controller\helper $helper,
-		$phpbb_root_path,
-		$phpEx)
+		\phpbb\request\request $request)
 	{
-		$this->glossaire		 	= $glossaire;
-		$this->glossedit		 	= $glossedit;
-		$this->glosspict		 	= $glosspict;
-		$this->glossclean		 	= $glossclean;
-		$this->lexicon			 	= $lexicon;
-		$this->template 			= $template;
-		$this->user 				= $user;
-		$this->request 			= $request;
-		$this->helper 				= $helper;
-		$this->phpbb_root_path 		= $phpbb_root_path;
-		$this->phpEx 				= $phpEx;
+		$this->glossaire		= $glossaire;
+		$this->glossedit		= $glossedit;
+		$this->glosspict		= $glosspict;
+		$this->glossclean		= $glossclean;
+		$this->lexicon			= $lexicon;
+		$this->template		= $template;
+		$this->user			= $user;
+		$this->request			= $request;
 	}
+
+
 	public function handle_gloss()
 	{
-		include($this->phpbb_root_path . 'includes/functions_user.' . $this->phpEx);
-		include($this->phpbb_root_path . 'includes/functions_module.' . $this->phpEx);
-		include($this->phpbb_root_path . 'includes/functions_display.' . $this->phpEx);
-
 		// Exclude Bots
 		if ($this->user->data['is_bot'])
 		{
@@ -71,7 +51,7 @@ class main
 		}
 
 		// Variables
-		$mode   = $this->request->variable('mode', '');
+		$mode = $this->request->variable('mode', '');
 
 		// String loading
 		$this->user->add_lang_ext('lmdi/gloss', 'edit_gloss');

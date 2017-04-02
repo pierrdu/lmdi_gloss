@@ -120,7 +120,7 @@ class listener implements EventSubscriberInterface
 				$item = substr($xml, $pos1, $lg);
 				$pos3 = strpos($item, 'class="id');
 				$pos3 += 9;
-				$num = substr($item, $pos3, $pos3+6);
+				$num = substr($item, $pos3, $pos3 + 6);
 				$pos4 = strpos($num, '"');
 				$num = (int) substr($num, 0, $pos4);
 				if (!isset($this->gloss[$num]))
@@ -175,7 +175,7 @@ class listener implements EventSubscriberInterface
 					$pos3 = strpos($item, '(');
 					$pos4 = strpos($item, ')');
 					$lg = ($pos4) - ($pos3 + 1);
-					$num = substr($item, $pos3+1, $lg);
+					$num = substr($item, $pos3 + 1, $lg);
 					$tag = $this->gloss[$num];
 					$html = substr_replace($html, $tag, $pos1, strlen($item));
 				}
