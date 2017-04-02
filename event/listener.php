@@ -104,14 +104,14 @@ class listener implements EventSubscriberInterface
 	}
 
 
-	public function s9e_before ($event)
+	public function s9e_before($event)
 	{
 		$xml = $event['xml'];
 		// Texts tagged with <t> are dumped as is. Texts with <r> are so-called raw
 		// and are parsed. We have to protect ourselves against this parser.
 		if (substr($xml, 0, 3) === '<r>')
 		{
-			$this->tid = $this->request->variable ('t', 0);
+			$this->tid = $this->request->variable('t', 0);
 			unset($GLOBALS['$this->gloss']);
 			while ($pos1 = strpos($xml, '<lmdigloss'))
 			{
@@ -132,7 +132,7 @@ class listener implements EventSubscriberInterface
 					while (1)
 					{
 						$slot = $this->gloss[$num];
-						if (!strcmp ($slot, $item))
+						if (!strcmp($slot, $item))
 						{
 							break;
 						}
@@ -140,7 +140,7 @@ class listener implements EventSubscriberInterface
 						{
 							$num += 10000;
 						}
-						if (!isset ($this->gloss[$num]))
+						if (!isset($this->gloss[$num]))
 						{
 							break;
 						}
@@ -148,36 +148,36 @@ class listener implements EventSubscriberInterface
 					$this->gloss[$num] = $item;
 				}
 				$remp = "lmdigloss*($num)*lmdigloss";
-				$xml = substr_replace($xml, $remp, $pos1, strlen ($item));
+				$xml = substr_replace($xml, $remp, $pos1, strlen($item));
 			}
 		$event['xml'] = $xml;
 		}
 	}
 
 
-	public function s9e_after ($event)
+	public function s9e_after($event)
 	{
-		if ($this->tid == $this->request->variable ('t', 0))
+		if ($this->tid == $this->request->variable('t', 0))
 		{
 			$html = $event['html'];
 			while (1)
 			{
-				$pos1 = strpos ($html, 'lmdigloss*(');
+				$pos1 = strpos($html, 'lmdigloss*(');
 				if ($pos1 === false)
 				{
 					break;
 				}
 				else
 				{
-					$pos2 = strpos ($html, ')*lmdigloss');
+					$pos2 = strpos($html, ')*lmdigloss');
 					$lg = ($pos2 - $pos1) + 11;
-					$item = substr ($html, $pos1, $lg);
-					$pos3 = strpos ($item, '(');
-					$pos4 = strpos ($item, ')');
+					$item = substr($html, $pos1, $lg);
+					$pos3 = strpos($item, '(');
+					$pos4 = strpos($item, ')');
 					$lg = ($pos4) - ($pos3 + 1);
-					$num = substr ($item, $pos3+1, $lg);
+					$num = substr($item, $pos3+1, $lg);
 					$tag = $this->gloss[$num];
-					$html = substr_replace ($html, $tag, $pos1, strlen ($item));
+					$html = substr_replace($html, $tag, $pos1, strlen($item));
 				}
 			}
 			$event['html'] = $html;
