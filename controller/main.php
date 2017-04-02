@@ -16,10 +16,18 @@ class main
 	protected $glosspict;
 	protected $glossclean;
 	protected $lexicon;
+	/** @var \phpbb\template\template */
 	protected $template;
+	/** @var \phpbb\user */
 	protected $user;
+	/** @var \phpbb\request\request */
 	protected $request;
-
+	/** @var \phpbb\controller\helper */
+	protected $helper;
+	/** @var string phpBB root path */
+	protected $phpbb_root_path;
+	/** @var string phpEx */
+	protected $phpEx;
 
 	public function __construct(
 		\lmdi\gloss\core\glossaire $glossaire,
@@ -29,7 +37,10 @@ class main
 		\lmdi\gloss\core\lexicon $lexicon,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
-		\phpbb\request\request $request)
+		\phpbb\request\request $request,
+		\phpbb\controller\helper $helper,
+		$phpbb_root_path,
+		$phpEx)
 	{
 		$this->glossaire		= $glossaire;
 		$this->glossedit		= $glossedit;
@@ -39,6 +50,9 @@ class main
 		$this->template		= $template;
 		$this->user			= $user;
 		$this->request			= $request;
+		$this->helper			= $helper;
+		$this->phpbb_root_path	= $phpbb_root_path;
+		$this->phpEx 			= $phpEx;
 	}
 
 

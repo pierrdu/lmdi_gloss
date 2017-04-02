@@ -27,6 +27,9 @@ services:
             - '@template'
             - '@user'
             - '@request'
+            - '@controller.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
 
      lmdi.gloss.core.glossaire:
         class: lmdi\gloss\core\glossaire
