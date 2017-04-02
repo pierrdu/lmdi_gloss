@@ -26,27 +26,23 @@ class lexicon
 		\phpbb\request\request $request,
 		$glossary_table)
 	{
-		$this->user 			= $user;
-		$this->db 			= $db;
-		$this->request 		= $request;
-		$this->glossary_table 	= $glossary_table;
+		$this->user			= $user;
+		$this->db				= $db;
+		$this->request			= $request;
+		$this->glossary_table	= $glossary_table;
 	}
 
 	public function main()
 	{
-		// String loading
 		$this->user->add_lang_ext('lmdi/gloss', 'edit_gloss');
-
+		// id = keyword id
 		$id = $this->request->variable('id', 0);
 		if ($id)
 		{
-			// Extract glossary entry
-			$sql = "SELECT * FROM " . $this->glossary_table .
-				" WHERE term_id = '$id'";
+			$sql = "SELECT * FROM " . $this->glossary_table . " WHERE term_id = '$id'";
 			$result = $this->db->sql_query_limit($sql, 1);
 			$row = $this->db->sql_fetchrow($result);
-			$entry = '<h3><a title="'. $this->user->lang['CLOSE_WINDOW']. '" id="lexiconClose" href="#">x</a></h3>
-				<h3>'.$row['term'].'</h3>'.
+			$entry = '<h3><a title="'. $this->user->lang['CLOSE_WINDOW']. '" id="lexiconClose" href="#">x</a></h3><h3>'.$row['term'].'</h3>'.
 				'<p><b>('. $row['cat']. ')<br>' . $row['description'].'</b></p>';
 			$picture = $row['picture'];
 			if ($picture != "nopict.jpg")

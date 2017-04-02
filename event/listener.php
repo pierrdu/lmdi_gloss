@@ -27,6 +27,8 @@ class listener implements EventSubscriberInterface
 	protected $helper;
 	protected $request;
 	protected $glossary_table;
+	protected $tid;
+	protected $gloss;
 
 	public function __construct(
 		\phpbb\db\driver\driver_interface $db,
@@ -96,10 +98,95 @@ class listener implements EventSubscriberInterface
 		'core.page_header'				=> 'build_url',
 		'core.permissions'				=> 'add_permissions',
 		'core.viewtopic_post_rowset_data'	=> 'glossary_insertion',
-		'core.modify_text_for_display_after'	=> 'glossary_insertion_32x',
+		// 'core.modify_text_for_display_after'	=> 'glossary_insertion_32x',
+		'core.text_formatter_s9e_render_before' => 's9e_before',
+		'core.text_formatter_s9e_render_after' => 's9e_after',
 		);
 	}
 
+
+	public function s9e_before ($event)
+	{
+		$xml = $event['xml'];
+		// Texts tagged with <t> are dumped as is. Texts with <r> are so-called raw
+		// and are parsed. We have to protect ourselves against this parser.
+		if (substr($xml, 0, 3) === '<r>')
+		{
+			// var_dump ($xml);
+			$this->tid = $this->request->variable ('t', 0);
+			unset($GLOBALS['$this->gloss']);
+			while ($pos1 = strpos($xml, '<lmdigloss'))
+			{
+				$pos2 = strpos($xml, '</lmdigloss>');
+				$lg = ($pos2 - $pos1) + 12;
+				$item = substr($xml, $pos1, $lg);
+				$pos3 = strpos($item, 'class="id');
+				$pos3 += 9;
+				$num = substr($item, $pos3, $pos3+6);
+				$pos4 = strpos($num, '"');
+				$num = (int) substr($num, 0, $pos4);
+				if (!isset($this->gloss[$num]))
+				{
+					$this->gloss[$num] = $item;
+				}
+				else
+				{
+					while (1)
+					{
+						$slot = $this->gloss[$num];
+						if (!strcmp ($slot, $item))
+						{
+							break;
+						}
+						else
+						{
+							$num += 10000;
+						}
+						if (!isset ($this->gloss[$num]))
+						{
+							break;
+						}
+					}
+					$this->gloss[$num] = $item;
+				}
+				$remp = "lmdigloss*($num)*lmdigloss";
+				$xml = substr_replace($xml, $remp, $pos1, strlen ($item));
+			}
+		// var_dump ($this->gloss);
+		$event['xml'] = $xml;
+		}
+	}
+
+
+	public function s9e_after ($event)
+	{
+		if ($this->tid == $this->request->variable ('t', 0))
+		{
+			$html = $event['html'];
+			// var_dump ($html);
+			while (1)
+			{
+				$pos1 = strpos ($html, 'lmdigloss*(');
+				if ($pos1 === false)
+				{
+					break;
+				}
+				else
+				{
+					$pos2 = strpos ($html, ')*lmdigloss');
+					$lg = ($pos2 - $pos1) + 11;
+					$item = substr ($html, $pos1, $lg);
+					$pos3 = strpos ($item, '(');
+					$pos4 = strpos ($item, ')');
+					$lg = ($pos4) - ($pos3 + 1);
+					$num = substr ($item, $pos3+1, $lg);
+					$tag = $this->gloss[$num];
+					$html = substr_replace ($html, $tag, $pos1, strlen ($item));
+				}
+			}
+			$event['html'] = $html;
+		}
+	}
 
 	/**
 	* Use this event to modify the text after it is parsed
@@ -150,8 +237,8 @@ class listener implements EventSubscriberInterface
 	public function glossary_insertion($event)
 	{
 		static $enabled_forums;
-		if (version_compare($this->config['version'], '3.2.x', '<'))
-		{
+		// if (version_compare($this->config['version'], '3.2.x', '<'))
+		// {
 			if ($this->config['lmdi_glossary_acp'])
 			{
 				if (empty($enabled_forums))
@@ -176,7 +263,7 @@ class listener implements EventSubscriberInterface
 					}
 				}
 			}
-		}
+		// }
 	}	// glossary_insertion
 
 
@@ -304,22 +391,22 @@ class listener implements EventSubscriberInterface
 			$sql .= "ORDER BY LENGTH(TRIM(variants)) DESC";
 			$result = $this->db->sql_query($sql);
 			$glossterms = array();
-			$title = $this->config['lmdi_glossary_title'];
 			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$variants = explode(",", $row['variants']);
 				$term_id  = $row['term_id'];
-				if ($title)
+				if ($this->config['lmdi_glossary_title'])
 				{
 					$desc = trim($row['description']);
 					if (mb_strlen($desc) > 500)
 					{
 						$desc = mb_substr($desc, 0, 500);
 					}
+					$str_title = " title=\"$desc\"";
 				}
 				else
 				{
-					$desc = '';
+					$str_title = '';
 				}
 				$cnt = count($variants);
 				$done = array();
@@ -336,7 +423,7 @@ class listener implements EventSubscriberInterface
 					if (!in_array($variant, $done))
 					{
 						$done[] = $variant;
-						$remp  = "<lmdigloss class=\"id{$term_id}\" title=\"$desc\">$1</lmdigloss>";
+						$remp  = "<lmdigloss class=\"id{$term_id}\"$str_title>$1</lmdigloss>";
 						$begin = '/\b(';
 						$end = ')\b/ui'; // PCRE - u = UTF-8 - i = case insensitive
 						$rech = $begin . $variant . $end;
