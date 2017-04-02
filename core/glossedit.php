@@ -410,7 +410,6 @@ class glossedit
 					while ($arow = $this->db->sql_fetchrow($result2))
 					{
 						$code  = $arow['term_id'];
-						// $vari  = $arow['variants'];
 						$term  = $arow['term'];
 						$desc  = $arow['description'];
 						$cat   = $arow['cat'];
@@ -501,7 +500,7 @@ class glossedit
 	}
 
 	// Uploading function for phpBB 3.1.x
-	function upload_31x(&$errors)
+	private function upload_31x(&$errors)
 	{
 		include_once($this->phpbb_root_path . 'includes/functions_upload.' . $this->phpEx);
 		// Set upload directory
@@ -522,16 +521,7 @@ class glossedit
 			return (false);
 		}
 		$file->move_file($upload_dir, true);
-		if ($file->filesize > $weight)
-		{
-			if (sizeof($file->error))
-			{
-				$errors = array_merge($errors, $file->error);
-				$file->remove();
-				return (false);
-			}
-		}
-		if ($file->width > $pixels || $file->height > $pixels)
+		if ($file->filesize > $weight || $file->width > $pixels || $file->height > $pixels)
 		{
 			if (sizeof($file->error))
 			{
@@ -546,7 +536,7 @@ class glossedit
 	}
 
 	// Uploading function for phpBB 3.2.x
-	function upload_32x(&$errors)
+	private function upload_32x(&$errors)
 	{
 		// Set upload directory
 		$upload_dir = $this->ext_path . 'glossaire';

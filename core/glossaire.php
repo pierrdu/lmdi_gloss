@@ -109,7 +109,6 @@ class glossaire
 			while ($arow = $this->db->sql_fetchrow($result2))
 			{
 				$code   = $arow['term_id'];
-				$vari   = $arow['variants'];
 				$term   = $arow['term'];
 				$desc   = $arow['description'];
 				$cat    = $arow['cat'];

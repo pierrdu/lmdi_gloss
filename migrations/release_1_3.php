@@ -17,7 +17,7 @@ class release_1_3 extends \phpbb\db\migration\migration
 		return ($this->config['lmdi_glossary_version'] == 1324);
 	}
 
-	static public function depends_on()
+	public static function depends_on()
 	{
 		return array('\lmdi\gloss\migrations\release_1_2');
 	}

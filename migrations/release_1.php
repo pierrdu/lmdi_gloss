@@ -18,7 +18,7 @@ class release_1 extends \phpbb\db\migration\migration
 	}
 
 
-	static public function depends_on()
+	public static function depends_on()
 	{
 		return array('\phpbb\db\migration\data\v310\alpha2');
 	}
@@ -74,27 +74,6 @@ class release_1 extends \phpbb\db\migration\migration
 					'modes'			=> array('settings'),
 				),
 			)),
-
-			/*
-			// UCP modules
-			array('module.add', array(
-				'ucp',
-				'0',
-				'UCP_GLOSS_TITLE',
-			)),
-			array('module.add', array(
-				'ucp',
-				'UCP_GLOSS_TITLE',
-				array(
-					'module_basename'	=> '\lmdi\gloss\ucp\ucp_gloss_module',
-					'module_mode'		=> array('settings'),
-					'module_auth'		=> 'ext_lmdi/gloss',
-					'module_display'	=> 0,
-					'module_enabled'	=> 0,
-					'module_class'		=> 'ucp',
-				),
-			)),
-			*/
 
 			// Configuration rows
 			array('config.add', array('lmdi_glossary', 1)),
@@ -203,22 +182,6 @@ class release_1 extends \phpbb\db\migration\migration
 	{
 		global $table_prefix;
 		$table = $table_prefix . 'glossary';
-		/*
-		$nbrows = $this->get_nbrows($table);
-		if ($nbrows > 5)
-		{
-			$this->rename_table ($table);
-			return array(
-				'drop_columns' => array(
-					$table_prefix . 'users' => array(
-						'lmdi_gloss',
-					),
-				),
-			);
-		}
-		else
-		{
-		*/
 			return array(
 				'drop_columns'	=> array(
 					$table_prefix . 'users' => array(
@@ -229,7 +192,6 @@ class release_1 extends \phpbb\db\migration\migration
 					$table,
 				)
 			);
-		// }
 	}
 
 

@@ -91,7 +91,7 @@ class listener implements EventSubscriberInterface
 	}
 
 
-	static public function getSubscribedEvents()
+	public static function getSubscribedEvents()
 	{
 	return array(
 		'core.user_setup'				=> 'load_language_on_setup',
@@ -111,7 +111,6 @@ class listener implements EventSubscriberInterface
 		// and are parsed. We have to protect ourselves against this parser.
 		if (substr($xml, 0, 3) === '<r>')
 		{
-			// var_dump ($xml);
 			$this->tid = $this->request->variable ('t', 0);
 			unset($GLOBALS['$this->gloss']);
 			while ($pos1 = strpos($xml, '<lmdigloss'))
@@ -151,7 +150,6 @@ class listener implements EventSubscriberInterface
 				$remp = "lmdigloss*($num)*lmdigloss";
 				$xml = substr_replace($xml, $remp, $pos1, strlen ($item));
 			}
-		// var_dump ($this->gloss);
 		$event['xml'] = $xml;
 		}
 	}
@@ -162,7 +160,6 @@ class listener implements EventSubscriberInterface
 		if ($this->tid == $this->request->variable ('t', 0))
 		{
 			$html = $event['html'];
-			// var_dump ($html);
 			while (1)
 			{
 				$pos1 = strpos ($html, 'lmdigloss*(');
@@ -391,6 +388,7 @@ class listener implements EventSubscriberInterface
 
 	private function rebuild_cache_forums()
 	{
+		$forum_list = array();
 		$sql = 'SELECT * 
 				FROM ' . FORUMS_TABLE . '
 				WHERE lmdi_glossary = 1';

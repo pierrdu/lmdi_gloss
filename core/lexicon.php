@@ -65,6 +65,10 @@ class lexicon
 			}
 			$this->db->sql_freeresult($result);
 		}
+		else
+		{
+			$entry = "Error";
+		}
 		$json_response = new \phpbb\json_response;
 		$json_response->send($entry, true);
 	}

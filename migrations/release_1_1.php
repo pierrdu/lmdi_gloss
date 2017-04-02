@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - LMDI Glossary extension
-* @copyright (c) 2015-2017 Pierre Duhem - LMDI
+* @copyright (c) 2015-2016 Pierre Duhem - LMDI
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -17,7 +17,7 @@ class release_1_1 extends \phpbb\db\migration\migration
 		return isset($this->config['lmdi_glossary_tooltip']);
 	}
 
-	static public function depends_on()
+	public static function depends_on()
 	{
 		return array('\lmdi\gloss\migrations\release_1');
 	}

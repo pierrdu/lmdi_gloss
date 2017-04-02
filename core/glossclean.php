@@ -68,11 +68,6 @@ class glossclean
 
 	public function main()
 	{
-		$abc_links = "";
-		$illustration = "";
-		$corps = "";
-		$biblio = "";
-
 		$prefix = $this->table_prefix;
 
 		$mig = $this->db->sql_escape("\lmdi\gloss\migrations\release_1");
@@ -94,17 +89,6 @@ class glossclean
 		$corps .= "Request 7 = $sql7<br>\n";
 		$corps .= "</p>";
 
-		/*
-		$this->db->sql_query($sql1);
-		$this->db->sql_query($sql2);
-		$this->db->sql_query($sql3);
-		$this->db->sql_query($sql4);
-		$this->db->sql_query($sql5);
-		$this->db->sql_query($sql6);
-		$this->db->sql_query($sql7);
-		$this->cache->purge();
-		*/
-
 		$titre = $this->user->lang['TGLOSSAIRE'];
 		page_header($titre);
 
@@ -120,11 +104,11 @@ class glossclean
 			));
 
 		$this->template->assign_vars(array(
-			'TITRE'			=> $titre,
-			'ABC'			=> $abc_links,
-			'ILLUST'		=> $illustration,
-			'CORPS'			=> $corps,
-			'BIBLIO'		=> $biblio,
+			'TITRE'		=> $titre,
+			'ABC'		=> "",
+			'ILLUST'		=> "",
+			'CORPS'		=> $corps,
+			'BIBLIO'		=> "",
 			));
 
 		make_jumpbox(append_sid($this->phpbb_root_path . 'viewforum.' . $this->phpEx));
