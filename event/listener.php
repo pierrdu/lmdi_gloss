@@ -77,7 +77,7 @@ class listener implements EventSubscriberInterface
 			'U_GLOSSAIRE'	=> $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossaire')),
 			'L_GLOSSAIRE'	=> $this->user->lang['LGLOSSAIRE'],
 			'T_GLOSSAIRE'	=> $this->user->lang['TGLOSSAIRE'],
-			'S_320'	=> $gloss_320,
+			'S_320'		=> $gloss_320,
 		));
 	}
 
@@ -93,14 +93,15 @@ class listener implements EventSubscriberInterface
 
 	public static function getSubscribedEvents()
 	{
-	return array(
-		'core.user_setup'				=> 'load_language_on_setup',
-		'core.page_header'				=> 'build_url',
-		'core.permissions'				=> 'add_permissions',
-		'core.viewtopic_post_rowset_data'	=> 'glossary_insertion',
-		'core.text_formatter_s9e_render_before' => 's9e_before',
-		'core.text_formatter_s9e_render_after' => 's9e_after',
-		);
+		return array(
+			'core.user_setup'				=> 'load_language_on_setup',
+			'core.page_header'				=> 'build_url',
+			'core.permissions'				=> 'add_permissions',
+			'core.viewtopic_post_rowset_data'	=> 'glossary_insertion',
+			// For version 3.2.x
+			'core.text_formatter_s9e_render_before' => 's9e_before',
+			'core.text_formatter_s9e_render_after' => 's9e_after',
+			);
 	}
 
 

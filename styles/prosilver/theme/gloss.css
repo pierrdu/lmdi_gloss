@@ -3,7 +3,6 @@ Style elements for the Glossary Extension - Prosilver version
 */
 
 lmdigloss {
-	/* border-bottom: none ; */
 	text-decoration: none;
 	cursor: help;
 	color:#865931;
@@ -26,7 +25,6 @@ lmdigloss {
 #lexiconEntry h3{
 	font-size:1.5em;
 	color:#071491;
-	/* background:transparent; */
 	display:inline;
 	}
 

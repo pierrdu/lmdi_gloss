@@ -16,8 +16,8 @@ class gloss_module {
 
 	public function main($id, $mode)
 	{
-		global $db, $user, $template, $cache, $request;
-		global $config, $table_prefix, $phpbb_container;
+		global $db, $user, $template, $cache, $request, $config, $table_prefix, $phpbb_container;
+		$form_valid = 'acp_gloss_body';
 
 		$this->gloss_helper = $phpbb_container->get('lmdi.gloss.core.helper');
 
@@ -29,23 +29,27 @@ class gloss_module {
 
 		if ($action == 'config')
 		{
-			if (!check_form_key('acp_gloss_body'))
+			if (!check_form_key($form_valid))
 			{
 				trigger_error('FORM_INVALID');
 			}
 			else
 			{
-				// Update configuration
-				$acp = (int) $request->variable('lmdi_gloss_acp', 0);
-				$config->set('lmdi_glossary_acp', $acp);
-
-				// Update the lmdi_gloss column in table users
-				$sql = "UPDATE " . USERS_TABLE . " SET lmdi_gloss = $acp ";
-				$db->sql_query($sql);
+				// General validation of the extension
+				$acp = (int) $request->variable('lmdi_glossary_acp', 0);
+				var_dump ($acp);
+				if ($acp != $config['lmdi_glossary_acp'])
+				{
+					$config->set('lmdi_glossary_acp', $acp);
+					// Update the lmdi_gloss column in table users
+					$sql = "UPDATE " . USERS_TABLE . " SET lmdi_gloss = $acp ";
+					$db->sql_query($sql);
+				}
 
 				// Tooltip validation
-				$title = $request->variable('lmdi_gloss_title', 0);
-				if ($title != $config['lmdi_gloss_title'])
+				$title = (int) $request->variable('lmdi_glossary_title', 0);
+				var_dump ($title);
+				if ($title != $config['lmdi_glossary_title'])
 				{
 					$config->set('lmdi_glossary_title', $title);
 					$cache->destroy('_glossterms');
@@ -142,7 +146,7 @@ class gloss_module {
 			}
 		}
 
-		$form_key = 'acp_gloss_body';
+		$form_key = $form_valid;
 		add_form_key($form_key);
 		$select = $this->gloss_helper->build_lang_select();
 		$pixels = $config['lmdi_glossary_pixels'];
