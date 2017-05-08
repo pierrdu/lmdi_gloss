@@ -37,7 +37,6 @@ class gloss_module {
 			{
 				// General validation of the extension
 				$acp = (int) $request->variable('lmdi_glossary_acp', 0);
-				var_dump ($acp);
 				if ($acp != $config['lmdi_glossary_acp'])
 				{
 					$config->set('lmdi_glossary_acp', $acp);
@@ -48,7 +47,6 @@ class gloss_module {
 
 				// Tooltip validation
 				$title = (int) $request->variable('lmdi_glossary_title', 0);
-				var_dump ($title);
 				if ($title != $config['lmdi_glossary_title'])
 				{
 					$config->set('lmdi_glossary_title', $title);
@@ -123,8 +121,7 @@ class gloss_module {
 
 				// Forum enabling/disabling
 				$enabled_forums = implode(',', $request->variable('mark_glossary_forum', array(0), true));
-				$sql = 'UPDATE ' . FORUMS_TABLE . '
-					SET lmdi_glossary = 0';
+				$sql = 'UPDATE ' . FORUMS_TABLE . ' SET lmdi_glossary = 0';
 				$db->sql_query($sql);
 				if (!empty($enabled_forums))
 				{
