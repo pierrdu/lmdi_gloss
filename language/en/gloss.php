@@ -53,7 +53,7 @@ $lang = array_merge($lang, array(
 	'GLOSS_WEIGHT_EXPLAIN'	=> 'Set here the maximum size (in kB) of the uploaded pictures.',
 	'TITLE_LENGTH'		=> 'Length of the tooltip text',
 	'TITLE_LENGTH_EXPLAIN'	=>'Set here the maximum length of the text displayed by the tooltip. The description text will be truncated if longer.',
-	'ACP_GLOSS_FORUMS'	=> 'Forum selection',
-	'ACP_GLOSS_ENABLED'	=> 'Enable glossary',
+	'ACP_GLOSSARY_FORUMS'	=> 'Forum selection',
+	'ACP_GLOSSARY_ENABLED'	=> 'Enable glossary',
 
 ));

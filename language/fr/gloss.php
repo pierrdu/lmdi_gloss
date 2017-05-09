@@ -30,14 +30,13 @@ $lang = array_merge($lang, array(
 	'GROUP_DESCRIPTION_GLOSS_ADMIN'	=> 'Groupe des administrateurs du glossaire',
 	'GROUP_GLOSS_EDITOR'			=> 'Éditeurs du glossaire',
 	'GROUP_DESCRIPTION_GLOSS_EDITOR'	=> 'Groupe des éditeurs du glossaire',
-
 	'GLOSS_ELINK'				=> 'Lien externe&nbsp;: ',
 
 // ACP
 	'ACP_GLOSS_TITLE'	=> 'Glossaire',
 	'ACP_GLOSS'		=> 'Configuration de l’extension',
 	'ALLOW_FEATURE'	=> 'Validation de la fonction de glossaire',
-	'ALLOW_FEATURE_EXPLAIN'	=> 'Vous pouvez valider ou inhiber la fonction au niveau de l’ensemble du forum.',
+	'ALLOW_FEATURE_EXPLAIN'	=> 'Vous pouvez valider ou inhiber la fonction de glossaire pour l’ensemble du forum.',
 	'ALLOW_TITLE'		=> 'Validation des infobulles',
 	'ALLOW_TITLE_EXPLAIN'	=> 'Vous pouvez valider ou inhiber l’affichage d’une infobulle lorsque le curseur passe au-dessus du terme dans les messages du forum.',
 	'CREATE_UGROUP'		=> 'Création d’un groupe d’utilisateurs',
@@ -52,8 +51,8 @@ $lang = array_merge($lang, array(
 	'GLOSS_WEIGHT_EXPLAIN'	=> 'Indiquez ici le poids maximal de l’image téléchargée (en ko).',
 	'TITLE_LENGTH'		=> 'Longueur du texte de l’infobulle',
 	'TITLE_LENGTH_EXPLAIN'	=>'Indiquez ici le nombre de caractères auquel le texte de l’infobulle doit être tronqué si la description est trop longue.',
-	'ACP_GLOSS_FORUMS'	=> 'Sélection des forums',
-	'ACP_GLOSS_ENABLED'	=> 'Valider le glossaire',
+	'ACP_GLOSSARY_FORUMS'	=> 'Sélection des forums',
+	'ACP_GLOSSARY_ENABLED'	=> 'Valider le glossaire',
 
 
 ));

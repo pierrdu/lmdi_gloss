@@ -53,8 +53,8 @@ $lang = array_merge($lang, array(
 	'GLOSS_WEIGHT_EXPLAIN'	=> 'Stell hier die max. Dateigröße der Bilder in kB ein.',
 	'TITLE_LENGTH'		=> 'Länge des Textes im Tootip',
 	'TITLE_LENGTH_EXPLAIN'	=>'Stell hier die max. Länge des Textes im Tooltip. Wenn der Text der Begriffserklärung länger ist, wird er abgeschnitten.',
-	'ACP_GLOSS_FORUMS'	=> 'Forenauswahl',
-	'ACP_GLOSS_ENABLED'	=> 'Glossar aktivieren',
+	'ACP_GLOSSARY_FORUMS'	=> 'Forenauswahl',
+	'ACP_GLOSSARY_ENABLED'	=> 'Glossar aktivieren',
 
 
 ));

@@ -52,7 +52,7 @@ $lang = array_merge($lang, array(
 	'GLOSS_WEIGHT_EXPLAIN'			=> 'Укажите максимальный размер (в Кб) для загружаемых изображений.',
 	'TITLE_LENGTH'			 => 'Длина текста подсказки',
 	'TITLE_LENGTH_EXPLAIN'  => 'Укажите максимальную длину текста (количество знаков), отображаемого в всплывающей подсказке. Значение термина будет обрезано, если привысит кол-во знаков.',
-	'ACP_GLOSS_FORUMS'	=> 'Forum selection',
-	'ACP_GLOSS_ENABLED'	=> 'Enable glossary',
+	'ACP_GLOSSARY_FORUMS'	=> 'Forum selection',
+	'ACP_GLOSSARY_ENABLED'	=> 'Enable glossary',
 
 ));
