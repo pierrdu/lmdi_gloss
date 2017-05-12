@@ -105,18 +105,19 @@ class listener implements EventSubscriberInterface
 	}
 
 
-	public function s9e_before($event)
+public function s9e_before ($event)
 	{
 		$xml = $event['xml'];
 		// Texts tagged with <t> are dumped as is. Texts with <r> are so-called raw
 		// and are parsed. We have to protect ourselves against this parser.
-		if (substr($xml, 0, 3) === '<r>')
+		if ($this->config['lmdi_glossary_acp'] && substr($xml, 0, 3) === '<r>')
 		{
 			$this->tid = $this->request->variable('t', 0);
 			unset($GLOBALS['$this->gloss']);
-			while ($pos1 = strpos($xml, '<lmdigloss'))
+			$pos1 = strpos($xml, '<lmdigloss');
+			while ($pos1 !== false)
 			{
-				$pos2 = strpos($xml, '</lmdigloss>');
+				$pos2 = strpos($xml, '</lmdigloss>', 0);
 				$lg = ($pos2 - $pos1) + 12;
 				$item = substr($xml, $pos1, $lg);
 				$pos3 = strpos($item, 'class="id');
@@ -130,35 +131,38 @@ class listener implements EventSubscriberInterface
 				}
 				else
 				{
-					while (1)
+					$slot = $this->gloss[$num];
+					while ($slot !== $item)
 					{
-						$slot = $this->gloss[$num];
-						if (!strcmp($slot, $item))
-						{
-							break;
-						}
+						$num += 10000;
+						if (!isset($this->gloss[$num]))
+							{
+								$this->gloss[$num] = $item;
+								break;
+							}
 						else
 						{
-							$num += 10000;
-						}
-						if (!isset($this->gloss[$num]))
-						{
-							break;
+							$slot = $this->gloss[$num];
+							if ($slot === $item)
+							{
+								break;
+							}
 						}
 					}
-					$this->gloss[$num] = $item;
+					
 				}
 				$remp = "lmdigloss*($num)*lmdigloss";
-				$xml = substr_replace($xml, $remp, $pos1, strlen($item));
+				$xml = str_replace($item, $remp, $xml);
+				$pos1 = strpos($xml, '<lmdigloss', 0);
 			}
 		$event['xml'] = $xml;
 		}
-	}
+	} // s9e_before
 
 
 	public function s9e_after($event)
 	{
-		if ($this->tid == $this->request->variable('t', 0))
+		if ($this->tid && $this->tid == $this->request->variable('t', 0))
 		{
 			$html = $event['html'];
 			while (1)
@@ -178,12 +182,12 @@ class listener implements EventSubscriberInterface
 					$lg = ($pos4) - ($pos3 + 1);
 					$num = substr($item, $pos3 + 1, $lg);
 					$tag = $this->gloss[$num];
-					$html = substr_replace($html, $tag, $pos1, strlen($item));
+					$html = str_replace($item, $tag, $html);
 				}
 			}
 			$event['html'] = $html;
 		}
-	}
+	} // s9e_after
 
 
 	public function glossary_insertion($event)
@@ -237,15 +241,6 @@ class listener implements EventSubscriberInterface
 			}
 			foreach ($parts as $index => $part)
 			{
-				// Acronyms
-				if (strstr($part, '<acronym'))
-				{
-					$acro = true;
-				}
-				if (!empty($acro) && strstr($part, '</acronym'))
-				{
-					$acro = false;
-				}
 				// Code
 				if (strstr($part, '[code'))
 				{
@@ -264,7 +259,7 @@ class listener implements EventSubscriberInterface
 				{
 					$quote = false;
 				}
-				// Images - Pictures
+				// Pictures
 				if (strstr($part, '[img'))
 				{
 					$img = true;
@@ -273,7 +268,7 @@ class listener implements EventSubscriberInterface
 				{
 					$img = false;
 				}
-				// Liens <a> - <a> links
+				// <a> - <a> links
 				if (strstr($part, '<a '))
 				{
 					$link = true;
@@ -282,7 +277,7 @@ class listener implements EventSubscriberInterface
 				{
 					$link = false;
 				}
-				// Liens [url] - [url] links
+				// [url] - [url] links
 				if (strstr($part, '[url'))
 				{
 					$link = true;
@@ -301,7 +296,7 @@ class listener implements EventSubscriberInterface
 					$script = false;
 				}
 				if (!($part{0} == '<') && !($part{0} == '[') &&
-					empty($acro) && empty($code) && empty($quote) &&
+					empty($code) && empty($quote) &&
 					empty($img) && empty($link) && empty($script))
 				{
 					$part2 = preg_replace($rech, $remp, $part);
@@ -318,26 +313,18 @@ class listener implements EventSubscriberInterface
 	}
 	}	// glossary_pass
 
-
 	/*	Production of the term list and the replacement list, in an array named glossterms.
 		The replacement string follows this model:
 		<lmdigloss class='id302' title=''>$1</lmdigloss>
-		The title element can contain the first 50 characters of description (see ACP).
-		Production de la liste des termes et calcul d'une chaîne de remplacement.
-		Les éléments sont placés dans le tableau glossterms. Ce tableau contient pour
-		chaque rubrique un élément rech qui est la chaîne à rechercher et un
-		élément remp qui est la chaîne de remplacement :
-		<lmdigloss class='id302' title=''>$1</lmdigloss>
-		L'élément 'title' peut contenir les 50 premiers caractères de la chaîne de
-		description (voir le panneau d'administration).
+		The title element can contain the first 50 characters of description text (see ACP).
 		*/
 	private function compute_glossary_list()
 	{
 		$glossterms = $this->cache->get('_glossterms');
 		if ($glossterms === false)
 		{
-			$sql  = "SELECT * FROM $this->glossary_table ";
-			$sql .= "ORDER BY LENGTH(TRIM(variants)) DESC";
+			$sql  = "SELECT * FROM $this->glossary_table 
+				ORDER BY LENGTH(TRIM(variants)) DESC"; // To try longest variants first
 			$result = $this->db->sql_query($sql);
 			$glossterms = array();
 			while ($row = $this->db->sql_fetchrow($result))
@@ -362,7 +349,7 @@ class listener implements EventSubscriberInterface
 				for ($i = 0; $i < $cnt; $i++)
 				{
 					$variant = trim($variants[$i]);
-					// if user puts a comma at end of variants => empty string
+					// If the user puts a comma at end of variants => empty string
 					if (!strlen($variant))
 					{
 						continue;
@@ -373,6 +360,7 @@ class listener implements EventSubscriberInterface
 					{
 						$done[] = $variant;
 						$remp  = "<lmdigloss class=\"id{$term_id}\"$str_title>$1</lmdigloss>";
+						// $glossterms['rech'][] = $variant;
 						$begin = '/\b(';
 						$end = ')\b/ui'; // PCRE - u = UTF-8 - i = case insensitive
 						$rech = $begin . $variant . $end;

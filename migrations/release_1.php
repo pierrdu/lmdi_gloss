@@ -110,7 +110,7 @@ class release_1 extends \phpbb\db\migration\migration
 
 		return array(
 			array('config.remove', array('lmdi_glossary')),
-			array('config.remove', array('lmdi_glossary_ucp')),
+			array('config.remove', array('lmdi_glossary_acp')),
 			array('config.remove', array('lmdi_glossary_title')),
 			array('config.remove', array('lmdi_glossary_usergroup')),
 			array('config.remove', array('lmdi_glossary_admingroup')),
@@ -222,6 +222,5 @@ class release_1 extends \phpbb\db\migration\migration
 		}
 		$this->db->sql_query($sql);
 	}
-
 
 }

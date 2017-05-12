@@ -17,11 +17,9 @@ function showEntry(e)
 		$('#lexiconEntry').html(txt);
 		var n = txt.indexOf ('elinks');
 		if (n == -1) {
-			// alert ("Lien externe non trouvé");
 			$('#lexiconEntry').click(function() { $("#lexiconEntry").remove(); return false; } );
 		}
 		else {
-			// alert ("Lien externe trouvé");
 			$('#lexiconClose').click(function() { $("#lexiconEntry").remove(); return false; } );
 		}
 	});
