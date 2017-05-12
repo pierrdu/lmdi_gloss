@@ -105,7 +105,7 @@ class listener implements EventSubscriberInterface
 	}
 
 
-public function s9e_before ($event)
+	public function s9e_before ($event)
 	{
 		$xml = $event['xml'];
 		// Texts tagged with <t> are dumped as is. Texts with <r> are so-called raw
@@ -136,10 +136,10 @@ public function s9e_before ($event)
 					{
 						$num += 10000;
 						if (!isset($this->gloss[$num]))
-							{
-								$this->gloss[$num] = $item;
-								break;
-							}
+						{
+							$this->gloss[$num] = $item;
+							break;
+						}
 						else
 						{
 							$slot = $this->gloss[$num];
@@ -149,7 +149,6 @@ public function s9e_before ($event)
 							}
 						}
 					}
-					
 				}
 				$remp = "lmdigloss*($num)*lmdigloss";
 				$xml = str_replace($item, $remp, $xml);
