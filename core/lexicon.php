@@ -42,8 +42,16 @@ class lexicon
 			$sql = "SELECT * FROM " . $this->glossary_table . " WHERE term_id = '$id'";
 			$result = $this->db->sql_query_limit($sql, 1);
 			$row = $this->db->sql_fetchrow($result);
-			$entry = '<h3><a title="'. $this->user->lang['CLOSE_WINDOW']. '" id="lexiconClose" href="#">x</a></h3><h3>'.$row['term'].'</h3>'.
-				'<p><b>('. $row['cat']. ')<br>' . $row['description'].'</b></p>';
+			$entry = '<h3><a title="'. $this->user->lang['CLOSE_WINDOW']. '" id="lexiconClose" href="#">x</a></h3>';
+			$entry .= '<h3>' . $row['term'] . '</h3>';
+			if (strlen ($row['cat']))
+			{
+				$entry .= '<p><b>(' . $row['cat'] . ')<br>' . $row['description'] . '</b></p>';
+			}
+			else
+			{
+				$entry .= '<p><b>' . $row['description'] . '</b></p>';
+			}
 			$picture = $row['picture'];
 			if ($picture != "nopict.jpg")
 			{
