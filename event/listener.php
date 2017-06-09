@@ -161,7 +161,7 @@ class listener implements EventSubscriberInterface
 
 	public function s9e_after($event)
 	{
-		if ($this->tid && $this->tid == $this->request->variable('t', 0))
+		if ($this->tid == $this->request->variable('t', 0))
 		{
 			$html = $event['html'];
 			while (1)
