@@ -1,6 +1,6 @@
 <?php
 // helper.php
-// (c) 2015-2017 - LMDI - Pierre Duhem
+// (c) 2015-2018 - LMDI - Pierre Duhem
 // Helper class
 
 namespace lmdi\gloss\core;

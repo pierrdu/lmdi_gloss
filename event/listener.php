@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - LMDI Glossary extension
-* @copyright (c) 2015-2017 LMDI - Pierre Duhem
+* @copyright (c) 2015-2018 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -179,7 +179,7 @@ class listener implements EventSubscriberInterface
 					$pos3 = strpos($item, '(');
 					$pos4 = strpos($item, ')');
 					$lg = ($pos4) - ($pos3 + 1);
-					$num = substr($item, $pos3 + 1, $lg);
+					$num = (int) substr($item, $pos3 + 1, $lg);
 					$tag = $this->gloss[$num];
 					$html = str_replace($item, $tag, $html);
 				}
