@@ -6,33 +6,34 @@
 <h2>{TITLE}</h2>
 
 <div class="panel">
-<div class="inner">
-<div class="content">
-{ABC}
-{ILLUST}
-
+<span id=\"haut\"></span>
+	<div class="inner">
+		<div class="content">
+		<br>{ABC}
+		<br>{ED_EXPLAIN}
+&nbsp;<br>
 <table class="deg" cellspacing="1">
 	<thead>
-		<tr class="deg">
+		<tr>
 			<th class="deg0">{L_GLOSS_ED_TERM}</th>
 			<th class="deg0">{L_GLOSS_ED_DEF}</th>
 			<th class="deg1">{L_GLOSS_ED_PICT}</th>
+			<th class="deg1">{L_GLOSS_ED_ACT}</th>
 		</tr>
 	</thead>
 	<tbody>
-	<!-- BEGIN gaff -->
-		<tr class="deg">
-		<td class="deg0">{gaff.ANCHOR}<b>{gaff.TERM}</b></span><br>{gaff.CAT}</td>
-		<td class="deg0">{gaff.DEF}{gaff.ILINKS}{gaff.ELINKS}</td>
-		<td class="deg1">{gaff.PICT}</td>
+	<!-- BEGIN ged -->
+		<tr>
+		<td class="deg0">{ged.ANCHOR}<span id="{ged.ID}"><b>{ged.TERM}</b></span><br>{ged.CAT}<br>{ged.ID}</td>
+		<td class="deg0">{ged.DEF}{ged.ILINKS}{ged.ELINKS}</td>
+		<td class="deg1">{ged.PICT}</td>
 		</tr>
-	<!-- END gaff -->
+	<!-- END ged -->
 	</tbody>
 </table>
-
-{BIBLIO}
-
-</div></div></div>
+		</div>
+	</div>
+</div>
 
 <p id="back-top">
 	<a href="#top"><span></span><b>{BACKTOP}</b></a>

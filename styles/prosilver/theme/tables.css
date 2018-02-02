@@ -1,7 +1,7 @@
 /* table.css */
 /* Stylesheet for the glossary tables */
 /* Prosilver */
-/* (c) Pierre Duhem 2015-2016 */
+/* (c) Pierre Duhem 2015-2018 */
 
 table.deg {
 	border-collapse:collapse;
@@ -17,7 +17,7 @@ tr.deg, th.deg, td.deg {
 	color:#4e6fa6;
 	}
 
-/*	Table titles */   
+/*	Table titles */
 th.deg0 {
 	border:1px solid #4e6fa6;
 	text-align:left;
@@ -26,7 +26,7 @@ th.deg0 {
 	font-weight: bold;
 	font-size: 120%;
 	}
-/*  Centered */
+/* Centered */
 th.deg1 {
 	border:1px solid #4e6fa6;
 	text-align:center;
@@ -35,7 +35,7 @@ th.deg1 {
 	font-weight: bold;
 	font-size: 120%;
 	}
-/*  Right */
+/* Right */
 th.deg2 {
 	border:1px solid #4e6fa6;
 	text-align:right;
@@ -45,8 +45,8 @@ th.deg2 {
 	font-weight: bold;
 	font-size: 120%;
 	}
-	
-/*	Data cells */   
+
+/*	Data cells */
 /*  Text left */
 td.deg0 {
 	border:1px solid #4e6fa6;
@@ -55,7 +55,7 @@ td.deg0 {
 	color:#4e6fa6;
 	font-size: 120%;
 	}
-/*  Text centered */
+/* Text centered */
 td.deg1 {
 	border:1px solid #4e6fa6;
 	text-align:center;
@@ -63,7 +63,7 @@ td.deg1 {
 	color:#4e6fa6;
 	font-size: 120%;
 	}
-/*  Text right */
+/* Text right */
 td.deg2 {
 	border:1px solid #4e6fa6;
 	text-align:right;
@@ -91,7 +91,7 @@ td.deg2 {
 	font-size: 300%;
 	font-weight: bold;
 	}
-.cap  {
+.cap {
 	padding: 5px 5px 5px 5x;
 	color: #4e6fa6;
 	font-size: 200%;
@@ -100,4 +100,3 @@ td.deg2 {
 a.ilinks:link, a.ilinks:visited, a.ilinks:hover, a.ilinks:active {
 	color: #f86666;
 	}
-

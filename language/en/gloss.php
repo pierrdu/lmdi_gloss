@@ -31,7 +31,6 @@ $lang = array_merge($lang, array(
 	'GROUP_DESCRIPTION_GLOSS_ADMIN'	=> 'Group of the glossary administrators',
 	'GROUP_GLOSS_EDITOR'			=> 'Glossary Editors',
 	'GROUP_DESCRIPTION_GLOSS_EDITOR'	=> 'Group of the glossary editors',
-
 	'GLOSS_ELINK'				=> 'External link: ',
 
 // ACP
@@ -46,7 +45,7 @@ $lang = array_merge($lang, array(
 	'CREATE_AGROUP'		=> 'Creation of an administrator group',
 	'CREATE_AGROUP_EXPLAIN'	=> 'You may create a group to manage the glossary administrators. You may then add administrators to this group.',
 	'LANGUAGE'		=> 'Default language',
-	'LANGUAGE_EXPLAIN'	=> 'Language code (board language by default) which will be registered in the base for the glossary term if you don\'t specify another language in the edition form.',
+	'LANGUAGE_EXPLAIN'	=> 'Language code (board language by default) which will be registered in the base for the glossary term if you don’t specify another language in the edition form.',
 	'GLOSS_PIXELS'			=> 'Size of uploaded pictures in pixels',
 	'GLOSS_PIXELS_EXPLAIN'	=> 'Set here the size (in pixels) of the long side of the uploaded pictures.',
 	'GLOSS_WEIGHT'			=> 'Size in kB',

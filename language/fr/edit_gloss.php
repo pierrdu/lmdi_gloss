@@ -25,12 +25,7 @@ $lang = array_merge($lang, array(
 	'GLOSS_VIEW'		=> 'Afficheur du glossaire',
 	'GLOSS_ILINKS'		=> 'Voir aussi&nbsp;: ',
 	'GLOSS_ELINKS'		=> 'Lien externe&nbsp;: ',
-	'GLOSS_BIBLIO'		=> "<p>
-	<span><br><u>Bibliographie</u><br /><br /> 
-<u>Webographie</u><br /><br />
-<u>Illustrations</u><br /><br />
-<br /><br /> 
-</span></p>",
+	'GLOSS_BIBLIO'		=> "Garde place",
 // Glossary edition page
 	'GLOSS_EDIT'	=>'Édition d’une fiche du glossaire',
 	'GLOSS_CREAT'	=>'Création d’une fiche du glossaire',
@@ -55,7 +50,7 @@ $lang = array_merge($lang, array(
 	'GLOSS_ED_LABEX'	=> 'Chaîne d’identification du lien externe.',
 	'GLOSS_ED_PICT'	=> 'Illustration',
 	'GLOSS_ED_PIEXPL'	=> 'Nom du fichier (jpg, jpeg, gif ou png). Téléchargement dans le dossier ext/lmdi/gloss/glossaire.',
-	'GLOSS_ED_UPLOAD'	=> 'Téléchargement&nbsp;:',
+	'GLOSS_ED_UPLOAD'	=> 'Téléchargement',
 	'GLOSS_ED_NOUP'	=> 'Pas de fichier à télécharger',
 	'GLOSS_ED_REUSE'	=> 'Réutilisation du fichier',
 	'GLOSS_ED_EXISTE'	=> 'Fichier enregistré',
@@ -78,8 +73,6 @@ $lang = array_merge($lang, array(
 	'LMDI_GLOSS_UNABLE_GET_IMAGE_SIZE'	=> 'Impossible de déterminer les dimensions du fichier.',
 	'LMDI_GLOSS_WRONG_FILESIZE'		=> 'La taille du fichier doit être inférieure à %1d ko.',
 	'LMDI_GLOSS_WRONG_SIZE'			=> 'Le fichier téléchargé a une largeur de %5$s et une hauteur de %6$s.<br>Les images doivent faire au moins %1$s de large et %2$s de haut, mais au plus %3$s de large et %4$s de haut.',
-	'LMDI_CLICK_BACK'				=> 'Cliquez <a href="javascript:history.go(-1);"><b>ici</b></a> pour revenir au formulaire d’édition.',
-// Glossary cleaning page
-	'LMDI_GLOSS_CLEAN'				=> 'Le nettoyage s’est bien déroulé.',
-	'GLOSS_CLEAN'					=> 'Nettoyage des structures',
+	'LMDI_CLICK_BACK'				=> 'Utilisez le bouton Retour de votre navigateur pour revenir au formulaire d’édition.',
+	'LMDI_BACK_TOP'				=> 'Haut',
 ));

@@ -26,10 +26,9 @@ class release_1 extends \phpbb\db\migration\migration
 
 	public function update_schema()
 	{
-		global $table_prefix;
 		return array(
 			'add_tables'   => array(
-				$table_prefix . 'glossary'   => array(
+				$this->table_prefix . 'glossary'   => array(
 					'COLUMNS'   => array(
 						'term_id'		=> array('UINT', null, 'auto_increment'),
 						'variants'	=> array('VCHAR:80', ''),
@@ -47,7 +46,7 @@ class release_1 extends \phpbb\db\migration\migration
 				),
 			),
 			'add_columns'	=> array(
-				$table_prefix . 'users' => array(
+				$this->table_prefix . 'users' => array(
 					'lmdi_gloss' => array('BOOL', 1),
 				),
 			),
@@ -57,7 +56,6 @@ class release_1 extends \phpbb\db\migration\migration
 
 	public function update_data()
 	{
-		global $table_prefix;
 		return array(
 			// ACP modules
 			array('module.add', array(
@@ -105,43 +103,9 @@ class release_1 extends \phpbb\db\migration\migration
 	}
 
 
-	public function revert_data()
-	{
-
-		return array(
-			array('config.remove', array('lmdi_glossary')),
-			array('config.remove', array('lmdi_glossary_acp')),
-			array('config.remove', array('lmdi_glossary_title')),
-			array('config.remove', array('lmdi_glossary_usergroup')),
-			array('config.remove', array('lmdi_glossary_admingroup')),
-			array('config.remove', array('lmdi_glossary_pixels')),
-			array('config.remove', array('lmdi_glossary_weight')),
-
-			array('module.remove', array(
-				'acp',
-				'ACP_CAT_DOT_MODS',
-				'ACP_GLOSS_TITLE'
-			)),
-
-			// Unset permissions
-			array('permission.permission_unset', array('ROLE_GLOSS_ADMIN', 'a_lmdi_glossary')),
-			array('permission.permission_unset', array('ROLE_GLOSS_EDITOR', 'u_lmdi_glossary')),
-
-			// Role suppression
-			array('permission.role_remove', array('ROLE_GLOSS_ADMIN')),
-			array('permission.role_remove', array('ROLE_GLOSS_EDITOR')),
-
-			// Remove permissions
-			array('permission.remove', array('a_lmdi_glossary')),
-			array('permission.remove', array('u_lmdi_glossary')),
-		);
-	}
-
-
 	public function utf8_unicode_ci()
 	{
-		global $table_prefix;
-		$sql = "alter table ${table_prefix}glossary convert to character set utf8 collate utf8_unicode_ci";
+		$sql = "alter table ${this->table_prefix}glossary convert to character set utf8 collate utf8_unicode_ci";
 		$this->db->sql_query($sql);
 	}
 
@@ -180,8 +144,7 @@ class release_1 extends \phpbb\db\migration\migration
 
 	public function revert_schema()
 	{
-		global $table_prefix;
-		$table = $table_prefix . 'glossary';
+		$table = $this->table_prefix . 'glossary';
 			return array(
 				'drop_columns'	=> array(
 					$table_prefix . 'users' => array(
@@ -192,35 +155,6 @@ class release_1 extends \phpbb\db\migration\migration
 					$table,
 				)
 			);
-	}
-
-
-	public function get_nbrows($table)
-	{
-		$sql = "SELECT COUNT(*) as nb FROM $table WHERE 1";
-		$result = $this->db->sql_query($sql);
-		$row = $this->db->sql_fetchrow($result);
-		$nb = (int) $row['nb'];
-		return $nb;
-	}
-
-
-	public function rename_table($table)
-	{
-		switch ($this->db->get_sql_layer())
-		{
-			// SQL Server dbms support this syntax
-			case 'mssql':
-			case 'mssql_odbc':
-			case 'mssqlnative':
-				$sql = "EXEC sp_rename '$table', '{$table}_backup'";
-			break;
-			// All other dbms support this syntax
-			default:
-				$sql = "ALTER TABLE $table RENAME TO {$table}_backup";
-			break;
-		}
-		$this->db->sql_query($sql);
 	}
 
 }

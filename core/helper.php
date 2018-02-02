@@ -42,7 +42,7 @@ class helper
 		{
 			$term0 = trim($data[$i]);
 			$term1 = $this->db->sql_escape($term0);
-			$sql = "SELECT term_id from $table where term = '$term1'";
+			$sql = "SELECT term_id FROM $table WHERE term = '$term1'";
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow($result);
 			$code = $row['term_id'];
@@ -71,7 +71,8 @@ class helper
 	public function get_role_id($role_name)
 	{
 		$prefix = $this->table_prefix;
-		$sql = "SELECT role_id from {$prefix}acl_roles where role_name = '$role_name'";
+		$role_name = $this->db->sql_escape($role_name);
+		$sql = "SELECT role_id FROM {$prefix}acl_roles WHERE role_name = '$role_name'";
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$role_id = (int) $row['role_id'];
@@ -83,7 +84,8 @@ class helper
 	public function get_group_id($group_name)
 	{
 		$prefix = $this->table_prefix;
-		$sql = "SELECT group_id from {$prefix}groups where group_name = '$group_name'";
+		$group_name = $this->db->sql_escape($group_name);
+		$sql = "SELECT group_id FROM {$prefix}groups WHERE group_name = '$group_name'";
 		$result = $this->db->sql_query($sql);
 		$group_id = (int) $this->db->sql_fetchfield('group_id');
 		$this->db->sql_freeresult($result);
@@ -133,9 +135,8 @@ class helper
 		$prefix = $this->table_prefix;
 		$group_id = $this->get_group_id($group);
 		$role_id = $this->get_role_id($role);
-		$sql = "DELETE from {$prefix}acl_groups 
-			WHERE group_id = '$group_id' AND auth_role_id = '$role_id'";
-		// DELETE from phpbb3_acl_groups WHERE group_id = '4415' AND auth_role_id = '52'
+		$sql = "DELETE FROM {$prefix}acl_groups 
+			WHERE group_id = $group_id AND auth_role_id = $role_id";
 		$this->db->sql_query($sql);
 	}
 

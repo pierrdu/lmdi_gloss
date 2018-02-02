@@ -25,15 +25,7 @@ $lang = array_merge($lang, array(
 	'GLOSS_VIEW'		=> 'Glossary Viewer',
 	'GLOSS_ILINKS'		=> 'See also: ',
 	'GLOSS_ELINKS'		=> 'External link: ',
-	'GLOSS_BIBLIO'		=> "<p>
-		<span class=\"m\">
-		<u>Bibliography</u><br /> 
-		<br /><br /> 
-		<u>Webography</u><br /><br />
-		<br />
-		<u>Illustrations</u><br /><br />
-		<br /> 
-		</span></p>",
+	'GLOSS_BIBLIO'		=> "Place holder",
 // Glossary edition page
 	'GLOSS_EDIT'	=>'Glossary Item Edition',
 	'GLOSS_CREAT'	=>'Glossary Item Creation',
@@ -58,7 +50,7 @@ $lang = array_merge($lang, array(
 	'GLOSS_ED_LABEX'	=> 'String to identify the external link.',
 	'GLOSS_ED_PICT'	=> 'Picture',
 	'GLOSS_ED_PIEXPL'	=> 'Name of the picture file (jpg, jpeg, gif or png). Uploaded in the folder ext/lmdi/gloss/glossaire.',
-	'GLOSS_ED_UPLOAD'	=> 'Upload:',
+	'GLOSS_ED_UPLOAD'	=> 'Upload',
 	'GLOSS_ED_NOUP'	=> 'No file to upload',
 	'GLOSS_ED_REUSE'	=> 'File to be reused',
 	'GLOSS_ED_EXISTE'	=> 'Registered file',
@@ -81,8 +73,6 @@ $lang = array_merge($lang, array(
 	'LMDI_GLOSS_UNABLE_GET_IMAGE_SIZE'	=> 'It was not possible to determine the file dimensions',
 	'LMDI_GLOSS_WRONG_FILESIZE'		=> 'The file size must be below %1d kB.',
 	'LMDI_GLOSS_WRONG_SIZE'			=> 'The specified file is %5$s wide and %6$s high.<br>Glossar pictures must be at least %1$s wide and %2$s high, but no larger than %3$s wide and %4$s high.',
-	'LMDI_CLICK_BACK'				=> 'Click <a href="javascript:history.go(-1);"><b>here</b></a> to come back to the edition form.',
-// Glossary cleaning page
-	'LMDI_GLOSS_CLEAN'				=> 'Cleaning successfully done.',
-	'GLOSS_CLEAN'					=> 'Cleaning of data structures',
+	'LMDI_CLICK_BACK'				=> 'Use the back button of the browser to come back to the edition form.',
+	'LMDI_BACK_TOP'				=> 'Top',
 ));

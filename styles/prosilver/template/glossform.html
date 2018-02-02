@@ -1,0 +1,73 @@
+<!-- INCLUDE overall_header.html -->
+
+<h2>{TITLE}</h2>
+
+<form id="glossform" method="post" enctype="multipart/form-data" action="{R_ACTION}">
+<div class="panel"><div class="inner"><div class="content">
+<input type="hidden" name="term_id" id="term_id" value="{CODE}">
+<fieldset class="fields1">
+<dl>
+<dt><label for="vari">{VARIANTS}{L_COLON}</label><br /><span>{VAREX}</span></dt>
+<dd><input type="text" tabindex="1" name="vari" id="term" size="50" value="{VARI}" class="inputbox autowidth" /></dd>
+</dl>
+<dl>
+<dt><label for="term">{TERME}{L_COLON}</label><br /><span>{TEREX}</span></dt>
+<dd><input type="text" tabindex="2" name="term" id="term" size="25" value="{TERM}" class="inputbox autowidth" /></dd>
+</dl>
+<dl>
+<dt><label for="desc">{DESCR}{L_COLON}</label></dt>
+<dd><textarea tabindex="3" rows="2" cols="40" name="desc">{DESC}</textarea>
+</dd>
+</dl>
+<dl>
+<dt><label for="cat">{CATE}{L_COLON}</label><br /><span>{CATEX}</span></dt>
+<dd><input type="text" tabindex="4" name="cat" id="cat" size="25" value="{CAT}" class="inputbox autowidth" /></dd>
+</dl>
+<dl>
+<dt><label for="ilinks">{ILINKE}{L_COLON}</label><br /><span>{ILEX}</span></dt>
+<dd><input type="text" tabindex="5" name="ilinks" id="ilinks" size="60" value="{ILINKS}" class="inputbox autowidth" /></dd>
+</dl>
+<dl>
+<dt><label for="elinks">{ELINKE}{L_COLON}</label><br /><span>{ELEX}</span></dt>
+<dd><input type="text" tabindex="6" name="elinks" id="elinks" size="60" value="{ELINKS}" class="inputbox autowidth" /></dd>
+</dl>
+<dl>
+<dt><label for="label">{LABELE}{L_COLON}</label><br /><span>{LABEX}</span></dt>
+<dd><input type="text" tabindex="7" name="label" id="label" size="25" value="{LABEL}" class="inputbox autowidth" /></dd>
+</dl>
+<dl>
+<dt><label for="lang">{LANGE}{L_COLON}</label></dt>
+<dd><input type="text" tabindex="8" name="lang" id="lang" size="10" value="{LANG}" class="inputbox autowidth" /></dd>
+</dl>
+<!-- Radio button block -->
+<dl>
+<dt><label for="upload_file">{PICTE}{L_COLON}</label><br /><span>{PICTEX}</span></dt>
+<!-- IF S_EDIT -->
+	<!-- IF S_PICT -->
+	<dd><input type="radio" name="upload" value="noup" tabindex="9" checked>{NOUPLD}<br>
+	<!-- ELSE -->
+	<input type="radio" name="upload" value="existe" tabindex="10" checked>{EXISTE} {PICT}<br>
+	<input type="hidden" name="pict" id="pict" value="{PICT}">
+	<!-- ENDIF -->
+<!-- ELSE -->
+	<dd><input type="radio" name="upload" value="noup" tabindex="9" checked>{NOUPLD}<br>
+<!-- ENDIF -->
+<input type="radio" name="upload" value="nouv" tabindex="10">{UPLOAD}{L_COLON}
+&nbsp;&nbsp;&nbsp;<input type="file" name="upload_file" tabindex="11" id="upload_file" class="inputbox autowidth" /><br>
+<input type="radio" name="upload" value="reuse" tabindex="12" >{REUSE}{L_COLON}
+&nbsp;&nbsp;&nbsp;<input type="text" tabindex="13" name="reuse" class="inputbox autowidth" />
+</dd>
+</dl>
+<!-- End of radio button block -->
+<dl>
+<dt>&nbsp;</dt>
+<dd><input type="submit" name="save" id="save" tabindex="5" value="{REGIS}" class="button1" />&nbsp;&nbsp;
+<input type="submit" name="delete" id="delete" tabindex="6" value="{SUPPR}" class="button1" /></dd>
+</dl>
+</div>
+</div>
+</div>
+{S_FORM_TOKEN}
+</form>
+
+<!-- INCLUDE overall_footer.html -->

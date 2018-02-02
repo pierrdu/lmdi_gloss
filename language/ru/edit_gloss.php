@@ -26,15 +26,7 @@ $lang = array_merge($lang, array(
 	'GLOSS_VIEW'		=> 'Просмотр глоссария',
 	'GLOSS_ILINKS'		=> 'Смотрите также: ',
 	'GLOSS_ELINKS'		=> 'Внешние ссылки: ',
-	'GLOSS_BIBLIO'		=> "
-		<span class=\"m\">
-		<u>Библиография</u><br />
-		<br /><br />
-		<u>Ссылки</u><br /><br />
-		<br />
-		<u>Иллюстрации</u><br /><br />
-		<br />
-		</span>",
+	'GLOSS_BIBLIO'		=> "Place holder",
 // Glossary edition page
 	'GLOSS_EDIT'	=>'Редактировать термин глоссария',
 	'GLOSS_CREAT'	=>'Создать термин глоссария',
@@ -59,7 +51,7 @@ $lang = array_merge($lang, array(
 	'GLOSS_ED_LABEX'	=> 'Описание для внешней ссылки.',
 	'GLOSS_ED_PICT'	=> 'Изображение',
 	'GLOSS_ED_PIEXPL'	=> 'Имя файла изображения (jpg, jpeg, gif or png). Если файл находится в папке ext/lmdi/gloss/glossaire.',
-	'GLOSS_ED_UPLOAD'	=> 'Загрузить:',
+	'GLOSS_ED_UPLOAD'	=> 'Загрузить',
 	'GLOSS_ED_NOUP'	=> 'Нет файла для загрузки.',
 	'GLOSS_ED_REUSE'	=> 'Использовать уже имеющееся изображение',
 	'GLOSS_ED_EXISTE'	=> 'Зарегистрированный файл',
@@ -82,9 +74,7 @@ $lang = array_merge($lang, array(
 	'LMDI_GLOSS_UNABLE_GET_IMAGE_SIZE'	=> 'Невозможно определить размер изображения',
 	'LMDI_GLOSS_WRONG_FILESIZE'		=> 'Размер файла должен быть менее %1d kB.',
 	'LMDI_GLOSS_WRONG_SIZE'			=> 'Ширина файла %3$d пикселей и высота %4$d пикселей. Файл не может быть шире %1$d пикселей и %2$d в высоту.',
-	'LMDI_CLICK_BACK'				=> 'Нажмите <a href="javascript:history.go(-1);"><b>тут</b></a> чтобы вернуться к редактированию.',
-// Glossary cleaning page
-	'LMDI_GLOSS_CLEAN'				=> 'Очистка успешно выполнена.',
-	'GLOSS_CLEAN'					=> 'Очистка данных.',
+	'LMDI_CLICK_BACK'				=> 'Use the Back button of the browser to come back to the edition form.',
+	'LMDI_BACK_TOP'				=> 'Top',
 
 ));

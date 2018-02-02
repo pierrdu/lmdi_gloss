@@ -18,6 +18,8 @@ class glossedit
 	protected $ext_manager;
 	/** @var \phpbb\path_helper */
 	protected $path_helper;
+	/** @var \phpbb\controller\helper */
+	protected $helper;
 	/** @var \phpbb\config\config */
 	protected $config;
 	/** @var \phpbb\cache\service */
@@ -26,7 +28,6 @@ class glossedit
 	protected $files_factory;
 	/** @var \lmdi\gloss\core\helper */
 	protected $gloss_helper;
-
 	// Strings
 	protected $phpEx;
 	protected $phpbb_root_path;
@@ -40,6 +41,7 @@ class glossedit
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\extension\manager $ext_manager,
 		\phpbb\path_helper $path_helper,
+		\phpbb\controller\helper $helper,
 		\phpbb\config\config $config,
 		\phpbb\request\request $request,
 		\phpbb\cache\service $cache,
@@ -50,18 +52,19 @@ class glossedit
 		\phpbb\files\factory $files_factory = null
 		)
 	{
-		$this->template 		= $template;
-		$this->user 			= $user;
-		$this->db 			= $db;
-		$this->ext_manager	 	= $ext_manager;
-		$this->path_helper	 	= $path_helper;
+		$this->template		= $template;
+		$this->user			= $user;
+		$this->db				= $db;
+		$this->ext_manager		= $ext_manager;
+		$this->path_helper		= $path_helper;
+		$this->helper			= $helper;
 		$this->config			= $config;
 		$this->request			= $request;
 		$this->cache			= $cache;
 		$this->gloss_helper		= $gloss_helper;
-		$this->phpEx 			= $phpEx;
-		$this->phpbb_root_path 	= $phpbb_root_path;
-		$this->glossary_table 	= $glossary_table;
+		$this->phpEx			= $phpEx;
+		$this->phpbb_root_path	= $phpbb_root_path;
+		$this->glossary_table	= $glossary_table;
 
 		if ($files_factory)
 		{
@@ -73,18 +76,6 @@ class glossedit
 	}
 
 	public $u_action;
-
-	private function get_def_language($table, $colonne)
-	{
-		$sql = "SELECT DEFAULT($colonne) lg 
-			FROM (SELECT 1) AS dummy
-			LEFT JOIN $table ON True LIMIT 1";
-		$result = $this->db->sql_query($sql);
-		$row = $this->db->sql_fetchrow($result);
-		$default = $row['lg'];
-		$this->db->sql_freeresult($result);
-		return ($default);
-	}
 
 	public function main()
 	{
@@ -125,14 +116,13 @@ class glossedit
 					$ilinks = "";
 					$elinks = "";
 					$label = "";
-					$lang = $this->get_def_language($table, 'lang');
-					$str_action = $this->user->lang['GLOSS_CREAT'];
+					$lang = $this->gloss_helper->get_def_language($table, 'lang');
+					$title = $this->user->lang['GLOSS_CREAT'];
+					$sw = 0;
 				}
 				else			// Item edition - Édition d'une fiche
 				{
-					$sql  = "SELECT * ";
-					$sql .= "FROM $table ";
-					$sql .= "WHERE term_id = '$num' ";
+					$sql  = "SELECT * FROM $table WHERE term_id = $num ";
 					$result = $this->db->sql_query($sql);
 					$row = $this->db->sql_fetchrow($result);
 					$code   = $row['term_id'];
@@ -146,121 +136,51 @@ class glossedit
 					$pict   = $row['picture'];
 					$lang   = $row['lang'];
 					$this->db->sql_freeresult($result);
-					$str_action = $this->user->lang['GLOSS_EDIT'];
+					$title = $this->user->lang['GLOSS_EDIT'];
+					$sw = 1;
 				}
-				$str_variants = $this->user->lang['GLOSS_VARIANTS'] . $str_colon;
-				$str_terme = $this->user->lang['GLOSS_TERM'] . $str_colon;
-				$str_varex = $this->user->lang['GLOSS_VARIANTS_EX'];
-				$str_terex = $this->user->lang['GLOSS_TERM_EX'];
-				$str_desc = $this->user->lang['GLOSS_DESC'] . $str_colon;
-				$str_pict = $this->user->lang['GLOSS_ED_PICT'] . $str_colon;
-				$str_pictex= $this->user->lang['GLOSS_ED_PIEXPL'];
-				$str_upload= $this->user->lang['GLOSS_ED_UPLOAD'];
-				$str_noup = $this->user->lang['GLOSS_ED_NOUP'];
-				$str_reuse = $this->user->lang['GLOSS_ED_REUSE'] . $str_colon;
-				$str_existe= $this->user->lang['GLOSS_ED_EXISTE'] . $str_colon;
-				$str_cat = $this->user->lang['GLOSS_ED_CAT'] . $str_colon;
-				$str_catex = $this->user->lang['GLOSS_ED_CATEX'];
-				$str_ilinks= $this->user->lang['GLOSS_ED_ILINKS'] . $str_colon;
-				$str_ilex = $this->user->lang['GLOSS_ED_ILEXP'];
-				$str_elinks= $this->user->lang['GLOSS_ED_ELINKS'] . $str_colon;
-				$str_elex = $this->user->lang['GLOSS_ED_ELEXP'];
-				$str_label = $this->user->lang['GLOSS_ED_LABEL'] . $str_colon;
-				$str_labex = $this->user->lang['GLOSS_ED_LABEX'];
-				$str_lang = $this->user->lang['GLOSS_LANG'] . $str_colon;
-				$str_regis = $this->user->lang['GLOSS_REGIS'];
-				$str_suppr = $this->user->lang['GLOSS_SUPPR'];
-				$form  = "<form action=\"";
-				$form .= append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss?mode=glossedit');
-				$form .= "\" method=\"post\" id=\"glossedit\" enctype=\"multipart/form-data\">";
-				$form .= "\n<div class=\"panel\">\n<div class=\"inner\">\n<div class=\"content\">";
-				$form .= "\n<input type=\"hidden\" name=\"term_id\" id=\"term_id\" value=\"$code\">";
-				$form .= "<fieldset class=\"fields1\">";
-				$form .= "\n<dl>";
-				$form .= "<dt><label for=\"vari\">$str_variants</label><br />";
-				$form .= "<span>$str_varex</span></dt>";
-				$form .= "<dd><input type=\"text\" tabindex=\"1\" name=\"vari\" ";
-				$form .= "id=\"term\" size=\"50\" value=\"$vari\" class=\"inputbox autowidth\" /></dd>";
-				$form .= "</dl>";
-				$form .= "\n<dl>";
-				$form .= "<dt><label for=\"term\">$str_terme</label><br />";
-				$form .= "<span>$str_terex</span></dt>";
-				$form .= "<dd><input type=\"text\" tabindex=\"2\" name=\"term\" ";
-				$form .= "id=\"term\" size=\"25\" value=\"$term\" class=\"inputbox autowidth\" /></dd>";
-				$form .= "</dl>";
-				$form .= "\n<dl>";
-				$form .= "<dt><label for=\"desc\">$str_desc</label></dt>";
-				$form .= "<dd><textarea tabindex=\"3\" rows=\"2\" cols=\"40\" name=\"desc\">$desc</textarea>";
-				$form .= "</dd>";
-				$form .= "</dl>";
-				$form .= "\n<dl>";
-				$form .= "<dt><label for=\"cat\">$str_cat</label><br />";
-				$form .= "<span>$str_catex</span></dt>";
-				$form .= "<dd><input type=\"text\" tabindex=\"4\" name=\"cat\" ";
-				$form .= "id=\"lang\" size=\"25\" value=\"$cat\" class=\"inputbox autowidth\" /></dd>";
-				$form .= "</dd>";
-				$form .= "</dl>";
-				$form .= "\n<dl>";
-				$form .= "<dt><label for=\"ilinks\">$str_ilinks</label><br />";
-				$form .= "<span>$str_ilex</span></dt>";
-				$form .= "<dd><input type=\"text\" tabindex=\"5\" name=\"ilinks\" ";
-				$form .= "id=\"lang\" size=\"60\" value=\"$ilinks\" class=\"inputbox autowidth\" /></dd>";
-				$form .= "</dd>";
-				$form .= "</dl>";
-				$form .= "\n<dl>";
-				$form .= "<dt><label for=\"elinks\">$str_elinks</label><br />";
-				$form .= "<span>$str_elex</span></dt>";
-				$form .= "<dd><input type=\"text\" tabindex=\"6\" name=\"elinks\" ";
-				$form .= "id=\"lang\" size=\"60\" value=\"$elinks\" class=\"inputbox autowidth\" /></dd>";
-				$form .= "</dd>";
-				$form .= "</dl>";
-				$form .= "\n<dl>";
-				$form .= "<dt><label for=\"label\">$str_label</label><br />";
-				$form .= "<span>$str_labex</span></dt>";
-				$form .= "<dd><input type=\"text\" tabindex=\"7\" name=\"label\" ";
-				$form .= "id=\"lang\" size=\"25\" value=\"$label\" class=\"inputbox autowidth\" /></dd>";
-				$form .= "</dd>";
-				$form .= "</dl>";
-				$form .= "\n<dl>";
-				$form .= "<dt><label for=\"lang\">$str_lang</label></dt>";
-				$form .= "<dd><input type=\"text\" tabindex=\"8\" name=\"lang\" ";
-				$form .= "id=\"lang\" size=\"10\" value=\"$lang\" class=\"inputbox autowidth\" /></dd>";
-				$form .= "</dl>";
-				// Radio button block - Pavé de boutons radio
-				$form .= "\n<dl>";
-				$form .= "<dt><label for=\"upload_file\">$str_pict</label><br />";
-				$form .= "<span>$str_pictex</span></dt>";
-				if ($num > 0)
-				{
-					if ($pict == $str_nopict)
-					{
-						$form .= "<dd><input type=\"radio\" name=\"upload\" value=\"noup\" tabindex=\"9\" checked>$str_noup<br>";
-					}
-					else
-					{
-						$form .= "<input type=\"radio\" name=\"upload\" value=\"existe\" tabindex=\"10\" checked>$str_existe $pict<br>";
-						$form .= "<input type=\"hidden\" name=\"pict\" id=\"pict\" value=\"$pict\">";
-					}
-				}
-				else
-				{
-					$form .= "<dd><input type=\"radio\" name=\"upload\" value=\"noup\" tabindex=\"9\" checked>$str_noup<br>";
-				}
-				$form .= "<input type=\"radio\" name=\"upload\" value=\"nouv\" tabindex=\"10\">$str_upload";
-				$form .= "&nbsp;&nbsp;&nbsp;<input type=\"file\" name=\"upload_file\" tabindex=\"11\" id=\"upload_file\" class=\"inputbox autowidth\" /><br>";
-				$form .= "<input type=\"radio\" name=\"upload\" value=\"reuse\" tabindex=\"12\" >$str_reuse";
-				$form .= "&nbsp;&nbsp;&nbsp;<input type=\"text\" tabindex=\"13\" name=\"reuse\" class=\"inputbox autowidth\" />";
-				$form .= "</dd>";
-				$form .= "</dl>";
-				// End of radio button block
-				$form .= "\n<dl>";
-				$form .= "<dt>&nbsp;</dt>";
-				$form .= "<dd><input type=\"submit\" name=\"save\" id=\"save\" tabindex=\"5\" value=\"$str_regis\" class=\"button1\" />&nbsp;&nbsp;";
-				$form .= "<input type=\"submit\" name=\"delete\" id=\"delete\" tabindex=\"6\" value=\"$str_suppr\" class=\"button1\" /></dd>";
-				$form .= "</dl>";
-				$form .= "</fieldset>";
-				$form .= "\n</div></div></div>";
-				$abc_links = $form;
+				
+				$action = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit'));
+				$this->template->assign_vars(array(
+					'TITLE'		=> $title,
+					'R_ACTION'	=> $action,
+					'ABC'		=> $abc_links,
+					'S_EDIT'		=> $sw,		// 0 =creation, 1 = edition
+					'S_PICT'		=> $pict == $str_nopict ? 1 : 0,
+					'VARIANTS'	=> $this->user->lang['GLOSS_VARIANTS'],
+					'VAREX'		=> $this->user->lang['GLOSS_VARIANTS_EX'],
+					'TERME'		=> $this->user->lang['GLOSS_TERM'],
+					'TEREX'		=> $this->user->lang['GLOSS_TERM_EX'],
+					'DESCR'		=> $this->user->lang['GLOSS_DESC'],
+					'CATE'		=> $this->user->lang['GLOSS_ED_CAT'],
+					'CATEX'		=> $this->user->lang['GLOSS_ED_CATEX'],
+					'ILINKE'		=> $this->user->lang['GLOSS_ED_ILINKS'],
+					'ILEX'		=> $this->user->lang['GLOSS_ED_ILEXP'],
+					'ELINKE'		=> $this->user->lang['GLOSS_ED_ELINKS'],
+					'ELEX'		=> $this->user->lang['GLOSS_ED_ELEXP'],
+					'LABELE'		=> $this->user->lang['GLOSS_ED_LABEL'],
+					'LABEX'		=> $this->user->lang['GLOSS_ED_LABEX'],
+					'LANGE'		=> $this->user->lang['GLOSS_LANG'],
+					'PICTE'		=> $this->user->lang['GLOSS_ED_PICT'],
+					'PICTEX'		=> $this->user->lang['GLOSS_ED_PIEXPL'],
+					'UPLOAD'		=> $this->user->lang['GLOSS_ED_UPLOAD'],
+					'NOUPLD'		=> $this->user->lang['GLOSS_ED_NOUP'],
+					'REUSE'		=> $this->user->lang['GLOSS_ED_REUSE'],
+					'EXISTE'		=> $this->user->lang['GLOSS_ED_EXISTE'],
+					'REGIS'		=> $this->user->lang['GLOSS_REGIS'],
+					'SUPPR'		=> $this->user->lang['GLOSS_SUPPR'],
+					'CODE'		=> $code,
+					'VARI'		=> $vari,
+					'TERM'		=> $term,
+					'DESC'		=> $desc,
+					'CAT'		=> $cat,
+					'ILINKS'		=> $ilinks,
+					'ELINKS'		=> $elinks,
+					'LABEL'		=> $label,
+					'LANG'		=> $lang,
+					'PICT'		=> $pict,
+					));
+				return $this->helper->render('glossform.html', $title);
 				break;
 			case "save":
 				$term_id = $this->db->sql_escape(trim($this->request->variable('term_id', 0)));
@@ -318,161 +238,158 @@ class glossedit
 				}
 				if ($term_id == 0)
 				{
-					$sql  = "INSERT INTO $table ";
-					$sql .= "(variants, term, description, cat, ilinks, elinks, label, picture, lang) ";
-					$sql .= " VALUES ";
-					$sql .= "(\"$variants\", \"$term\", \"$descript\", \"$cat\", \"$ilinks\", '$elinks', \"$label\", \"$picture\", \"$lang\")";
+					$sql_ary = array (
+						'variants' => $variants,
+						'term' => $term,
+						'description' => $descript,
+						'cat' => $cat,
+						'ilinks' => $ilinks,
+						'elinks' => $elinks,
+						'label' => $label,
+						'picture' => $picture,
+						'lang' => $lang,
+						);
+					$sql  = "INSERT INTO $table " . $this->db->sql_build_array ('INSERT', $sql_ary);
+					var_dump ($sql);
 					$this->db->sql_query($sql);
 					$term_id = $this->db->sql_nextid();
 				}
 				else
 				{
-					$sql = "UPDATE $table SET ";
-					$sql .= "term_id = \"$term_id\", ";
-					$sql .= "variants = \"$variants\", ";
-					$sql .= "term = \"$term\", ";
-					$sql .= "description = \"$descript\", ";
-					$sql .= "cat = \"$cat\", ";
-					$sql .= "ilinks = \"$ilinks\", ";
-					$sql .= "elinks = \"$elinks\", ";
-					$sql .= "label = \"$label\", ";
-					$sql .= "picture = \"$picture\", ";
-					$sql .= "lang = \"$lang\" ";
-					$sql .= "WHERE term_id = \"$term_id\"";
+					$sql_ary = array (
+						'term_id' => $term_id,
+						'variants' => $variants,
+						'term' => $term,
+						'description' => $descript,
+						'cat' => $cat,
+						'ilinks' => $ilinks,
+						'elinks' => $elinks,
+						'label' => $label,
+						'picture' => $picture,
+						'lang' => $lang,
+						);
+					$sql = "UPDATE $table SET " . $this->db->sql_build_array ('UPDATE', $sql_ary) . "
+						WHERE term_id = $term_id";
+					var_dump ($sql);
 					$this->db->sql_query_limit($sql, 1);
 				}
 				// Purge the cache
 				$this->cache->destroy('_glossterms');
 				// Redirection
-				$params = "mode=glossedit&code=$term_id";
-				$url = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
+				$url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit', 'code' => $term_id));
 				$url .= "#$term_id"; // Anchor target = term_id
 				redirect($url);
 				break;
 			case "delete":
 				$term_id = $this->db->sql_escape($this->request->variable('term_id', 0));
-				$sql  = "DELETE FROM $table WHERE term_id = \"$term_id\"";
+				$sql  = "DELETE FROM $table WHERE term_id = $term_id";
 				$this->db->sql_query_limit($sql, 1);
 				// Purge the cache
 				$this->cache->destroy('_glossterms');
 				// Redirection
 				$cap = substr($this->request->variable('term', "", true), 0, 1);
-				$params = "mode=glossedit";
-				$url  = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
+				$url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit'));
 				$url .= "#$cap";		// Anchor target = initial cap
 				redirect($url);
 				break;
 			case "rien":
+				$str_action = $this->user->lang['GLOSS_EDITION'];
+				$str_ilinks = $this->user->lang['GLOSS_ILINKS'];
+				$str_elinks = $this->user->lang['GLOSS_ELINKS'];
+				$str_edit2 = $this->user->lang['GLOSS_ED_EDIT'];
+
+				$abc_links = "";
+
 				$sql  = "SELECT DISTINCT UPPER(LEFT(TRIM(term),1)) AS a FROM $table ORDER BY a" ;
 				$result = $this->db->sql_query($sql);
 
-				$str_action = $this->user->lang['GLOSS_EDITION'];
-				$str_terme = $this->user->lang['GLOSS_ED_TERM'];
-				$str_defin = $this->user->lang['GLOSS_ED_DEF'];
-				$str_illus = $this->user->lang['GLOSS_ED_PICT'];
-				$str_edit = $this->user->lang['GLOSS_ED_ACT'];
-				$str_ilinks = $this->user->lang['GLOSS_ILINKS'];
-				$str_elinks = $this->user->lang['GLOSS_ELINKS'];
-
-				$abc_links = "<span id=\"haut\"></span>";
-
-				$corps = "<table class=\"deg\"><tr class=\"deg\">";
-				$corps .= "<th class=\"deg0\">$str_terme</th>";
-				$corps .= "<th class=\"deg0\">$str_defin</th>";
-				$corps .= "<th class=\"deg1\">$str_illus</th>";
-				$corps .= "<th class=\"deg1\">$str_edit</th></tr>";
-
-				$cpt  = 0;
-				$str_edit2  = $this->user->lang['GLOSS_ED_EDIT'];
-				$top = $this->ext_path_web . "/styles/top.gif";
 				while ($row = $this->db->sql_fetchrow($result))
 				{
 					$l = $row['a'];
 					$abc_links .= "&nbsp;<a class=\"cap\" href =\"#$l\">$l</a>&nbsp;" ;
 
-					$sql  = "SELECT * FROM $table WHERE LEFT($table.term, 1) = \"$l\" ORDER BY term";
+					// For each letter
+					$sql = "SELECT * FROM $table WHERE LEFT($table.term, 1) = '$l' ORDER BY term";
 					$result2 = $this->db->sql_query($sql);
-
-					$cpt++;
-					$corps .= "\n<tr class=\"deg\"><td class=\"glossi\" colspan=\"3\" id=\"$l\">&nbsp;$l</td>";
-					$corps .= "<td class=\"haut\"><a href=\"#haut\"><img src=\"$top\"></a></td></tr>";
+					$cpt = 0;
 					while ($arow = $this->db->sql_fetchrow($result2))
 					{
-						$code  = $arow['term_id'];
-						$term  = $arow['term'];
-						$desc  = $arow['description'];
+						$code = $arow['term_id'];
+						$pict = $arow['picture'];
+						$term = $arow['term'];
+						$label = $arow['label'];
+						if ($pict != $str_nopict)
+						{
+							$url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glosspict', 'code' => -1, 'pict' => $pict, 'terme' => $term));
+							$pict = "<a href=\"$url\">$pict</a>";
+						}
+						$act = "<a href=\"";
+						$act .= $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit', 'code' => $code, 'action' => 'edit'));
+						$act .= "\">$str_edit2</a></td>";
 						$cat   = $arow['cat'];
 						$ilinks= $arow['ilinks'];
 						$elinks= $arow['elinks'];
-						$label = $arow['label'];
-						$pict  = $arow['picture'];
-						$corps .= "\n<tr class=\"deg\">";
-						$corps .= "<td class=\"deg0\" id=\"$code\"><b>$term</b>";
-						if (strlen($cat))
-						{
-							$corps .= "<br>$cat";
-						}
-						$corps .= "<br>$code";
-						$corps .= "</td>";
-						$corps .= "<td class=\"deg0\">$desc";
 						if (strlen($ilinks))
 						{
 							$ilinks = $this->gloss_helper->calcul_ilinks($ilinks);
-							$corps .= "<br>$str_ilinks $ilinks";
+							$ilinks = "<br>$str_ilinks $ilinks";
 						}
 						if (strlen($elinks))
 						{
 							if (strlen($label))
 							{
-								$corps .= "<br>$str_elinks <a class=\"ilinks\" href=\"$elinks\">$label</a>";
+								$elinks = "<br>$str_elinks <a class=\"ilinks\" href=\"$elinks\">$label</a>";
 							}
 							else
 							{
-								$corps .= "<br>$str_elinks <a class=\"ilinks\" href=\"$elinks\">$elinks</a>";
+								$elinks = "<br>$str_elinks <a class=\"ilinks\" href=\"$elinks\">$elinks</a>";
 							}
 						}
-						$corps .= "</td>";
-						if ($pict != $str_nopict)
+						if (!$cpt)
 						{
-							$params  = "mode=glosspict&code=-1&pict=$pict&terme=$term";
-							$url = append_sid($this->phpbb_root_path .'app.'.$this->phpEx .'/gloss', $params);
-							$corps .= "<td class=\"deg1\"><a href=\"$url\">$pict</a></td>";
+							$anchor = "<span id='$l'></span>";
 						}
 						else
 						{
-							$corps .= "<td class=\"deg1\">$pict</td>";
+							$anchor = "";
 						}
-						$corps .= "<td class=\"deg1\">";
-						$corps .= "<a href=\"";
-						$params = "mode=glossedit&code=$code&action=edit";
-						$corps .= append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
-						$corps .= "\">$str_edit2</a></td>";
-						$corps .= "</tr>";
-					}	// Fin du while sur le contenu - End of while on contents
+						$this->template->assign_block_vars('ged', array(
+							'ANCHOR'	=> $anchor,
+							'ID'		=> $code,
+							'TERM'	=> $term,
+							'DEF'	=> $arow['description'],
+							'PICT'	=> $pict,
+							'ACT'	=> $act,
+							'CAT'	=> $cat,
+							'ELINKS'	=> $elinks,
+							'ILINKS'	=> $ilinks,
+							));
+						$cpt++;
+					}
 					$this->db->sql_freeresult($result2);
-				}	// Fin du while sur les initiales - End of while on initial caps
+				}
 				$this->db->sql_freeresult($result);
-				$corps .= "</table>";
-				$abc_links .= "</p>\n";
 
 				$string = $this->user->lang['GLOSS_ED_EXPL'];
 				$url  = "<a href=\"";
-				$url .= append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', 'mode=glossedit&code=-1&action=edit');
+				$url .= $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit', 'code' => -1, 'action' => 'edit'));
 				$url .= "\"";
-				$illustration = sprintf($string, $url, "</a>");
+				$ed_explain = sprintf($string, $url, "</a>");
+				$this->template->assign_vars(array(
+					'TITLE'		=> $str_action,
+					'ED_EXPLAIN'	=> $ed_explain,
+					'ABC'		=> $abc_links,
+					'BACKTOP'		=> $this->user->lang['LMDI_BACK_TOP'],
+					));
+
+				return $this->helper->render ('glossedit.html', $this->user->lang['TGLOSSAIRE']);
 				break;
 			}
 
-		page_header($this->user->lang['TGLOSSAIRE']);
-
-		$this->template->set_filenames(array(
-			'body' => 'glossaire.html',
-		));
-
-		$params = "mode=glossedit";
-		$str_glossedit = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
+		$url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit'));
+				$params = "mode=glossedit";
 		$this->template->assign_block_vars('navlinks', array(
-			'U_VIEW_FORUM'	=> $str_glossedit,
+			'U_VIEW_FORUM'	=> $url,
 			'FORUM_NAME'	=> $this->user->lang['GLOSS_EDITION'],
 			));
 
@@ -484,8 +401,7 @@ class glossedit
 			'BIBLIO'		=> $biblio,
 			));
 
-		make_jumpbox(append_sid($this->phpbb_root_path . 'viewforum.' . $this->phpEx));
-		page_footer();
+		return $this->helper->render('glossaire.html', $this->user->lang['TGLOSSAIRE']);
 	}
 
 	// Uploading function for phpBB 3.1.x

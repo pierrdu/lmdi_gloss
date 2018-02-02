@@ -24,6 +24,8 @@ class glosspict
 	protected $ext_manager;
 	/** @var \phpbb\path_helper */
 	protected $path_helper;
+	/** @var \phpbb\controller\helper */
+	protected $helper;
 	// Strings
 	protected $ext_path;
 	protected $ext_path_web;
@@ -33,6 +35,7 @@ class glosspict
 		\phpbb\user $user,
 		\phpbb\extension\manager $ext_manager,
 		\phpbb\path_helper $path_helper,
+		\phpbb\controller\helper $helper,
 		\phpbb\request\request $request,
 		$phpEx,
 		$phpbb_root_path
@@ -42,6 +45,7 @@ class glosspict
 		$this->user			= $user;
 		$this->ext_manager	 	= $ext_manager;
 		$this->path_helper	 	= $path_helper;
+		$this->helper			= $helper;
 		$this->request			= $request;
 		$this->phpEx			= $phpEx;
 		$this->phpbb_root_path	= $phpbb_root_path;
@@ -65,36 +69,28 @@ class glosspict
 		$corps = "<p class=\"copyright\"><a href=\"javascript:history.go(-1);\"><img src=\"$pict\"></a></p>";
 		$retour = "<p class=\"copyright\">$click</p>";
 
-		page_header($view);
-		$this->template->set_filenames(array(
-			'body' => 'glossaire.html',
-		));
-
 		if ($code == -1)
 		{
-			$params = "mode=glossedit";
-			$str_glossedit = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
+			$url .= $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit'));
 			$this->template->assign_block_vars('navlinks', array(
-				'U_VIEW_FORUM'	=> $str_glossedit,
+				'U_VIEW_FORUM'	=> $url,
 				'FORUM_NAME'	=> $this->user->lang['GLOSS_EDITION'],
 			));
 		}
 
-		$params = "mode=glosspict";
-		$str_glosspict = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
+		$url .= $this->helper->route('lmdi_gloss_controller', array('mode' => 'glosspict'));
 		$this->template->assign_block_vars('navlinks', array(
-			'U_VIEW_FORUM'	=> $str_glosspict,
+			'U_VIEW_FORUM'	=> $url,
 			'FORUM_NAME'	=> $this->user->lang['GLOSS_VIEW'],
 		));
 
 		$this->template->assign_vars(array(
-			'TITRE'			=> $view,
+			'TITRE'		=> $view,
 			'ILLUST'		=> $terme,
-			'CORPS'			=> $corps,
+			'CORPS'		=> $corps,
 			'BIBLIO'		=> $retour,
 		));
 
-		make_jumpbox(append_sid("{$this->phpbb_root_path}viewforum.$this->phpEx"));
-		page_footer();
+		return $this->helper->render ('glossview.html', $this->user->lang['GLOSS_VIEW']);
 	}
 }

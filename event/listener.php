@@ -113,7 +113,6 @@ class listener implements EventSubscriberInterface
 		if ($this->config['lmdi_glossary_acp'] && substr($xml, 0, 3) === '<r>')
 		{
 			$this->tid = $this->request->variable('t', 0);
-			unset($GLOBALS['$this->gloss']);
 			$pos1 = strpos($xml, '<lmdigloss');
 			while ($pos1 !== false)
 			{
@@ -229,7 +228,7 @@ class listener implements EventSubscriberInterface
 		}
 		if (sizeof($glossterms))
 		{
-			$acro = $code = $quote = $img = $link = $script = false;
+			$code = $quote = $img = $link = $script = false;
 			$rech = $glossterms['rech'];
 			$remp = $glossterms['remp'];
 			preg_match_all('#[][><][^][><]*|[^][><]+#', $texte, $matches);
