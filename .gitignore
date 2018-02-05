@@ -49,3 +49,4 @@ Temporary Items
 *.bat
 /glosschutes.php
 *.lock
+/chutes.txt

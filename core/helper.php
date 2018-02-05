@@ -65,7 +65,7 @@ class helper
 			}
 		}
 		return ($string);
-	}
+	}	// calcul_links
 
 
 	public function get_role_id($role_name)

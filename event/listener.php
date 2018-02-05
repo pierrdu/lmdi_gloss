@@ -27,8 +27,6 @@ class listener implements EventSubscriberInterface
 	protected $helper;
 	protected $request;
 	protected $glossary_table;
-	protected $tid;
-	protected $gloss;
 
 	public function __construct(
 		\phpbb\db\driver\driver_interface $db,
@@ -49,6 +47,30 @@ class listener implements EventSubscriberInterface
 		$this->user = $user;
 		$this->request = $request;
 		$this->glossary_table = $glossary_table;
+	}
+
+
+	public static function getSubscribedEvents()
+	{
+		global $config;	// Not yet available as $this->config
+		if (version_compare($config['version'], '3.2.*', '>='))
+		{
+			return array(
+			'core.user_setup'				=> 'load_language_on_setup',
+			'core.page_header'				=> 'build_url',
+			'core.permissions'				=> 'add_permissions',
+			'core.text_formatter_s9e_render_after' => 'glossary_insertion_32x',
+			);
+		}
+		else
+		{
+			return array(
+			'core.user_setup'				=> 'load_language_on_setup',
+			'core.page_header'				=> 'build_url',
+			'core.permissions'				=> 'add_permissions',
+			'core.viewtopic_post_rowset_data'	=> 'glossary_insertion',
+			);
+		}
 	}
 
 
@@ -91,101 +113,32 @@ class listener implements EventSubscriberInterface
 	}
 
 
-	public static function getSubscribedEvents()
+	public function glossary_insertion_32x($event)
 	{
-		return array(
-			'core.user_setup'				=> 'load_language_on_setup',
-			'core.page_header'				=> 'build_url',
-			'core.permissions'				=> 'add_permissions',
-			'core.viewtopic_post_rowset_data'	=> 'glossary_insertion',
-			// For version 3.2.x
-			'core.text_formatter_s9e_render_before' => 's9e_before',
-			'core.text_formatter_s9e_render_after' => 's9e_after',
-			);
-	}
-
-
-	public function s9e_before ($event)
-	{
-		$xml = $event['xml'];
-		// Texts tagged with <t> are dumped as is. Texts with <r> are so-called raw
-		// and are parsed. We have to protect ourselves against this parser.
-		if ($this->config['lmdi_glossary_acp'] && substr($xml, 0, 3) === '<r>')
+		static $enabled_forums;
+		if ($this->config['lmdi_glossary_acp'])
 		{
-			$this->tid = $this->request->variable('t', 0);
-			$pos1 = strpos($xml, '<lmdigloss');
-			while ($pos1 !== false)
+			if (empty($enabled_forums))
 			{
-				$pos2 = strpos($xml, '</lmdigloss>', 0);
-				$lg = ($pos2 - $pos1) + 12;
-				$item = substr($xml, $pos1, $lg);
-				$pos3 = strpos($item, 'class="id');
-				$pos3 += 9;
-				$num = substr($item, $pos3, $pos3 + 6);
-				$pos4 = strpos($num, '"');
-				$num = (int) substr($num, 0, $pos4);
-				if (!isset($this->gloss[$num]))
+				$enabled_forums = $this->cache->get('_gloss_forums');
+				if (empty($enabled_forums))
 				{
-					$this->gloss[$num] = $item;
-				}
-				else
-				{
-					$slot = $this->gloss[$num];
-					while ($slot !== $item)
-					{
-						$num += 10000;
-						if (!isset($this->gloss[$num]))
-						{
-							$this->gloss[$num] = $item;
-							break;
-						}
-						else
-						{
-							$slot = $this->gloss[$num];
-							if ($slot === $item)
-							{
-								break;
-							}
-						}
-					}
-				}
-				$remp = "lmdigloss*($num)*lmdigloss";
-				$xml = str_replace($item, $remp, $xml);
-				$pos1 = strpos($xml, '<lmdigloss', 0);
-			}
-		$event['xml'] = $xml;
-		}
-	} // s9e_before
-
-
-	public function s9e_after($event)
-	{
-		if ($this->tid == $this->request->variable('t', 0))
-		{
-			$html = $event['html'];
-			while (1)
-			{
-				$pos1 = strpos($html, 'lmdigloss*(');
-				if ($pos1 === false)
-				{
-					break;
-				}
-				else
-				{
-					$pos2 = strpos($html, ')*lmdigloss');
-					$lg = ($pos2 - $pos1) + 11;
-					$item = substr($html, $pos1, $lg);
-					$pos3 = strpos($item, '(');
-					$pos4 = strpos($item, ')');
-					$lg = ($pos4) - ($pos3 + 1);
-					$num = (int) substr($item, $pos3 + 1, $lg);
-					$tag = $this->gloss[$num];
-					$html = str_replace($item, $tag, $html);
+					$this->rebuild_cache_forums();
+					$enabled_forums = $this->cache->get('_gloss_forums');
 				}
 			}
-			$event['html'] = $html;
+			if (!empty($enabled_forums))
+			{
+				$fid = $this->request->variable('f', 0);
+				if (in_array($fid, $enabled_forums))
+				{
+					$html = $event['html'];
+					$html = $this->glossary_pass($html);
+					$event['html'] = $html;
+				}
+			}
 		}
-	} // s9e_after
+	} // glossary_insertion_32x
 
 
 	public function glossary_insertion($event)
@@ -376,9 +329,8 @@ class listener implements EventSubscriberInterface
 	private function rebuild_cache_forums()
 	{
 		$forum_list = array();
-		$sql = 'SELECT * 
-				FROM ' . FORUMS_TABLE . '
-				WHERE lmdi_glossary = 1';
+		$sql = 'SELECT * FROM ' . FORUMS_TABLE . '
+			WHERE lmdi_glossary = 1';
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{

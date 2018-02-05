@@ -132,6 +132,7 @@ class glossaire
 				$this->template->assign_block_vars('gaff', array(
 					'ANCHOR'	=> $anchor,
 					'TERM'	=> $term,
+					'ID'		=> $code,
 					'DEF'	=> $arow['description'],
 					'PICT'	=> $pict,
 					'CAT'	=> $cat,

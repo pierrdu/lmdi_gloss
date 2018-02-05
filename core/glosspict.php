@@ -1,6 +1,6 @@
 <?php
 // glosspict.php
-// (c) 2015-2018 - LMDI - Pierre Duhem
+// @copyright (c) 2015-2018 - LMDI - Pierre Duhem
 // Page d'affichage d'une image centrée complétant le terme du glossaire
 // Page displaying a centered picture attached to the glossary term
 
@@ -20,10 +20,6 @@ class glosspict
 	protected $phpEx;
 	/** @var string phpBB root path */
 	protected $phpbb_root_path;
-	/** @var \phpbb\extension\manager "Extension Manager" */
-	protected $ext_manager;
-	/** @var \phpbb\path_helper */
-	protected $path_helper;
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 	// Strings
@@ -33,8 +29,6 @@ class glosspict
 	public function __construct(
 		\phpbb\template\template $template,
 		\phpbb\user $user,
-		\phpbb\extension\manager $ext_manager,
-		\phpbb\path_helper $path_helper,
 		\phpbb\controller\helper $helper,
 		\phpbb\request\request $request,
 		$phpEx,
@@ -43,15 +37,10 @@ class glosspict
 	{
 		$this->template		= $template;
 		$this->user			= $user;
-		$this->ext_manager	 	= $ext_manager;
-		$this->path_helper	 	= $path_helper;
 		$this->helper			= $helper;
 		$this->request			= $request;
 		$this->phpEx			= $phpEx;
 		$this->phpbb_root_path	= $phpbb_root_path;
-
-		$this->ext_path = $this->ext_manager->get_extension_path('lmdi/gloss', true);
-		$this->ext_path_web = $this->path_helper->update_web_root_path($this->ext_path);
 	}
 
 	public $u_action;
@@ -61,8 +50,9 @@ class glosspict
 
 		$click = $this->user->lang['GLOSS_CLICK'];
 		$view = $this->user->lang['GLOSS_VIEW'];
+
 		$pict = $this->request->variable('pict', '');
-		$pict = $this->ext_path_web . "glossaire/" . $pict;
+		$pict = $this->phpbb_root_path . "../store/lmdi/gloss/" . $pict;
 		$term = $this->request->variable('term', '', true);
 		$code = $this->request->variable('code', '0', true);
 		$terme = "<p class=\"copyright\"><b>$term</b></p>";
@@ -71,18 +61,20 @@ class glosspict
 
 		if ($code == -1)
 		{
-			$url .= $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit'));
+			$url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit'));
 			$this->template->assign_block_vars('navlinks', array(
 				'U_VIEW_FORUM'	=> $url,
 				'FORUM_NAME'	=> $this->user->lang['GLOSS_EDITION'],
 			));
 		}
-
-		$url .= $this->helper->route('lmdi_gloss_controller', array('mode' => 'glosspict'));
-		$this->template->assign_block_vars('navlinks', array(
-			'U_VIEW_FORUM'	=> $url,
-			'FORUM_NAME'	=> $this->user->lang['GLOSS_VIEW'],
-		));
+		else
+		{
+			$url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glosspict'));
+			$this->template->assign_block_vars('navlinks', array(
+				'U_VIEW_FORUM'	=> $url,
+				'FORUM_NAME'	=> $this->user->lang['GLOSS_VIEW'],
+			));
+		}
 
 		$this->template->assign_vars(array(
 			'TITRE'		=> $view,
@@ -92,5 +84,5 @@ class glosspict
 		));
 
 		return $this->helper->render ('glossview.html', $this->user->lang['GLOSS_VIEW']);
-	}
+	}	// main
 }

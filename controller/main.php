@@ -49,7 +49,7 @@ class main
 		$this->request			= $request;
 		$this->helper			= $helper;
 		$this->phpbb_root_path	= $phpbb_root_path;
-		$this->phpEx 			= $phpEx;
+		$this->phpEx			= $phpEx;
 	}
 
 
@@ -77,17 +77,15 @@ class main
 		{
 			case 'glosspict':
 				return $this->glosspict->main();
-			break;
 			case 'glossedit':
 				return $this->glossedit->main();
-			break;
 			case 'lexicon':
 				$this->lexicon->main();
 			break;
-			case 'glossaire' :
+			case 'glossaire':
 			default:
 				return $this->glossaire->main();
-			break;
 		}
 	}
+
 }

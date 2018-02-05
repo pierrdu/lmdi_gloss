@@ -66,8 +66,6 @@ services:
         arguments:
             - '@template'
             - '@user'
-            - '@ext.manager'
-            - '@path_helper'
             - '@controller.helper'
             - '@request'
             - '%core.php_ext%'
@@ -88,4 +86,5 @@ services:
             - '@user'
             - '@dbal.conn'
             - '@request'
+            - '%core.root_path%'
             - '%lmdi.gloss.tables.glossary%'

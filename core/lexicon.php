@@ -4,7 +4,7 @@
 * Original author Renate Regitz http://www.kaninchenwissen.de/
 * Rewritten by Pierre Duhem for the Glossary extension
 * This code extracts the contents of term id from glossary table.
-* The returned contents is displayed in the popup window.
+* The returned content is displayed in the popup window.
 * This code is called from module jquery.lexicon.js.
 **/
 
@@ -16,6 +16,8 @@ class lexicon
 	protected $user;
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
+	/** @var string phpBB root path */
+	protected $phpbb_root_path;
 	/** @var \phpbb\request\request */
 	protected $request;
 	protected $glossary_table;
@@ -24,18 +26,20 @@ class lexicon
 		\phpbb\user $user,
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\request\request $request,
-		$glossary_table)
+		$phpbb_root_path,
+		$glossary_table
+		)
 	{
 		$this->user			= $user;
 		$this->db				= $db;
 		$this->request			= $request;
+		$this->phpbb_root_path	= $phpbb_root_path;
 		$this->glossary_table	= $glossary_table;
 	}
 
 	public function main()
 	{
 		$this->user->add_lang_ext('lmdi/gloss', 'edit_gloss');
-		// id = keyword id
 		$id = $this->request->variable('id', 0);
 		if ($id)
 		{
@@ -55,7 +59,8 @@ class lexicon
 			$picture = $row['picture'];
 			if ($picture != "nopict.jpg")
 			{
-				$entry .= '<p><img class="popgloss" src="ext/lmdi/gloss/glossaire/'.$row['picture'].'" alt="' . $row['term']. '" /></p>';
+				$path = $this->phpbb_root_path . "/store/lmdi/gloss/" . $row['picture'];
+				$entry .= '<p><img class="popgloss" src="' . $path .'" alt="' . $row['term']. '" /></p>';
 			}
 			$elinks = $row['elinks'];
 			$label = $row['label'];
@@ -79,5 +84,5 @@ class lexicon
 		}
 		$json_response = new \phpbb\json_response;
 		$json_response->send($entry, true);
-	}
+	}	// main
 }

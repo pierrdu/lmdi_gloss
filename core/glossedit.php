@@ -1,6 +1,6 @@
 <?php
 // glossedit.php
-// (c) 2015-2018 - LMDI Pierre Duhem
+// @copyright (c) 2015-2018 - LMDI Pierre Duhem
 // Page d'édition du glossaire pour les administrateurs
 // Glossary edition page for administrators
 
@@ -139,7 +139,7 @@ class glossedit
 					$title = $this->user->lang['GLOSS_EDIT'];
 					$sw = 1;
 				}
-				
+
 				$action = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit'));
 				$this->template->assign_vars(array(
 					'TITLE'		=> $title,
@@ -181,21 +181,20 @@ class glossedit
 					'PICT'		=> $pict,
 					));
 				return $this->helper->render('glossform.html', $title);
-				break;
 			case "save":
-				$term_id = $this->db->sql_escape(trim($this->request->variable('term_id', 0)));
-				$term = $this->db->sql_escape(trim($this->request->variable('term',"",true)));
-				$variants = $this->db->sql_escape(trim($this->request->variable('vari',"",true)));
-				$descript = $this->db->sql_escape(trim($this->request->variable('desc',"",true)));
+				$term_id = trim($this->request->variable('term_id', 0));
+				$term = trim($this->request->variable('term',"",true));
+				$variants = trim($this->request->variable('vari',"",true));
+				$descript = trim($this->request->variable('desc',"",true));
 				if (mb_strlen($descript) > 511)
 				{
 					$descript = mb_substr($descript, 0, 511);
 				}
-				$cat = $this->db->sql_escape(trim($this->request->variable('cat',"",true)));
-				$ilinks = $this->db->sql_escape(trim($this->request->variable('ilinks',"",true)));
-				$elinks = $this->db->sql_escape(trim($this->request->variable('elinks',"",true)));
-				$label = $this->db->sql_escape(trim($this->request->variable('label',"",true)));
-				$lang = $this->db->sql_escape($this->request->variable('lang',"fr",true));
+				$cat = trim($this->request->variable('cat',"",true));
+				$ilinks = trim($this->request->variable('ilinks',"",true));
+				$elinks = trim($this->request->variable('elinks',"",true));
+				$label = trim($this->request->variable('label',"",true));
+				$lang = trim($this->request->variable('lang',"fr",true));
 				$coche = $this->request->variable('upload', "", true);
 				$picture = $str_nopict;
 				switch ($coche)
@@ -236,7 +235,7 @@ class glossedit
 						}
 					break;
 				}
-				if ($term_id == 0)
+				if (!$term_id)
 				{
 					$sql_ary = array (
 						'variants' => $variants,
@@ -320,7 +319,7 @@ class glossedit
 						$label = $arow['label'];
 						if ($pict != $str_nopict)
 						{
-							$url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glosspict', 'code' => -1, 'pict' => $pict, 'terme' => $term));
+							$url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glosspict', 'code' => $code, 'pict' => $pict, 'terme' => $term));
 							$pict = "<a href=\"$url\">$pict</a>";
 						}
 						$act = "<a href=\"";
@@ -383,11 +382,9 @@ class glossedit
 					));
 
 				return $this->helper->render ('glossedit.html', $this->user->lang['TGLOSSAIRE']);
-				break;
 			}
 
 		$url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit'));
-				$params = "mode=glossedit";
 		$this->template->assign_block_vars('navlinks', array(
 			'U_VIEW_FORUM'	=> $url,
 			'FORUM_NAME'	=> $this->user->lang['GLOSS_EDITION'],
@@ -402,14 +399,18 @@ class glossedit
 			));
 
 		return $this->helper->render('glossaire.html', $this->user->lang['TGLOSSAIRE']);
-	}
+	}	// main
 
 	// Uploading function for phpBB 3.1.x
 	private function upload_31x(&$errors)
 	{
 		include_once($this->phpbb_root_path . 'includes/functions_upload.' . $this->phpEx);
+
 		// Set upload directory
-		$upload_dir = $this->ext_path . 'glossaire';
+		mkdir('store/lmdi');
+		mkdir('store/lmdi/gloss');
+		$upload_dir = $this->php_root_path . 'lmdi/gloss/';
+
 		// Upload file
 		$upload = new \fileupload();
 		$upload->set_error_prefix('LMDI_GLOSS_');
@@ -443,8 +444,12 @@ class glossedit
 	// Uploading function for phpBB 3.2.x
 	private function upload_32x(&$errors)
 	{
+		global $phpbb_container;
+
 		// Set upload directory
-		$upload_dir = $this->ext_path . 'glossaire';
+		$filesystem = $phpbb_container->get('filesystem');
+		$filesystem->mkdir('store/lmdi/gloss');
+		$upload_dir = $this->php_root_path . 'store/lmdi/gloss/';
 
 		/** @var \phpbb\files\upload $upload */
 		$upload = $this->files_factory->get('upload');
