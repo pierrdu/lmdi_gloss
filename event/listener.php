@@ -123,9 +123,7 @@ class listener implements EventSubscriberInterface
 					if (in_array($fid, $enabled_forums))
 					{
 						$html = $event['html'];
-						var_dump ($html);
 						$html = $this->glossary_pass($html);
-						var_dump ($html);
 						$event['html'] = $html;
 					}
 				}
