@@ -52,25 +52,13 @@ class listener implements EventSubscriberInterface
 
 	public static function getSubscribedEvents()
 	{
-		global $config;	// Not yet available as $this->config
-		if (version_compare($config['version'], '3.2.*', '>='))
-		{
-			return array(
-			'core.user_setup'				=> 'load_language_on_setup',
-			'core.page_header'				=> 'build_url',
-			'core.permissions'				=> 'add_permissions',
-			'core.text_formatter_s9e_render_after' => 'glossary_insertion_32x',
-			);
-		}
-		else
-		{
-			return array(
-			'core.user_setup'				=> 'load_language_on_setup',
-			'core.page_header'				=> 'build_url',
-			'core.permissions'				=> 'add_permissions',
-			'core.viewtopic_post_rowset_data'	=> 'glossary_insertion',
-			);
-		}
+		return array(
+		'core.user_setup'				=> 'load_language_on_setup',
+		'core.page_header'				=> 'build_url',
+		'core.permissions'				=> 'add_permissions',
+		'core.viewtopic_post_rowset_data'	=> 'glossary_insertion',
+		'core.text_formatter_s9e_render_after' => 'glossary_insertion_32x',
+		);
 	}
 
 
@@ -116,25 +104,30 @@ class listener implements EventSubscriberInterface
 	public function glossary_insertion_32x($event)
 	{
 		static $enabled_forums;
-		if ($this->config['lmdi_glossary_acp'])
+		if (version_compare($this->config['version'], '3.2.x', '>='))
 		{
-			if (empty($enabled_forums))
+			if ($this->config['lmdi_glossary_acp'])
 			{
-				$enabled_forums = $this->cache->get('_gloss_forums');
 				if (empty($enabled_forums))
 				{
-					$this->rebuild_cache_forums();
 					$enabled_forums = $this->cache->get('_gloss_forums');
+					if (empty($enabled_forums))
+					{
+						$this->rebuild_cache_forums();
+						$enabled_forums = $this->cache->get('_gloss_forums');
+					}
 				}
-			}
-			if (!empty($enabled_forums))
-			{
-				$fid = $this->request->variable('f', 0);
-				if (in_array($fid, $enabled_forums))
+				if (!empty($enabled_forums))
 				{
-					$html = $event['html'];
-					$html = $this->glossary_pass($html);
-					$event['html'] = $html;
+					$fid = $this->request->variable('f', 0);
+					if (in_array($fid, $enabled_forums))
+					{
+						$html = $event['html'];
+						var_dump ($html);
+						$html = $this->glossary_pass($html);
+						var_dump ($html);
+						$event['html'] = $html;
+					}
 				}
 			}
 		}
@@ -144,27 +137,30 @@ class listener implements EventSubscriberInterface
 	public function glossary_insertion($event)
 	{
 		static $enabled_forums;
-		if ($this->config['lmdi_glossary_acp'])
+		if (version_compare($this->config['version'], '3.2.x', '<'))
 		{
-			if (empty($enabled_forums))
+			if ($this->config['lmdi_glossary_acp'])
 			{
-				$enabled_forums = $this->cache->get('_gloss_forums');
 				if (empty($enabled_forums))
 				{
-					$this->rebuild_cache_forums();
 					$enabled_forums = $this->cache->get('_gloss_forums');
+					if (empty($enabled_forums))
+					{
+						$this->rebuild_cache_forums();
+						$enabled_forums = $this->cache->get('_gloss_forums');
+					}
 				}
-			}
-			if (!empty($enabled_forums))
-			{
-				$rowset_data = $event['rowset_data'];
-				$forum_id = $rowset_data['forum_id'];
-				if (in_array($forum_id, $enabled_forums))
+				if (!empty($enabled_forums))
 				{
-					$post_text = $rowset_data['post_text'];
-					$post_text = $this->glossary_pass($post_text);
-					$rowset_data['post_text'] = $post_text;
-					$event['rowset_data'] = $rowset_data;
+					$rowset_data = $event['rowset_data'];
+					$forum_id = $rowset_data['forum_id'];
+					if (in_array($forum_id, $enabled_forums))
+					{
+						$post_text = $rowset_data['post_text'];
+						$post_text = $this->glossary_pass($post_text);
+						$rowset_data['post_text'] = $post_text;
+						$event['rowset_data'] = $rowset_data;
+					}
 				}
 			}
 		}
