@@ -19,12 +19,12 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 */
 class listener implements EventSubscriberInterface
 {
-	protected $cache;
-	protected $user;
 	protected $db;
-	protected $template;
 	protected $config;
 	protected $helper;
+	protected $template;
+	protected $cache;
+	protected $user;
 	protected $request;
 	protected $glossary_table;
 
@@ -49,16 +49,29 @@ class listener implements EventSubscriberInterface
 		$this->glossary_table = $glossary_table;
 	}
 
-
 	public static function getSubscribedEvents()
 	{
-		return array(
-		'core.user_setup'				=> 'load_language_on_setup',
-		'core.page_header'				=> 'build_url',
-		'core.permissions'				=> 'add_permissions',
-		'core.viewtopic_post_rowset_data'	=> 'glossary_insertion',
-		'core.text_formatter_s9e_render_after' => 'glossary_insertion_32x',
-		);
+		global $phpbb_container;
+		if ($phpbb_container->has('core.text_formatter_s9e_render_after'))
+		{
+			// var_dump ("True. Version 3.2.");
+			return array(
+				'core.user_setup'				=> 'load_language_on_setup',
+				'core.page_header'				=> 'build_url',
+				'core.permissions'				=> 'add_permissions',
+				'core.text_formatter_s9e_render_after' => 'glossary_insertion_32x',
+				);
+		}
+		else
+		{
+			// var_dump ("False. Version 3.1.");
+			return array(
+				'core.user_setup'				=> 'load_language_on_setup',
+				'core.page_header'				=> 'build_url',
+				'core.permissions'				=> 'add_permissions',
+				'core.viewtopic_post_rowset_data'	=> 'glossary_insertion',
+				);
+		}
 	}
 
 
@@ -104,8 +117,9 @@ class listener implements EventSubscriberInterface
 	public function glossary_insertion_32x($event)
 	{
 		static $enabled_forums;
-		if (version_compare($this->config['version'], '3.2.x', '>='))
-		{
+		var_dump ("3.2.x");
+		// if (version_compare($this->config['version'], '3.2.x', '>='))
+		// {
 			if ($this->config['lmdi_glossary_acp'])
 			{
 				if (empty($enabled_forums))
@@ -128,15 +142,15 @@ class listener implements EventSubscriberInterface
 					}
 				}
 			}
-		}
+		// }
 	} // glossary_insertion_32x
 
 
 	public function glossary_insertion($event)
 	{
 		static $enabled_forums;
-		if (version_compare($this->config['version'], '3.2.x', '<'))
-		{
+		// if (version_compare($this->config['version'], '3.2.x', '<'))
+		// {
 			if ($this->config['lmdi_glossary_acp'])
 			{
 				if (empty($enabled_forums))
@@ -161,7 +175,7 @@ class listener implements EventSubscriberInterface
 					}
 				}
 			}
-		}
+		// }
 	}	// glossary_insertion
 
 
@@ -257,6 +271,7 @@ class listener implements EventSubscriberInterface
 		return ($texte);
 	}
 	}	// glossary_pass
+
 
 	/*	Production of the term list and the replacement list, in an array named glossterms.
 		The replacement string follows this model:

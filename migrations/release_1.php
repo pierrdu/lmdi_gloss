@@ -105,7 +105,7 @@ class release_1 extends \phpbb\db\migration\migration
 
 	public function utf8_unicode_ci()
 	{
-		$sql = "alter table ${this->table_prefix}glossary convert to character set utf8 collate utf8_unicode_ci";
+		$sql = "alter table {$this->table_prefix}glossary convert to character set utf8 collate utf8_unicode_ci";
 		$this->db->sql_query($sql);
 	}
 
