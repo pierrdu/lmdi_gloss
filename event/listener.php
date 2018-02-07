@@ -117,9 +117,8 @@ class listener implements EventSubscriberInterface
 	public function glossary_insertion_32x($event)
 	{
 		static $enabled_forums;
-		var_dump ("3.2.x");
-		// if (version_compare($this->config['version'], '3.2.x', '>='))
-		// {
+		if (version_compare($this->config['version'], '3.2.x', '>='))
+		{
 			if ($this->config['lmdi_glossary_acp'])
 			{
 				if (empty($enabled_forums))
@@ -142,15 +141,15 @@ class listener implements EventSubscriberInterface
 					}
 				}
 			}
-		// }
+		}
 	} // glossary_insertion_32x
 
 
 	public function glossary_insertion($event)
 	{
 		static $enabled_forums;
-		// if (version_compare($this->config['version'], '3.2.x', '<'))
-		// {
+		if (version_compare($this->config['version'], '3.2.x', '<'))
+		{
 			if ($this->config['lmdi_glossary_acp'])
 			{
 				if (empty($enabled_forums))
@@ -175,7 +174,7 @@ class listener implements EventSubscriberInterface
 					}
 				}
 			}
-		// }
+		}
 	}	// glossary_insertion
 
 
