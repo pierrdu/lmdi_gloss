@@ -10,8 +10,6 @@
 6. Look for `LMDI Glossary` under the Disabled Extensions list, and click its `Enable` link.
 
 Enable the feature in the ACP (Extension tab).
-Some users dislike the tagging of terms in the posts. Therefore, there is an option 
-to disable it individually in the UCP.
 
 ## Uninstall
 
