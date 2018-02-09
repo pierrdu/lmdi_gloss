@@ -249,7 +249,6 @@ class glossedit
 						'lang' => $lang,
 						);
 					$sql  = "INSERT INTO $table " . $this->db->sql_build_array ('INSERT', $sql_ary);
-					var_dump ($sql);
 					$this->db->sql_query($sql);
 					$term_id = $this->db->sql_nextid();
 				}
@@ -269,7 +268,6 @@ class glossedit
 						);
 					$sql = "UPDATE $table SET " . $this->db->sql_build_array ('UPDATE', $sql_ary) . "
 						WHERE term_id = $term_id";
-					var_dump ($sql);
 					$this->db->sql_query_limit($sql, 1);
 				}
 				// Purge the cache

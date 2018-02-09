@@ -51,29 +51,6 @@ class listener implements EventSubscriberInterface
 
 	public static function getSubscribedEvents()
 	{
-		/*
-		global $phpbb_container;
-		if ($phpbb_container->has('core.text_formatter_s9e_render_after'))
-		{
-			// var_dump ("True. Version 3.2.");
-			return array(
-				'core.user_setup'				=> 'load_language_on_setup',
-				'core.page_header'				=> 'build_url',
-				'core.permissions'				=> 'add_permissions',
-				'core.text_formatter_s9e_render_after' => 'glossary_insertion_32x',
-				);
-		}
-		else
-		{
-			// var_dump ("False. Version 3.1.");
-			return array(
-				'core.user_setup'				=> 'load_language_on_setup',
-				'core.page_header'				=> 'build_url',
-				'core.permissions'				=> 'add_permissions',
-				'core.viewtopic_post_rowset_data'	=> 'glossary_insertion',
-				);
-		}
-		*/
 		return array(
 			'core.user_setup'				=> 'load_language_on_setup',
 			'core.page_header'				=> 'build_url',
@@ -81,7 +58,6 @@ class listener implements EventSubscriberInterface
 			'core.viewtopic_post_rowset_data'	=> 'glossary_insertion',
 			'core.text_formatter_s9e_render_after' => 'glossary_insertion_32x',
 			);
-
 	}
 
 
