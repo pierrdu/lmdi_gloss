@@ -82,11 +82,16 @@ class listener implements EventSubscriberInterface
 		{
 			$gloss_320 = 1;
 		}
+		// Creation of the URL used by the javascript code (jquery.lexicon.js)
+		// See the inclusion in event file overall_footer_after.html.
+		$source_url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'lexicon'));
+		$source_url .= "&amp;id=";
 		$this->template->assign_vars(array(
 			'U_GLOSSAIRE'	=> $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossaire')),
 			'L_GLOSSAIRE'	=> $this->user->lang['LGLOSSAIRE'],
 			'T_GLOSSAIRE'	=> $this->user->lang['TGLOSSAIRE'],
 			'S_320'		=> $gloss_320,
+			'SOURCE_URL'	=> $source_url,
 		));
 	}
 

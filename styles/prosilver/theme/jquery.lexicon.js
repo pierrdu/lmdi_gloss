@@ -1,9 +1,8 @@
 var $lmdigloss;
 
-function showEntry(e) 
+function showEntry(e)
 {
 	var id = this.className.substr(2);
-	var source = "app.php/gloss?mode=lexicon&amp;id=";
 
 	// There should always be only one popup window
 	$("#lexiconEntry").remove();
@@ -12,6 +11,7 @@ function showEntry(e)
 	{
 	$lmdigloss = this;
 	$('<div id="lexiconEntry"><br><br><br></div>').insertAfter($lmdigloss);
+	source = lmdi_gloss_url;
 	$.get(source, {id: id}, function(txt)
 		{
 			$('#lexiconEntry').html(txt);
@@ -22,7 +22,8 @@ function showEntry(e)
 				{ 
 					$("#lexiconEntry").remove();
 					return false;
-				});
+				}
+				);
 			}
 			else
 			{
@@ -30,9 +31,11 @@ function showEntry(e)
 				{ 
 					$("#lexiconEntry").remove();
 					return false; 
-				});
+				}
+				);
 			}
-		});
+		}
+		);
 	}
 }
 

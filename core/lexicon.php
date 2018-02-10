@@ -80,7 +80,7 @@ class lexicon
 		}
 		else
 		{
-			$entry = "Error";
+			$entry = "Error no id";
 		}
 		$json_response = new \phpbb\json_response;
 		$json_response->send($entry, true);
