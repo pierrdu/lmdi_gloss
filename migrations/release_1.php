@@ -27,9 +27,9 @@ class release_1 extends \phpbb\db\migration\migration
 	public function update_schema()
 	{
 		return array(
-			'add_tables'   => array(
-				$this->table_prefix . 'glossary'   => array(
-					'COLUMNS'   => array(
+			'add_tables' => array(
+				$this->table_prefix . 'glossary' => array(
+					'COLUMNS' => array(
 						'term_id'		=> array('UINT', null, 'auto_increment'),
 						'variants'	=> array('VCHAR:80', ''),
 						'term'		=> array('VCHAR:80', ''),
@@ -42,7 +42,7 @@ class release_1 extends \phpbb\db\migration\migration
 						'lang'		=> array('VCHAR:2', 'en'),
 					),
 					'PRIMARY_KEY'	=> 'term_id',
-					'KEYS'  => array('term'  => array('INDEX', 'term')),
+					'KEYS' => array('term'  => array('INDEX', 'term')),
 				),
 			),
 			'add_columns'	=> array(
@@ -147,7 +147,7 @@ class release_1 extends \phpbb\db\migration\migration
 		$table = $this->table_prefix . 'glossary';
 			return array(
 				'drop_columns'	=> array(
-					$table_prefix . 'users' => array(
+					$this->table_prefix . 'users' => array(
 						'lmdi_gloss',
 					),
 				),

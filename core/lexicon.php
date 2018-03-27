@@ -43,7 +43,7 @@ class lexicon
 		$id = $this->request->variable('id', 0);
 		if ($id)
 		{
-			$sql = "SELECT * FROM " . $this->glossary_table . " WHERE term_id = '$id'";
+			$sql = "SELECT * FROM " . $this->glossary_table . " WHERE term_id = $id";
 			$result = $this->db->sql_query_limit($sql, 1);
 			$row = $this->db->sql_fetchrow($result);
 			$entry = '<h3><a title="'. $this->user->lang['CLOSE_WINDOW']. '" id="lexiconClose" href="#">x</a></h3>';
@@ -69,20 +69,18 @@ class lexicon
 			{
 				if ($label == "")
 				{
-					$entry .= '<p id="elinks">' . $str_elink . '<a href="'.$elinks.'">'.$elinks.'</a></p>';
+					$label = $elinks;
 				}
-				else
-				{
-					$entry .= '<p id="elinks">' . $str_elink . '<a href="'.$elinks.'">'.$label.'</a></p>';
-				}
+				$entry .= '<p id="elinks">' . $str_elink . '<a href="'.$elinks.'">'.$label.'</a></p>';
 			}
 			$this->db->sql_freeresult($result);
 		}
 		else
 		{
-			$entry = "Error no id";
+			$entry = $this->user->lang('GLOSS_NOID');
 		}
 		$json_response = new \phpbb\json_response;
 		$json_response->send($entry, true);
 	}	// main
+
 }

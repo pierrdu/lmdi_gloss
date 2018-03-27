@@ -2,6 +2,7 @@
 /**
 *
 * @package phpBB Extension - LMDI Glossary extension
+* Glossary viewer — Afficheur du glossaire
 * @copyright (c) 2015-2018 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
@@ -64,38 +65,31 @@ class glossaire
 
 	public function main()
 	{
-		$sql = 'SELECT DISTINCT UPPER(LEFT(TRIM(term),1)) AS a
-				FROM ' . $this->glossary_table . '
-				ORDER BY a';
-		$result = $this->db->sql_query($sql);
+		static $abc_table;
+		static $gloss_table;
+		if (!$abc_table)
+		{
+			$abc_table = $this->gloss_helper->compute_abc_table();
+		}
+		foreach ($abc_table as $l)
+		{
+			$this->template->assign_block_vars('gabc', array('ABC' => $l));
+		}
 
-		$abc_links = '<br /><p class="glossa">';
+		if (!$gloss_table)
+		{
+			$gloss_table = $this->gloss_helper->compute_gloss_table ($abc_table);
+		}
 
 		$str_action = $this->user->lang['GLOSS_DISPLAY'];
 		$str_ilinks = $this->user->lang['GLOSS_ILINKS'];
 		$str_elinks = $this->user->lang['GLOSS_ELINKS'];
-
-		while ($row = $this->db->sql_fetchrow($result))
+		foreach ($abc_table as $l)
 		{
-			$l = $row['a'];
-			$abc_links .= "&nbsp;<a class=\"cap\" href =\"#$l\">$l</a>&nbsp;" ;
-			$l = $this->db->sql_escape ($l);
-			$sql = "SELECT * 
-					FROM " . $this->glossary_table . "
-					WHERE LEFT($this->glossary_table.term, 1) = '$l' 
-					ORDER BY term";
-			$result2 = $this->db->sql_query ($sql);
+			$block = $gloss_table[$l];
 			$cpt = 0;
-			while ($arow = $this->db->sql_fetchrow($result2))
+			foreach ($block as $row)
 			{
-				$code   = $arow['term_id'];
-				$term   = $arow['term'];
-				$desc   = $arow['description'];
-				$cat    = $arow['cat'];
-				$ilinks = $arow['ilinks'];
-				$elinks = $arow['elinks'];
-				$label  = $arow['label'];
-				$pict   = $arow['picture'];
 				if (!$cpt)
 				{
 					$anchor = "<span id='$l'></span>";
@@ -104,55 +98,71 @@ class glossaire
 				{
 					$anchor = "";
 				}
+				$ilinks = $row['ilinks'];
 				if (strlen ($ilinks))
 				{
 					$ilinks = $this->gloss_helper->calcul_ilinks ($ilinks);
-					$ilinks = "<br>$str_ilinks $ilinks";
-				}
-				if (strlen ($elinks))
-				{
-					if (strlen ($label))
-					{
-						$elinks = "<br>$str_elinks <a class=\"ilinks\" href=\"$elinks\">$label</a>";
-					}
-					else
-					{
-						$elinks = "<br>$str_elinks <a class=\"ilinks\" href=\"$elinks\">$elinks</a>";
-					}
-				}
-				if ($pict != "nopict.jpg")
-				{
-					$url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glosspict', 'code' => $code, 'term' =>$term, 'pict' => $pict));
-					$pict = '<a href="' . $url . '">' . $str_action . '</a>';
+					$brilinks = "<br>$str_ilinks";
 				}
 				else
 				{
-					$pict= "";
+					$brilinks = "";
+				}
+				$elinks = $row['elinks'];
+				$label  = $row['label'];
+				if (strlen ($elinks))
+				{
+					if (!strlen ($label))
+					{
+						$label = $elinks;
+					}
+					$brelinks = "<br>$str_elinks";
+				}
+				else
+				{
+					$brelinks = "";
+				}
+				$pict = $row['picture'];
+				$term = $row['term'];
+				$code = $row['term_id'];
+				if ($pict != "nopict.jpg")
+				{
+					$url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glosspict', 'code' => $code, 'term' =>$term, 'pict' => $pict));
+					$str_url = $str_action;
+				}
+				else
+				{
+					$url= "";
+					$str_url = "";
 				}
 				$this->template->assign_block_vars('gaff', array(
-					'ANCHOR'	=> $anchor,
 					'TERM'	=> $term,
 					'ID'		=> $code,
-					'DEF'	=> $arow['description'],
-					'PICT'	=> $pict,
-					'CAT'	=> $cat,
+					'DEF'	=> $row['description'],
+					'CAT'	=> $row['cat'],
+					'URL'	=> $url,
+					'STRURL'	=> $str_url,
+					'ANCHOR'	=> $anchor,
 					'ELINKS'	=> $elinks,
+					'LABEL'	=> $label,
 					'ILINKS'	=> $ilinks,
+					'BRILINKS' => $brilinks,
+					'BRELINKS' => $brelinks,
 					));
 				$cpt++;
-			}
-			$this->db->sql_freeresult ($result2);
-		}
-		$this->db->sql_freeresult ($result);
+			}	// Inner foreach
+		}	// Outer foreach
 
 		if ($this->auth->acl_get('u_lmdi_glossary') || $this->auth->acl_get('a_lmdi_glossary'))
 		{
-			$str_admin = $this->user->lang['GLOSS_EDITION'];
-			$abc_links .= '</p><p><b><a href="';
-			$abc_links .= $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit'));
-			$abc_links .= '">' . $str_admin . '</a></b>';
+			$editor = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit'));
+			$switch = 1;
 		}
-		$abc_links .= "</p><br />";
+		else
+		{
+			$editor = "";
+			$switch = 0;
+		}
 
 		// Bibliographie - Bibliographic part
 		$biblio = $this->user->lang['GLOSS_BIBLIO'];
@@ -163,11 +173,14 @@ class glossaire
 
 		$this->template->assign_vars (array (
 			'TITLE'		=> $this->user->lang['GLOSS_VIEW'],
-			'ABC'		=> $abc_links,
+			'S_EDIT'		=> $switch,
+			'EDITOR'		=> $editor,
+			'ACTION'		=> $this->user->lang['GLOSS_EDITION'],
 			'ILLUST'		=> $this->user->lang['ILLUSTRATION'],
 			'BIBLIO'		=> $biblio,
 			'BACKTOP'		=> $this->user->lang['LMDI_BACK_TOP'],
 			));
 		return $this->helper->render('glossaire.html', $this->user->lang['TGLOSSAIRE']);
-	}
+	}	// main
+
 }

@@ -265,7 +265,7 @@ class listener implements EventSubscriberInterface
 
 	/*	Production of the term list and the replacement list, in an array named glossterms.
 		The replacement string follows this model:
-		<lmdigloss class='id302' title=''>$1</lmdigloss>
+		<lmdi-gloss class='id302' title=''>$1</lmdi-gloss>
 		The title element can contain the first 50 characters of description text (see ACP).
 		*/
 	private function compute_glossary_list()
@@ -273,7 +273,7 @@ class listener implements EventSubscriberInterface
 		$glossterms = $this->cache->get('_glossterms');
 		if ($glossterms === false)
 		{
-			$sql  = "SELECT * FROM $this->glossary_table 
+			$sql = "SELECT * FROM $this->glossary_table 
 				ORDER BY LENGTH(TRIM(variants)) DESC"; // To try longest variants first
 			$result = $this->db->sql_query($sql);
 			$glossterms = array();
@@ -284,9 +284,9 @@ class listener implements EventSubscriberInterface
 				if ($this->config['lmdi_glossary_title'])
 				{
 					$desc = trim($row['description']);
-					if (mb_strlen($desc) > 500)
+					if (mb_strlen($desc) > 511)
 					{
-						$desc = mb_substr($desc, 0, 500);
+						$desc = mb_substr($desc, 0, 511);
 					}
 					$str_title = " title=\"$desc\"";
 				}
@@ -309,8 +309,7 @@ class listener implements EventSubscriberInterface
 					if (!in_array($variant, $done))
 					{
 						$done[] = $variant;
-						$remp  = "<lmdigloss class=\"id{$term_id}\"$str_title>$1</lmdigloss>";
-						// $glossterms['rech'][] = $variant;
+						$remp  = "<lmdi-gloss class=\"id{$term_id}\"$str_title>$1</lmdi-gloss>";
 						$begin = '/\b(';
 						$end = ')\b/ui'; // PCRE - u = UTF-8 - i = case insensitive
 						$rech = $begin . $variant . $end;

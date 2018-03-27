@@ -1,5 +1,5 @@
 /* gloss.css
-Style elements for the Glossary Extension - Prosilver version
+Style elements for the Glossary Extension - lmdi32 version
 */
 
 lmdi-gloss {
@@ -14,7 +14,7 @@ lmdi-gloss {
 	width:500px;
 	padding:1em;
 	height:auto;
-	border:1px #071491 solid;
+	border:1px #2e7602 solid;
 	background:#FFFFFF;
 	color:black;
 	font-size:75%;
@@ -24,21 +24,21 @@ lmdi-gloss {
 
 #lexiconEntry h3{
 	font-size:1.5em;
-	color:#071491;
+	color:#2e7602;
 	display:inline;
 	}
 
 a#lexiconClose {
-	color:#071491;
+	color:#2e7602;
 	background:#E3E8D5;
 	padding:0 5px 1px 5px;
-	border:1px solid #071491;
+	border:1px solid #0177B3;
 	float:right;
 	}
 
 a#lexiconClose:hover, a#lexiconClose:active {
 	color:#000000;
-	background:#FD6C9E;
+	background:#2e7602;
 	border:1px solid #000000;
 	}
 
@@ -49,13 +49,3 @@ a#lexiconClose:hover, a#lexiconClose:active {
 img.popgloss {
 	max-width:500px;
 	}
-
-@media only screen and (max-width: 700px), only screen and (max-device-width: 700px) {
-	div#lexiconEntry {
-		width:300px;
-	}
-
-	img.popgloss {
-		max-width:300px;
-		}
-}

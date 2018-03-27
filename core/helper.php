@@ -9,25 +9,25 @@ class helper
 {
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
-	/** @var string $table_prefix */
+	protected $cache;
 	protected $table_prefix;
-	/** @var string */
 	protected $glossary_table;
-	/** @var string $phpbb_root_path */
 	protected $phpbb_root_path;
-	/** @var string phpEx */
 	protected $php_ext;
+
 
 
 	public function __construct(
 		\phpbb\db\driver\driver_interface $db,
+		\phpbb\cache\service $cache,
 		$table_prefix,
 		$glossary_table,
 		$phpbb_root_path, $php_ext)
 	{
-		$this->db 			= $db;
-		$this->table_prefix 	= $table_prefix;
-		$this->glossary_table 	= $glossary_table;
+		$this->db				= $db;
+		$this->cache			= $cache;
+		$this->table_prefix		= $table_prefix;
+		$this->glossary_table	= $glossary_table;
 		$this->phpbb_root_path	= $phpbb_root_path;
 		$this->php_ext			= $php_ext;
 	}
@@ -47,25 +47,21 @@ class helper
 			$row = $this->db->sql_fetchrow($result);
 			$code = $row['term_id'];
 			$this->db->sql_freeresult($result);
+			if (strlen($string))
+			{
+				$string .= ", ";
+			}
 			if ($code)
 			{
-				if (strlen($string))
-				{
-					$string .= ", ";
-				}
 				$string .= "<a class=\"ilinks\" href=\"#$code\">$term0</a>";
 			}
 			else
 			{
-				if (strlen($string))
-				{
-					$string .= ", ";
-				}
 				$string .= $term0;
 			}
 		}
 		return ($string);
-	}	// calcul_links
+	}	// calcul_ilinks
 
 
 	public function get_role_id($role_name)
@@ -109,7 +105,7 @@ class helper
 
 	public function get_def_language($table, $colonne)
 	{
-		$sql = "SELECT DEFAULT($colonne) lg FROM (SELECT 1) AS dummy LEFT JOIN $table ON True";
+		$sql = "SELECT DEFAULT($colonne) lg FROM $table";
 		$result = $this->db->sql_query_limit($sql, 1);
 		$row = $this->db->sql_fetchrow($result);
 		$default = $row['lg'];
@@ -123,9 +119,14 @@ class helper
 		$prefix = $this->table_prefix;
 		$group_id = $this->get_group_id($group);
 		$role_id = $this->get_role_id($role);
-		$sql = "INSERT into {$prefix}acl_groups 
-			(group_id, forum_id, auth_option_id, auth_role_id, auth_setting)
-			VALUES ($group_id, 0, 0, $role_id, 0)";
+		$sql_ary = array (
+			'group_id' => $group_id,
+			'forum_id' => 0,
+			'auth_option_id' => 0,
+			'auth_role_id' => $role_id,
+			'auth_setting' => 0
+			);
+		$sql = "INSERT into {$prefix}acl_groups " . $this->db->sql_build_array ('INSERT', $sql_ary);
 		$this->db->sql_query($sql);
 	}
 
@@ -194,5 +195,64 @@ class helper
 		$this->db->sql_freeresult($result);
 		return ($select);
 	}
+
+
+	public function compute_abc_table()
+	{
+		$abc_table = $this->cache->get('_gloss_abc_table');
+		if (empty($abc_table))
+		{
+			$abc_table = $this->rebuild_cache_abc_table();
+		}
+		return ($abc_table);
+	}	// Compute_abc_table
+
+
+	private function rebuild_cache_abc_table()
+	{
+		$abc_table = array();
+		$sql = 'SELECT DISTINCT UPPER(LEFT(TRIM(term),1)) AS a FROM ' . $this->glossary_table . '
+			ORDER BY a';
+		$result = $this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$abc_table[] = $row['a'];
+		}
+		$this->db->sql_freeresult($result);
+		$this->cache->put('_gloss_abc_table', $abc_table, 86400);
+	}	// rebuild_cache_abc_table
+
+
+	public function compute_gloss_table($abc_table)
+	{
+		$gloss_table = $this->cache->get('_gloss_table');
+		if (empty($gloss_table))
+		{
+			$gloss_table = $this->rebuild_cache_gloss_table($abc_table);
+		}
+		return ($gloss_table);
+	}	// Compute_gloss_table
+
+
+	private function rebuild_cache_gloss_table($abc_table)
+	{
+		$gloss_table = array();
+		foreach ($abc_table as $l)
+		{
+			$sql = "SELECT * FROM " . $this->glossary_table . "
+				WHERE LEFT($this->glossary_table.term, 1) = '$l' 
+				ORDER BY term";
+			$result = $this->db->sql_query ($sql);
+			$block = array();
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$block[] = $row;
+			}
+			$this->db->sql_freeresult($result);
+			$gloss_table[$l] = $block;
+		}
+		$this->cache->put('_gloss_table', $gloss_table, 86400);
+		return ($gloss_table);
+	}	// rebuild_cache_abc_table
 
 }

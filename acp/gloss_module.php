@@ -23,7 +23,7 @@ class gloss_module {
 
 		$user->add_lang_ext('lmdi/gloss', 'gloss');
 		$this->tpl_name = 'acp_gloss_body';
-		$this->page_title = $user->lang('ACP_GLOSS_TITLE');
+		$this->page_title = $user->lang['ACP_GLOSS_TITLE'];
 		$action = $request->variable('action', '');
 		$action_config = $this->u_action . "&action=config";
 
@@ -81,12 +81,12 @@ class gloss_module {
 				$config->set('lmdi_glossary_weight', $ko);
 
 				// Usergroup creation/deletion
-				$ug = $request->variable('lmdi_gloss_ugroup', 0);
+				$ug = $request->variable('lmdi_glossary_ugroup', 0);
 				if ($config['lmdi_glossary_usergroup'] != $ug)
 				{
 					$config->set('lmdi_glossary_usergroup', $ug);
-					$usergroup = $user->lang('GROUP_GLOSS_EDITOR');
-					$groupdesc = $user->lang('GROUP_DESCRIPTION_GLOSS_EDITOR');
+					$usergroup = $user->lang['GROUP_GLOSS_EDITOR'];
+					$groupdesc = $user->lang['GROUP_DESCRIPTION_GLOSS_EDITOR'];
 					$userrole  = 'ROLE_GLOSS_EDITOR';
 					if ($ug)
 					{
@@ -101,12 +101,12 @@ class gloss_module {
 				}
 
 				// Admin group creation/deletion
-				$ag = $request->variable('lmdi_gloss_agroup', 0);
+				$ag = $request->variable('lmdi_glossary_agroup', 0);
 				if ($config['lmdi_glossary_admingroup'] != $ag)
 				{
 					$config->set('lmdi_glossary_admingroup', $ag);
-					$admingroup = $user->lang('GROUP_GLOSS_ADMIN');
-					$groupdesc  = $user->lang('GROUP_DESCRIPTION_GLOSS_ADMIN');
+					$admingroup = $user->lang['GROUP_GLOSS_ADMIN'];
+					$groupdesc  = $user->lang['GROUP_DESCRIPTION_GLOSS_ADMIN'];
 					$adminrole  = 'ROLE_GLOSS_ADMIN';
 					if ($ag)
 					{
@@ -121,7 +121,7 @@ class gloss_module {
 				}
 
 				// Forum enabling/disabling
-				$enabled_forums = $request->variable('mark_glossary_forum', array(0), true);
+				$enabled_forums = $request->variable('mark_glossary_forum', array(0));
 				$sql = 'UPDATE ' . FORUMS_TABLE . ' SET lmdi_glossary = 0';
 				$db->sql_query($sql);
 				if (!empty($enabled_forums))

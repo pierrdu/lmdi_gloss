@@ -11,20 +11,16 @@
 		<dt><label>{L_ALLOW_FEATURE}{L_COLON}</label><br />
 		<span>{L_ALLOW_FEATURE_EXPLAIN}</span></dt>
 		<dd>
-		<label><input type="radio" id="lmdi_glossary_acp" name="lmdi_glossary_acp"
-		value="1" class="radio" {ALLOW_FEATURE_YES}/>{L_YES}</label>
-		<label><input type="radio" id="lmdi_glossary_acp" name="lmdi_glossary_acp"
-		value="0" class="radio" {ALLOW_FEATURE_NO}/>{L_NO}</label>
+		<label><input type="radio" name="lmdi_glossary_acp" value="1" class="radio" {ALLOW_FEATURE_YES}/>{L_YES}</label>
+		<label><input type="radio" name="lmdi_glossary_acp" value="0" class="radio" {ALLOW_FEATURE_NO}/>{L_NO}</label>
 		</dd>
 	</dl>
 	<dl>
 		<dt><label>{L_ALLOW_TITLE}{L_COLON}</label><br />
 		<span>{L_ALLOW_TITLE_EXPLAIN}</span></dt>
 		<dd>
-		<label><input type="radio" id="lmdi_glossary_title" name="lmdi_glossary_title"
-		value="1" class="radio" {ALLOW_TITLE_YES}/>{L_YES}</label>
-		<label><input type="radio" id="lmdi_glossary_title" name="lmdi_glossary_title"
-		value="0" class="radio" {ALLOW_TITLE_NO}/>{L_NO}</label>
+		<label><input type="radio" name="lmdi_glossary_title" value="1" class="radio" {ALLOW_TITLE_YES}/>{L_YES}</label>
+		<label><input type="radio" name="lmdi_glossary_title" value="0" class="radio" {ALLOW_TITLE_NO}/>{L_NO}</label>
 		</dd>
 	</dl>
 	<dl>
@@ -51,20 +47,16 @@
 		<dt><label>{L_CREATE_UGROUP}{L_COLON}</label><br />
 		<span>{L_CREATE_UGROUP_EXPLAIN}</span></dt>
 		<dd>
-		<label><input type="radio" id="lmdi_glossary_ugroup" name="lmdi_glossary_ugroup"
-		value="1" class="radio" {CREATE_UGROUP_YES}/>{L_YES}</label>
-		<label><input type="radio" id="lmdi_glossary_ugroup" name="lmdi_glossary_ugroup"
-		value="0" class="radio" {CREATE_UGROUP_NO}/>{L_NO}</label>
+		<label><input type="radio" name="lmdi_glossary_ugroup" value="1" class="radio" {CREATE_UGROUP_YES}/>{L_YES}</label>
+		<label><input type="radio" name="lmdi_glossary_ugroup" value="0" class="radio" {CREATE_UGROUP_NO}/>{L_NO}</label>
 		</dd>
 	</dl>
 	<dl>
 		<dt><label>{L_CREATE_AGROUP}{L_COLON}</label><br />
 		<span>{L_CREATE_AGROUP_EXPLAIN}</span></dt>
 		<dd>
-		<label><input type="radio" id="lmdi_glossary_agroup" name="lmdi_glossary_agroup"
-		value="1" class="radio" {CREATE_AGROUP_YES}/>{L_YES}</label>
-		<label><input type="radio" id="lmdi_glossary_agroup" name="lmdi_glossary_agroup"
-		value="0" class="radio" {CREATE_AGROUP_NO}/>{L_NO}</label>
+		<label><input type="radio" name="lmdi_glossary_agroup" value="1" class="radio" {CREATE_AGROUP_YES}/>{L_YES}</label>
+		<label><input type="radio" name="lmdi_glossary_agroup" value="0" class="radio" {CREATE_AGROUP_NO}/>{L_NO}</label>
 		</dd>
 	</dl>
 	<table class="table1">
@@ -83,7 +75,7 @@
 				<!-- BEGIN forums -->
 				<tr>
 					<td width="80%">
-					<strong><a href="{forums.U_FORUM}">{forums.FORUM_NAME}</a></strong>
+					<strong>{forums.FORUM_NAME}</strong>
 					</td>
 					<td style="width:20%; text-align: center;" title="{forums.FORUM_NAME}">
 					<input type="checkbox" class="radio" name="mark_glossary_forum[]" value="{forums.FORUM_ID}" {forums.CHECKED_ENABLE_FORUM} />

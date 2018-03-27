@@ -1,102 +1,104 @@
 /* table.css */
+/* Feuille de style pour les tables du glossaire */
 /* Stylesheet for the glossary tables */
-/* Prosilver */
+/* lmdi31 */
 /* (c) Pierre Duhem 2015-2018 */
 
 table.deg {
 	border-collapse:collapse;
-	border:1px solid #4e6fa6;
+	border:1px solid #576357;
 	width:90%;
 	padding:3px;
 	margin-left:auto;
 	margin-right:auto;
 	}
 tr.deg, th.deg, td.deg {
-	border:1px solid #4e6fa6;
+	border:1px solid #576357;
 	padding:3px 5px;
-	color:#4e6fa6;
+	color:#576357;
 	}
-
-/*	Table titles */
+	
+/*	Titles */   
 th.deg0 {
-	border:1px solid #4e6fa6;
+	border:1px solid #576357;
 	text-align:left;
 	padding:3px 5px;
-	color:#4e6fa6;
+	color:#576357;
 	font-weight: bold;
 	font-size: 120%;
 	}
-/* Centered */
+/*  Centered */
 th.deg1 {
-	border:1px solid #4e6fa6;
+	border:1px solid #576357;
 	text-align:center;
 	padding:3px 5px;
-	color:#4e6fa6;
+	color:#576357;
 	font-weight: bold;
 	font-size: 120%;
 	}
-/* Right */
+/*  Right align */
 th.deg2 {
-	border:1px solid #4e6fa6;
+	border:1px solid #576357;
 	text-align:right;
 	padding:3px 5px;
 	width: 40px;
-	color:#4e6fa6;
+	color:#576357;
 	font-weight: bold;
 	font-size: 120%;
 	}
-
+	
 /*	Data cells */
-/*  Text left */
+/* Text left */
 td.deg0 {
-	border:1px solid #4e6fa6;
+	border:1px solid #576357;
 	text-align:left;
 	padding:3px 5px;
-	color:#4e6fa6;
+	color:#576357;
 	font-size: 120%;
 	}
 /* Text centered */
 td.deg1 {
-	border:1px solid #4e6fa6;
+	border:1px solid #576357;
 	text-align:center;
 	padding:3px 5px;
-	color:#4e6fa6;
+	color:#576357;
 	font-size: 120%;
 	}
 /* Text right */
 td.deg2 {
-	border:1px solid #4e6fa6;
+	border:1px solid #576357;
 	text-align:right;
 	padding:3px 5px;
 	width: 40px;
-	color:#4e6fa6;
+	color:#576357;
 	font-size: 120%;
 	}
 .glossi {
 	padding: 5px 0 5px 0;
-	background-color: #017AB6;
+	background-color: #2A5515;
 	color: white;
 	font-size: 140%;
 	font-weight: bold;
 	}
 .haut {
 	padding: 0;
-	background-color: #017AB6;
+	background-color: #2A5515;
 	text-align: center;
 	vertical-align: bottom;
 	}
-.glossa {
+.glossa  {
 	padding: 10px 0 5px 0;
-	color: #4e6fa6;
+	color: #576357;
 	font-size: 300%;
 	font-weight: bold;
 	}
-.cap {
+.cap  {
 	padding: 5px 6px 5px 6px;
-	color: #4e6fa6;
+	color: #576357;
 	font-size: 200%;
 	font-weight: bold;
 	}
 a.ilinks:link, a.ilinks:visited, a.ilinks:hover, a.ilinks:active {
 	color: #f86666;
 	}
+

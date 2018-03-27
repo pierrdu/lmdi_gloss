@@ -22,7 +22,7 @@ class release_1_3 extends \phpbb\db\migration\migration
 		return array('\lmdi\gloss\migrations\release_1_2');
 	}
 
-	public function update_schema()
+	public function update_data()
 	{
 		return array(
 			array('config.add' => array('lmdi_glossary_version', '1324')),
@@ -30,7 +30,7 @@ class release_1_3 extends \phpbb\db\migration\migration
 		);
 	}
 
-	private function wider_lang_column()
+	public function wider_lang_column()
 	{
 		global $table_prefix;
 		$sql = 'ALTER TABLE ' . $table_prefix . 'glossary MODIFY lang VARCHAR(12)';

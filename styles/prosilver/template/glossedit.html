@@ -3,15 +3,14 @@
 <!-- INCLUDE overall_header.html -->
 
 <span id="top"></span>
-<h2>{TITLE}</h2>
+<h2>{L_GLOSS_EDITS}</h2>
 
 <div class="panel">
-<span id=\"haut\"></span>
-	<div class="inner">
-		<div class="content">
-		<br>{ABC}
-		<br>{ED_EXPLAIN}
-&nbsp;<br>
+<div class="inner">
+<div class="content">
+<p class="glossa"><!-- BEGIN gabc --><a class="cap" href ="#{gabc.ABC}">{gabc.ABC}</a><!-- END gabc --></p>
+<p>{ED_EXPLAIN}<a href="{ED_URL}"><b>{ED_ANCHOR}</b></a>.</p>
+
 <table class="deg" cellspacing="1">
 	<thead>
 		<tr>
@@ -25,16 +24,14 @@
 	<!-- BEGIN ged -->
 		<tr>
 		<td class="deg0">{ged.ANCHOR}<span id="{ged.ID}"><b>{ged.TERM}</b></span><br>{ged.CAT}<br>{ged.ID}</td>
-		<td class="deg0">{ged.DEF}{ged.ILINKS}{ged.ELINKS}</td>
-		<td class="deg1">{ged.PICT}</td>
-		<td class="deg1">{ged.ACT}</td>
+		<td class="deg0">{ged.DEF}{ged.BRILINKS}{ged.ILINKS}{ged.BRELINKS}<a class="ilinks" href="{ged.ELINKS}">{ged.LABEL}</td>
+		<td class="deg1"><a href="{ged.URL}">{ged.STRURL}</a></td>
+		<td class="deg1">{ged.ACTION}</td>
 		</tr>
 	<!-- END ged -->
 	</tbody>
 </table>
-		</div>
-	</div>
-</div>
+</div></div></div>
 
 <p id="back-top">
 	<a href="#top"><span></span><b>{BACKTOP}</b></a>

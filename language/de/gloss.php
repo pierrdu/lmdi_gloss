@@ -20,7 +20,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'LGLOSSAIRE'	=> 'Glossar',
-	'TGLOSSAIRE'	=> 'Glossar',
+	'TGLOSSAIRE'	=> 'Glossar-Seite',
 
 	'GLOSS_ELINK'				=> 'Externer Link: ',
 
@@ -41,10 +41,10 @@ $lang = array_merge($lang, array(
 	'ALLOW_FEATURE_EXPLAIN'	=> 'Du kannst das Glossar für das gesamte Board aktivieren/deaktivieren.',
 	'ALLOW_TITLE'		=> 'Tooltip aktivieren',
 	'ALLOW_TITLE_EXPLAIN'	=> 'Du kannst die Anzeige des Popups mit der Begriffserklärung beim Darüberfahren mit der Maus aktivieren/deaktivieren.',
-	'CREATE_UGROUP'		=> 'Benutzergruppe anlegen',
-	'CREATE_UGROUP_EXPLAIN'	=> 'Du kannst eine Benutzergruppe anlegen und ihr die Rolle zur Glossar-Bearbeitung zuweisen. Danach kannst Du Bearbeiter zu dieser Gruppe hinzufügen.',
+	'CREATE_UGROUP'		=> 'Bearbeitergruppe anlegen',
+	'CREATE_UGROUP_EXPLAIN'	=> 'Du kannst eine Bearbeitergruppe anlegen und ihr die Rolle zur Glossar-Bearbeitung zuweisen. Danach kannst Du Bearbeiter zu dieser Gruppe hinzufügen.',
 	'CREATE_AGROUP'		=> 'Administratoren-Gruppe anlegen',
-	'CREATE_AGROUP_EXPLAIN'	=> 'Du kannst eine Gruppe für die Adminstration des Glossars anlegen. Danach kannst Du die Administatoren der Gruppe hinzufügen.',
+	'CREATE_AGROUP_EXPLAIN'	=> 'Du kannst eine Gruppe für die Adminstration des Glossars anlegen. Danach kannst Du die Administatoren der Gruppe hinzufügen. Beide Gruppen sind nur nützlich, wenn das Glossar sehr umfangreich wird.',
 	'LANGUAGE'		=> 'Standard-Sprache',
 	'LANGUAGE_EXPLAIN'	=> 'Sprache (Vorgabe: Hauptsprache des Boards) in der neue Einträge angelegt werden, wenn bei der Anlage keine andere Sprache angegeben wird.',
 	'GLOSS_PIXELS'			=> 'Größe von Bildern in Pixeln',

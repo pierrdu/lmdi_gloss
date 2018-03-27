@@ -50,7 +50,7 @@ function displayEntry(entry)
 
 $(document).ready(function()
 	{
-		$("lmdigloss").each(function(e)
+		$("lmdi-gloss").each(function(e)
 		{
 			if (this.className)
 			{

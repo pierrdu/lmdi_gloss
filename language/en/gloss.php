@@ -19,7 +19,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'LGLOSSAIRE'	=> 'Glossary',
-	'TGLOSSAIRE'	=> 'Extension setting',
+	'TGLOSSAIRE'	=> 'Glossary page',
 
 
 // Installation
@@ -40,10 +40,10 @@ $lang = array_merge($lang, array(
 	'ALLOW_FEATURE_EXPLAIN'	=> 'You may enable/disable the glossary tagging feature for the whole board.',
 	'ALLOW_TITLE'		=> 'Enable Tooltip',
 	'ALLOW_TITLE_EXPLAIN'	=> 'You may enable/disable the display of the term description in a tooltip when hovering over the term.',
-	'CREATE_UGROUP'		=> 'Creation of an usergroup',
-	'CREATE_UGROUP_EXPLAIN'	=> 'You may create an usergroup and assign to it the glossary editor role created when installing the extension. You may then add users to this group.',
+	'CREATE_UGROUP'		=> 'Creation of an editor group',
+	'CREATE_UGROUP_EXPLAIN'	=> 'You may create a group and assign to it the glossary editor role created when installing the extension. You may then add users to this group.',
 	'CREATE_AGROUP'		=> 'Creation of an administrator group',
-	'CREATE_AGROUP_EXPLAIN'	=> 'You may create a group to manage the glossary administrators. You may then add administrators to this group.',
+	'CREATE_AGROUP_EXPLAIN'	=> 'You may create a group to manage the glossary administrators. You may then add administrators to this group. Creating both groups is only useful when the glossar grows strongly.',
 	'LANGUAGE'		=> 'Default language',
 	'LANGUAGE_EXPLAIN'	=> 'Language code (board language by default) which will be registered in the base for the glossary term if you don’t specify another language in the edition form.',
 	'GLOSS_PIXELS'			=> 'Size of uploaded pictures in pixels',

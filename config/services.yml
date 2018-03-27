@@ -75,6 +75,7 @@ services:
         class: lmdi\gloss\core\helper
         arguments:
             - '@dbal.conn'
+            - '@cache'
             - '%core.table_prefix%'
             - '%lmdi.gloss.tables.glossary%'
             - '%core.root_path%'

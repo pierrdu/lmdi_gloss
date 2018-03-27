@@ -99,7 +99,6 @@ class glossedit
 			$action = 'save';
 		}
 
-		$str_colon = $this->user->lang['COLON'];
 		$str_action = $this->user->lang['GLOSS_VIEW'];
 
 		switch ($action)
@@ -147,28 +146,6 @@ class glossedit
 					'ABC'		=> $abc_links,
 					'S_EDIT'		=> $sw,		// 0 =creation, 1 = edition
 					'S_PICT'		=> $pict == $str_nopict ? 1 : 0,
-					'VARIANTS'	=> $this->user->lang['GLOSS_VARIANTS'],
-					'VAREX'		=> $this->user->lang['GLOSS_VARIANTS_EX'],
-					'TERME'		=> $this->user->lang['GLOSS_TERM'],
-					'TEREX'		=> $this->user->lang['GLOSS_TERM_EX'],
-					'DESCR'		=> $this->user->lang['GLOSS_DESC'],
-					'CATE'		=> $this->user->lang['GLOSS_ED_CAT'],
-					'CATEX'		=> $this->user->lang['GLOSS_ED_CATEX'],
-					'ILINKE'		=> $this->user->lang['GLOSS_ED_ILINKS'],
-					'ILEX'		=> $this->user->lang['GLOSS_ED_ILEXP'],
-					'ELINKE'		=> $this->user->lang['GLOSS_ED_ELINKS'],
-					'ELEX'		=> $this->user->lang['GLOSS_ED_ELEXP'],
-					'LABELE'		=> $this->user->lang['GLOSS_ED_LABEL'],
-					'LABEX'		=> $this->user->lang['GLOSS_ED_LABEX'],
-					'LANGE'		=> $this->user->lang['GLOSS_LANG'],
-					'PICTE'		=> $this->user->lang['GLOSS_ED_PICT'],
-					'PICTEX'		=> $this->user->lang['GLOSS_ED_PIEXPL'],
-					'UPLOAD'		=> $this->user->lang['GLOSS_ED_UPLOAD'],
-					'NOUPLD'		=> $this->user->lang['GLOSS_ED_NOUP'],
-					'REUSE'		=> $this->user->lang['GLOSS_ED_REUSE'],
-					'EXISTE'		=> $this->user->lang['GLOSS_ED_EXISTE'],
-					'REGIS'		=> $this->user->lang['GLOSS_REGIS'],
-					'SUPPR'		=> $this->user->lang['GLOSS_SUPPR'],
 					'CODE'		=> $code,
 					'VARI'		=> $vari,
 					'TERM'		=> $term,
@@ -182,7 +159,7 @@ class glossedit
 					));
 				return $this->helper->render('glossform.html', $title);
 			case "save":
-				$term_id = trim($this->request->variable('term_id', 0));
+				$term_id = $this->request->variable('term_id', 0);
 				$term = trim($this->request->variable('term',"",true));
 				$variants = trim($this->request->variable('vari',"",true));
 				$descript = trim($this->request->variable('desc',"",true));
@@ -272,17 +249,21 @@ class glossedit
 				}
 				// Purge the cache
 				$this->cache->destroy('_glossterms');
+				$this->cache->destroy('_gloss_table');
+				$this->cache->destroy('_gloss_abc_table');
 				// Redirection
 				$url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit', 'code' => $term_id));
 				$url .= "#$term_id"; // Anchor target = term_id
 				redirect($url);
 				break;
 			case "delete":
-				$term_id = $this->db->sql_escape($this->request->variable('term_id', 0));
+				$term_id = $this->request->variable('term_id', 0);
 				$sql  = "DELETE FROM $table WHERE term_id = $term_id";
 				$this->db->sql_query_limit($sql, 1);
 				// Purge the cache
 				$this->cache->destroy('_glossterms');
+				$this->cache->destroy('_gloss_table');
+				$this->cache->destroy('_gloss_abc_table');
 				// Redirection
 				$cap = substr($this->request->variable('term', "", true), 0, 1);
 				$url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit'));
@@ -290,58 +271,36 @@ class glossedit
 				redirect($url);
 				break;
 			case "rien":
-				$str_action = $this->user->lang['GLOSS_EDITION'];
+			{
+				static $abc_table;
+				static $gloss_table;
+
+				if (!$abc_table)
+				{
+					$abc_table = $this->gloss_helper->compute_abc_table();
+				}
+				foreach ($abc_table as $l)
+				{
+					$this->template->assign_block_vars('gabc', array('ABC' => $l));
+				}
+
+				if (!$gloss_table)
+				{
+					$gloss_table = $this->gloss_helper->compute_gloss_table ($abc_table);
+				}
+
+				$str_action = $this->user->lang['GLOSS_ED_EDIT'];
+				$str_display = $this->user->lang['GLOSS_DISPLAY'];
 				$str_ilinks = $this->user->lang['GLOSS_ILINKS'];
 				$str_elinks = $this->user->lang['GLOSS_ELINKS'];
-				$str_edit2 = $this->user->lang['GLOSS_ED_EDIT'];
+				$str_edit2  = $this->user->lang['GLOSS_ED_EDIT'];
 
-				$abc_links = "";
-
-				$sql  = "SELECT DISTINCT UPPER(LEFT(TRIM(term),1)) AS a FROM $table ORDER BY a" ;
-				$result = $this->db->sql_query($sql);
-
-				while ($row = $this->db->sql_fetchrow($result))
+				foreach ($abc_table as $l)
 				{
-					$l = $row['a'];
-					$abc_links .= "&nbsp;<a class=\"cap\" href =\"#$l\">$l</a>&nbsp;" ;
-
-					// For each letter
-					$sql = "SELECT * FROM $table WHERE LEFT($table.term, 1) = '$l' ORDER BY term";
-					$result2 = $this->db->sql_query($sql);
+					$block = $gloss_table[$l];
 					$cpt = 0;
-					while ($arow = $this->db->sql_fetchrow($result2))
+					foreach ($block as $row)
 					{
-						$code = $arow['term_id'];
-						$pict = $arow['picture'];
-						$term = $arow['term'];
-						$label = $arow['label'];
-						if ($pict != $str_nopict)
-						{
-							$url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glosspict', 'code' => $code, 'pict' => $pict, 'terme' => $term));
-							$pict = "<a href=\"$url\">$pict</a>";
-						}
-						$act = "<a href=\"";
-						$act .= $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit', 'code' => $code, 'action' => 'edit'));
-						$act .= "\">$str_edit2</a></td>";
-						$cat   = $arow['cat'];
-						$ilinks= $arow['ilinks'];
-						$elinks= $arow['elinks'];
-						if (strlen($ilinks))
-						{
-							$ilinks = $this->gloss_helper->calcul_ilinks($ilinks);
-							$ilinks = "<br>$str_ilinks $ilinks";
-						}
-						if (strlen($elinks))
-						{
-							if (strlen($label))
-							{
-								$elinks = "<br>$str_elinks <a class=\"ilinks\" href=\"$elinks\">$label</a>";
-							}
-							else
-							{
-								$elinks = "<br>$str_elinks <a class=\"ilinks\" href=\"$elinks\">$elinks</a>";
-							}
-						}
 						if (!$cpt)
 						{
 							$anchor = "<span id='$l'></span>";
@@ -350,64 +309,91 @@ class glossedit
 						{
 							$anchor = "";
 						}
+						$ilinks = $row['ilinks'];
+						if (strlen ($ilinks))
+						{
+							$ilinks = $this->gloss_helper->calcul_ilinks ($ilinks);
+							$brilinks = "<br>$str_ilinks";
+						}
+						else
+						{
+							$brilinks = "";
+						}
+						$elinks = $row['elinks'];
+						$label  = $row['label'];
+						if (strlen ($elinks))
+						{
+							if (!strlen ($label))
+							{
+								$label = $elinks;
+							}
+							$brelinks = "<br>$str_elinks";
+						}
+						else
+						{
+							$brelinks = "";
+						}
+						$pict = $row['picture'];
+						$term = $row['term'];
+						$code = $row['term_id'];
+						if ($pict != "nopict.jpg")
+						{
+							$url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glosspict', 'code' => $code, 'term' =>$term, 'pict' => $pict));
+							$str_url = $str_display;
+						}
+						else
+						{
+							$url= "";
+							$str_url = "";
+						}
+						$act = "<a href=\"";
+						$act .= $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit', 'code' => $code, 'action' => 'edit'));
+						$act .= "\">$str_edit2</a></td>";
 						$this->template->assign_block_vars('ged', array(
-							'ANCHOR'	=> $anchor,
-							'ID'		=> $code,
 							'TERM'	=> $term,
-							'DEF'	=> $arow['description'],
-							'PICT'	=> $pict,
-							'ACT'	=> $act,
-							'CAT'	=> $cat,
+							'ID'		=> $code,
+							'DEF'	=> $row['description'],
+							'CAT'	=> $row['cat'],
+							'URL'	=> $url,
+							'STRURL'	=> $str_url,
+							'ANCHOR'	=> $anchor,
 							'ELINKS'	=> $elinks,
+							'LABEL'	=> $label,
 							'ILINKS'	=> $ilinks,
+							'BRILINKS' => $brilinks,
+							'BRELINKS' => $brelinks,
+							'ACTION'  => $act,
 							));
 						$cpt++;
-					}
-					$this->db->sql_freeresult($result2);
-				}
-				$this->db->sql_freeresult($result);
+					}	// Inner foreach
+				}	// Outer foreach
 
-				$string = $this->user->lang['GLOSS_ED_EXPL'];
-				$url  = "<a href=\"";
-				$url .= $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit', 'code' => -1, 'action' => 'edit'));
-				$url .= "\"";
-				$ed_explain = sprintf($string, $url, "</a>");
 				$this->template->assign_vars(array(
-					'TITLE'		=> $str_action,
-					'ED_EXPLAIN'	=> $ed_explain,
-					'ABC'		=> $abc_links,
+					'ED_EXPLAIN'	=> $this->user->lang['GLOSS_ED_EXPL'],
+					'ED_URL'		=> $url,
+					'ED_ANCHOR'	=> $this->user->lang['GLOSS_ED_ANCHOR'],
 					'BACKTOP'		=> $this->user->lang['LMDI_BACK_TOP'],
 					));
 
 				return $this->helper->render ('glossedit.html', $this->user->lang['TGLOSSAIRE']);
-			}
+			}	// case rien
+		}	// switch
 
-		$url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit'));
-		$this->template->assign_block_vars('navlinks', array(
-			'U_VIEW_FORUM'	=> $url,
-			'FORUM_NAME'	=> $this->user->lang['GLOSS_EDITION'],
-			));
-
-		$this->template->assign_vars(array(
-			'TITLE'		=> $str_action,
-			'ABC'		=> $abc_links,
-			'ILLUST'		=> $illustration,
-			'CORPS'		=> $corps,
-			'BIBLIO'		=> $biblio,
-			));
-
-		return $this->helper->render('glossaire.html', $this->user->lang['TGLOSSAIRE']);
 	}	// main
+
 
 	// Uploading function for phpBB 3.1.x
 	private function upload_31x(&$errors)
 	{
-		include_once($this->phpbb_root_path . 'includes/functions_upload.' . $this->phpEx);
+		if (!class_exists('upload'))
+		{
+			include($this->phpbb_root_path . 'includes/functions_upload.' . $this->phpEx);
+		}
 
 		// Set upload directory
 		mkdir('store/lmdi');
 		mkdir('store/lmdi/gloss');
-		$upload_dir = $this->php_root_path . 'lmdi/gloss/';
+		$upload_dir = $this->php_root_path . 'store/lmdi/gloss/';
 
 		// Upload file
 		$upload = new \fileupload();
@@ -437,7 +423,8 @@ class glossedit
 		$filename = $file->uploadname;
 		@chmod($upload_dir . '/' . $filename, 0644);
 		return ($filename);
-	}
+	}	// upload_31x
+
 
 	// Uploading function for phpBB 3.2.x
 	private function upload_32x(&$errors)
@@ -491,5 +478,6 @@ class glossedit
 		}
 		@chmod($filepath, 0644);
 		return($filename);
-	}
+	}	// upload_32x
+
 }

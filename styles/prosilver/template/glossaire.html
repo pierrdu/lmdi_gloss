@@ -8,12 +8,15 @@
 <div class="panel">
 <div class="inner">
 <div class="content">
-{ABC}
-{ILLUST}
+<p class="glossa"><!-- BEGIN gabc --><a class="cap" href ="#{gabc.ABC}">{gabc.ABC}</a><!-- END gabc --></p>
+<p>{ILLUST}</p>
+<!-- IF S_EDIT -->
+<p align="right"><b><a href="{EDITOR}">{ACTION}</a></b></p>
+<!-- ENDIF -->
 
 <table class="deg" cellspacing="1">
 	<thead>
-		<tr class="deg">
+		<tr>
 			<th class="deg0">{L_GLOSS_ED_TERM}</th>
 			<th class="deg0">{L_GLOSS_ED_DEF}</th>
 			<th class="deg1">{L_GLOSS_ED_PICT}</th>
@@ -21,10 +24,10 @@
 	</thead>
 	<tbody>
 	<!-- BEGIN gaff -->
-		<tr class="deg">
+		<tr>
 		<td class="deg0">{gaff.ANCHOR}<span id="{gaff.ID}"><b>{gaff.TERM}</b></span><br>{gaff.CAT}</td>
-		<td class="deg0">{gaff.DEF}{gaff.ILINKS}{gaff.ELINKS}</td>
-		<td class="deg1">{gaff.PICT}</td>
+		<td class="deg0">{gaff.DEF}{gaff.BRILINKS}{gaff.ILINKS}{gaff.BRELINKS}<a class="ilinks" href="{gaff.ELINKS}">{gaff.LABEL}</td>
+		<td class="deg1"><a href="{gaff.URL}">{gaff.STRURL}</a></td>
 		</tr>
 	<!-- END gaff -->
 	</tbody>

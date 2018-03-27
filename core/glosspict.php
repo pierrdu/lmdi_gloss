@@ -48,16 +48,11 @@ class glosspict
 	public function main()
 	{
 
-		$click = $this->user->lang['GLOSS_CLICK'];
-		$view = $this->user->lang['GLOSS_VIEW'];
-
+		$term = $this->request->variable('term', '', true);
+		$code = $this->request->variable('code', 0);
 		$pict = $this->request->variable('pict', '');
 		$pict = $this->phpbb_root_path . "../store/lmdi/gloss/" . $pict;
-		$term = $this->request->variable('term', '', true);
-		$code = $this->request->variable('code', '0', true);
-		$terme = "<p class=\"copyright\"><b>$term</b></p>";
-		$corps = "<p class=\"copyright\"><a href=\"javascript:history.go(-1);\"><img src=\"$pict\"></a></p>";
-		$retour = "<p class=\"copyright\">$click</p>";
+		// Without .., since we are in app.php/gloss?mode=glosspict, the picture doesn't display.
 
 		if ($code == -1)
 		{
@@ -77,10 +72,10 @@ class glosspict
 		}
 
 		$this->template->assign_vars(array(
-			'TITRE'		=> $view,
-			'ILLUST'		=> $terme,
-			'CORPS'		=> $corps,
-			'BIBLIO'		=> $retour,
+			'TITLE'		=> $this->user->lang['GLOSS_VIEW'],
+			'TERM'		=> $term,
+			'PICT'		=> $pict,
+			'EXPLAIN'		=> $this->user->lang['GLOSS_CLICK'],
 		));
 
 		return $this->helper->render ('glossview.html', $this->user->lang['GLOSS_VIEW']);
