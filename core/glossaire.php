@@ -65,8 +65,8 @@ class glossaire
 
 	public function main()
 	{
-		static $abc_table;
-		static $gloss_table;
+		static $abc_table = NULL;
+		static $gloss_table = NULL;
 		if (!$abc_table)
 		{
 			$abc_table = $this->gloss_helper->compute_abc_table();
@@ -75,12 +75,10 @@ class glossaire
 		{
 			$this->template->assign_block_vars('gabc', array('ABC' => $l));
 		}
-
 		if (!$gloss_table)
 		{
 			$gloss_table = $this->gloss_helper->compute_gloss_table ($abc_table);
 		}
-
 		$str_action = $this->user->lang['GLOSS_DISPLAY'];
 		$str_ilinks = $this->user->lang['GLOSS_ILINKS'];
 		$str_elinks = $this->user->lang['GLOSS_ELINKS'];

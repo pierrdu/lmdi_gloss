@@ -200,7 +200,7 @@ class helper
 	public function compute_abc_table()
 	{
 		$abc_table = $this->cache->get('_gloss_abc_table');
-		if (empty($abc_table))
+		if (!$abc_table || empty($abc_table))
 		{
 			$abc_table = $this->rebuild_cache_abc_table();
 		}
@@ -220,6 +220,7 @@ class helper
 		}
 		$this->db->sql_freeresult($result);
 		$this->cache->put('_gloss_abc_table', $abc_table, 86400);
+		return ($abc_table);
 	}	// rebuild_cache_abc_table
 
 
