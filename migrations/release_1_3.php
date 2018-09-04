@@ -25,7 +25,7 @@ class release_1_3 extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		return array(
-			array('config.add' => array('lmdi_glossary_version', '1324')),
+			array('config.add', array('lmdi_glossary_version', '1324')),
 			array('custom', array(array(&$this, 'wider_lang_column'))),
 		);
 	}

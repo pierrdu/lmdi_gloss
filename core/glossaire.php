@@ -65,8 +65,8 @@ class glossaire
 
 	public function main()
 	{
-		static $abc_table = NULL;
-		static $gloss_table = NULL;
+		static $abc_table = null;
+		static $gloss_table = null;
 		if (!$abc_table)
 		{
 			$abc_table = $this->gloss_helper->compute_abc_table();

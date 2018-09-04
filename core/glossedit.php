@@ -272,8 +272,8 @@ class glossedit
 				break;
 			case "rien":
 			{
-				static $abc_table = NULL;
-				static $gloss_table = NULL;
+				static $abc_table = null;
+				static $gloss_table = null;
 
 				if (!$abc_table)
 				{
