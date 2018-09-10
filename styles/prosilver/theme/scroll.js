@@ -1,4 +1,3 @@
-<script>
 $(document).ready(function(){
 	$("#back-top").hide();
 	$(function () {
@@ -17,4 +16,3 @@ $(document).ready(function(){
 		});
 	});
 });
-</script>
