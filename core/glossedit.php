@@ -119,7 +119,7 @@ class glossedit
 					$title = $this->user->lang['GLOSS_CREAT'];
 					$sw = 0;
 				}
-				else			// Item edition - Édition d'une fiche
+				else		// Item edition - Édition d'une fiche
 				{
 					$sql  = "SELECT * FROM $table WHERE term_id = $num ";
 					$result = $this->db->sql_query($sql);
@@ -144,7 +144,7 @@ class glossedit
 					'TITLE'		=> $title,
 					'R_ACTION'	=> $action,
 					'ABC'		=> $abc_links,
-					'S_EDIT'		=> $sw,		// 0 =creation, 1 = edition
+					'S_EDIT'		=> $sw,		// 0 = creation, 1 = edition
 					'S_PICT'		=> $pict == $str_nopict ? 1 : 0,
 					'CODE'		=> $code,
 					'VARI'		=> $vari,
@@ -368,9 +368,10 @@ class glossedit
 					}	// Inner foreach
 				}	// Outer foreach
 
+				$ed_url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit', 'code' => -1, 'action' => 'edit'));
 				$this->template->assign_vars(array(
 					'ED_EXPLAIN'	=> $this->user->lang['GLOSS_ED_EXPL'],
-					'ED_URL'		=> $url,
+					'ED_URL'		=> $ed_url,
 					'ED_ANCHOR'	=> $this->user->lang['GLOSS_ED_ANCHOR'],
 					'BACKTOP'		=> $this->user->lang['LMDI_BACK_TOP'],
 					));
