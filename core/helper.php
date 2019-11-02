@@ -1,13 +1,12 @@
 <?php
 // helper.php
-// (c) 2015-2018 - LMDI - Pierre Duhem
+// (c) 2015-2019 - LMDI - Pierre Duhem
 // Helper class
 
 namespace lmdi\gloss\core;
 
 class helper
 {
-	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 	protected $cache;
 	protected $table_prefix;
@@ -16,18 +15,19 @@ class helper
 	protected $php_ext;
 
 
-
 	public function __construct(
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\cache\service $cache,
 		$table_prefix,
 		$glossary_table,
-		$phpbb_root_path, $php_ext)
+		$phpbb_root_path, 
+		$php_ext
+		)
 	{
-		$this->db				= $db;
+		$this->db 			= $db;
 		$this->cache			= $cache;
-		$this->table_prefix		= $table_prefix;
-		$this->glossary_table	= $glossary_table;
+		$this->table_prefix 	= $table_prefix;
+		$this->glossary_table 	= $glossary_table;
 		$this->phpbb_root_path	= $phpbb_root_path;
 		$this->php_ext			= $php_ext;
 	}
@@ -47,16 +47,20 @@ class helper
 			$row = $this->db->sql_fetchrow($result);
 			$code = $row['term_id'];
 			$this->db->sql_freeresult($result);
-			if (strlen($string))
-			{
-				$string .= ", ";
-			}
 			if ($code)
 			{
+				if (strlen($string))
+				{
+					$string .= ", ";
+				}
 				$string .= "<a class=\"ilinks\" href=\"#$code\">$term0</a>";
 			}
 			else
 			{
+				if (strlen($string))
+				{
+					$string .= ", ";
+				}
 				$string .= $term0;
 			}
 		}
@@ -67,26 +71,24 @@ class helper
 	public function get_role_id($role_name)
 	{
 		$prefix = $this->table_prefix;
-		$role_name = $this->db->sql_escape($role_name);
 		$sql = "SELECT role_id FROM {$prefix}acl_roles WHERE role_name = '$role_name'";
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$role_id = (int) $row['role_id'];
 		$this->db->sql_freeresult($result);
 		return ($role_id);
-	}
+	}	// get_role_id
 
 
 	public function get_group_id($group_name)
 	{
 		$prefix = $this->table_prefix;
-		$group_name = $this->db->sql_escape($group_name);
 		$sql = "SELECT group_id FROM {$prefix}groups WHERE group_name = '$group_name'";
 		$result = $this->db->sql_query($sql);
 		$group_id = (int) $this->db->sql_fetchfield('group_id');
 		$this->db->sql_freeresult($result);
 		return ($group_id);
-	}
+	}	// get_group_id
 
 
 	public function group_deletion($group)
@@ -100,18 +102,18 @@ class helper
 			}
 			group_delete($group_id, $group);
 		}
-	}
+	}	// group_deletion
 
 
 	public function get_def_language($table, $colonne)
 	{
-		$sql = "SELECT DEFAULT($colonne) lg FROM $table";
+		$sql = "SELECT DEFAULT($colonne) lg FROM (SELECT 1) AS dummy LEFT JOIN $table ON True";
 		$result = $this->db->sql_query_limit($sql, 1);
 		$row = $this->db->sql_fetchrow($result);
 		$default = $row['lg'];
 		$this->db->sql_freeresult($result);
 		return ($default);
-	}
+	}	// get_def_language
 
 
 	public function role_addition($group, $role)
@@ -128,7 +130,7 @@ class helper
 			);
 		$sql = "INSERT into {$prefix}acl_groups " . $this->db->sql_build_array ('INSERT', $sql_ary);
 		$this->db->sql_query($sql);
-	}
+	}	// role addition
 
 
 	public function role_deletion($group, $role)
@@ -136,10 +138,11 @@ class helper
 		$prefix = $this->table_prefix;
 		$group_id = $this->get_group_id($group);
 		$role_id = $this->get_role_id($role);
-		$sql = "DELETE FROM {$prefix}acl_groups 
-			WHERE group_id = $group_id AND auth_role_id = $role_id";
+		$sql = "DELETE from {$prefix}acl_groups 
+			WHERE group_id = '$group_id' AND auth_role_id = '$role_id'";
+		// DELETE from phpbb3_acl_groups WHERE group_id = '4415' AND auth_role_id = '52'
 		$this->db->sql_query($sql);
-	}
+	}	// role_deletion
 
 
 	public function group_creation($group, $desc)
@@ -169,7 +172,7 @@ class helper
 		// Mark group hidden
 		$sql = "UPDATE {$prefix}groups SET group_type = " . GROUP_HIDDEN . " WHERE group_id = $group_id";
 		$this->db->sql_query($sql);
-	}
+	}	// group_creation
 
 
 	public function build_lang_select()
@@ -194,7 +197,7 @@ class helper
 		}
 		$this->db->sql_freeresult($result);
 		return ($select);
-	}
+	}	// build_lang_select
 
 
 	public function compute_abc_table()
@@ -205,7 +208,7 @@ class helper
 			$abc_table = $this->rebuild_cache_abc_table();
 		}
 		return ($abc_table);
-	}	// Compute_abc_table
+	}	// compute_abc_table
 
 
 	private function rebuild_cache_abc_table()
@@ -232,7 +235,7 @@ class helper
 			$gloss_table = $this->rebuild_cache_gloss_table($abc_table);
 		}
 		return ($gloss_table);
-	}	// Compute_gloss_table
+	}	// compute_gloss_table
 
 
 	private function rebuild_cache_gloss_table($abc_table)
@@ -240,6 +243,7 @@ class helper
 		$gloss_table = array();
 		foreach ($abc_table as $l)
 		{
+			$l = $this->db->sql_escape ($l);
 			$sql = "SELECT * FROM " . $this->glossary_table . "
 				WHERE LEFT($this->glossary_table.term, 1) = '$l' 
 				ORDER BY term";

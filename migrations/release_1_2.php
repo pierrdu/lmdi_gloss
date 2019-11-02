@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - LMDI Glossary extension
-* @copyright (c) 2015-2018 Pierre Duhem - LMDI
+* @copyright (c) 2015-2019 Pierre Duhem - LMDI
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -17,7 +17,7 @@ class release_1_2 extends \phpbb\db\migration\migration
 		return $this->db_tools->sql_column_exists($this->table_prefix . 'forums', 'ldmi_glossary');
 	}
 
-	public static function depends_on()
+	static public function depends_on()
 	{
 		return array('\lmdi\gloss\migrations\release_1_1');
 	}

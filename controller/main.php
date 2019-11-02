@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - LMDI Glossary extension
-* @copyright (c) 2015-2018 LMDI - Pierre Duhem
+* @copyright (c) 2015-2019 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -11,45 +11,48 @@ namespace lmdi\gloss\controller;
 
 class main
 {
+	protected $glossadmin;
 	protected $glossaire;
 	protected $glossedit;
+	protected $glossnew;
 	protected $glosspict;
 	protected $lexicon;
-	/** @var \phpbb\template\template */
 	protected $template;
-	/** @var \phpbb\user */
 	protected $user;
-	/** @var \phpbb\request\request */
+	protected $language;
 	protected $request;
-	/** @var \phpbb\controller\helper */
 	protected $helper;
-	/** @var string phpBB root path */
 	protected $phpbb_root_path;
-	/** @var string phpEx */
 	protected $phpEx;
 
 	public function __construct(
+		\lmdi\gloss\core\glossadmin $glossadmin,
 		\lmdi\gloss\core\glossaire $glossaire,
 		\lmdi\gloss\core\glossedit $glossedit,
+		\lmdi\gloss\core\glossnew $glossnew,
 		\lmdi\gloss\core\glosspict $glosspict,
 		\lmdi\gloss\core\lexicon $lexicon,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
+		\phpbb\language\language $language,
 		\phpbb\request\request $request,
 		\phpbb\controller\helper $helper,
 		$phpbb_root_path,
 		$phpEx)
 	{
+		$this->glossadmin		= $glossadmin;
 		$this->glossaire		= $glossaire;
 		$this->glossedit		= $glossedit;
+		$this->glossnew		= $glossnew;
 		$this->glosspict		= $glosspict;
 		$this->lexicon			= $lexicon;
 		$this->template		= $template;
 		$this->user			= $user;
+		$this->language		= $language;
 		$this->request			= $request;
 		$this->helper			= $helper;
 		$this->phpbb_root_path	= $phpbb_root_path;
-		$this->phpEx			= $phpEx;
+		$this->phpEx 			= $phpEx;
 	}
 
 
@@ -65,27 +68,34 @@ class main
 		$mode = $this->request->variable('mode', '');
 
 		// String loading
-		$this->user->add_lang_ext('lmdi/gloss', 'edit_gloss');
+		$this->language->add_lang('edit_gloss', 'lmdi/gloss');
 
 		// Add the base entry into the breadcrump at top
 		$this->template->assign_block_vars('navlinks', array(
 			'U_VIEW_FORUM'	=> $this->helper->route('lmdi_gloss_controller'),
-			'FORUM_NAME'	=> $this->user->lang['LGLOSSAIRE'],
+			'FORUM_NAME'	=> $this->language->lang('LGLOSSAIRE'),
 		));
 
 		switch ($mode)
 		{
-			case 'glosspict':
-				return $this->glosspict->main();
+			case 'glossadmin':
+				$this->glossadmin->main();
+			break;
 			case 'glossedit':
-				return $this->glossedit->main();
+				$this->glossedit->main();
+			break;
+			case 'glossnew':
+				$this->glossnew->main();
+			break;
+			case 'glosspict':
+				$this->glosspict->main();
+			break;
 			case 'lexicon':
 				$this->lexicon->main();
 			break;
-			case 'glossaire':
 			default:
-				return $this->glossaire->main();
+				$this->glossaire->main();
+			break;
 		}
 	}
-
 }

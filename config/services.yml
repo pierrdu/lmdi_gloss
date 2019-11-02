@@ -10,7 +10,7 @@ services:
             - '@controller.helper'
             - '@template'
             - '@cache'
-            - '@user'
+            - '@language'
             - '@request'
             - '%lmdi.gloss.tables.glossary%'
         tags:
@@ -19,35 +19,73 @@ services:
      lmdi.gloss.controller:
         class: lmdi\gloss\controller\main
         arguments:
+            - '@lmdi.gloss.core.glossadmin'
             - '@lmdi.gloss.core.glossaire'
             - '@lmdi.gloss.core.glossedit'
+            - '@lmdi.gloss.core.glossnew'
             - '@lmdi.gloss.core.glosspict'
             - '@lmdi.gloss.core.lexicon'
             - '@template'
             - '@user'
+            - '@language'
             - '@request'
             - '@controller.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
 
-     lmdi.gloss.core.glossaire:
-        class: lmdi\gloss\core\glossaire
+     lmdi.gloss.core.glossadmin:
+        class: lmdi\gloss\core\glossadmin
         arguments:
             - '@template'
-            - '@user'
+            - '@language'
             - '@dbal.conn'
             - '@controller.helper'
             - '@auth'
             - '@ext.manager'
             - '@path_helper'
             - '@lmdi.gloss.core.helper'
+            - '%core.php_ext%'
+            - '%core.root_path%'
+            - '%lmdi.gloss.tables.glossary%'
+
+     lmdi.gloss.core.glossaire:
+        class: lmdi\gloss\core\glossaire
+        arguments:
+            - '@template'
+            - '@language'
+            - '@dbal.conn'
+            - '@controller.helper'
+            - '@auth'
+            - '@ext.manager'
+            - '@path_helper'
+            - '@lmdi.gloss.core.helper'
+            - '%core.php_ext%'
+            - '%core.root_path%'
             - '%lmdi.gloss.tables.glossary%'
 
      lmdi.gloss.core.glossedit:
         class: lmdi\gloss\core\glossedit
         arguments:
             - '@template'
-            - '@user'
+            - '@language'
+            - '@dbal.conn'
+            - '@ext.manager'
+            - '@path_helper'
+            - '@controller.helper'
+            - '@config'
+            - '@request'
+            - '@cache'
+            - '@lmdi.gloss.core.helper'
+            - '%core.php_ext%'
+            - '%core.root_path%'
+            - '%lmdi.gloss.tables.glossary%'
+            - '@?files.factory'
+
+     lmdi.gloss.core.glossnew:
+        class: lmdi\gloss\core\glossnew
+        arguments:
+            - '@template'
+            - '@language'
             - '@dbal.conn'
             - '@ext.manager'
             - '@path_helper'
@@ -65,8 +103,9 @@ services:
         class: lmdi\gloss\core\glosspict
         arguments:
             - '@template'
-            - '@user'
-            - '@controller.helper'
+            - '@language'
+            - '@ext.manager'
+            - '@path_helper'
             - '@request'
             - '%core.php_ext%'
             - '%core.root_path%'
@@ -85,6 +124,7 @@ services:
         class: lmdi\gloss\core\lexicon
         arguments:
             - '@user'
+            - '@language'
             - '@dbal.conn'
             - '@request'
             - '%core.root_path%'

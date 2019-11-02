@@ -1,10 +1,10 @@
 <?php
 /**
-* (c) LMDI Pierre Duhem 2015-2018
+* (c) LMDI Pierre Duhem 2015-2019
 * Original author Renate Regitz http://www.kaninchenwissen.de/
 * Rewritten by Pierre Duhem for the Glossary extension
 * This code extracts the contents of term id from glossary table.
-* The returned content is displayed in the popup window.
+* The returned contents is displayed in the popup window.
 * This code is called from module jquery.lexicon.js.
 **/
 
@@ -12,41 +12,40 @@ namespace lmdi\gloss\core;
 
 class lexicon
 {
-	/** @var \phpbb\user */
 	protected $user;
-	/** @var \phpbb\db\driver\driver_interface */
+	protected $language;
 	protected $db;
-	/** @var string phpBB root path */
-	protected $phpbb_root_path;
-	/** @var \phpbb\request\request */
 	protected $request;
+	protected $phpbb_root_path;
 	protected $glossary_table;
 
 	public function __construct(
 		\phpbb\user $user,
+		\phpbb\language\language $language,
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\request\request $request,
 		$phpbb_root_path,
-		$glossary_table
-		)
+		$glossary_table)
 	{
 		$this->user			= $user;
+		$this->language		= $language;
 		$this->db				= $db;
 		$this->request			= $request;
-		$this->phpbb_root_path	= $phpbb_root_path;
+		$this->phpbb_root_path 	= $phpbb_root_path;
 		$this->glossary_table	= $glossary_table;
 	}
 
 	public function main()
 	{
-		$this->user->add_lang_ext('lmdi/gloss', 'edit_gloss');
+		$this->language->add_lang('edit_gloss', 'lmdi/gloss');
+		// id = keyword id
 		$id = $this->request->variable('id', 0);
 		if ($id)
 		{
-			$sql = "SELECT * FROM " . $this->glossary_table . " WHERE term_id = $id";
+			$sql = "SELECT * FROM " . $this->glossary_table . " WHERE term_id = '$id'";
 			$result = $this->db->sql_query_limit($sql, 1);
 			$row = $this->db->sql_fetchrow($result);
-			$entry = '<h3><a title="'. $this->user->lang['CLOSE_WINDOW']. '" id="lexiconClose" href="#">x</a></h3>';
+			$entry = '<h3><a title="'. $this->language->lang('CLOSE_WINDOW') . '" id="lexiconClose" href="#">x</a></h3>';
 			$entry .= '<h3>' . $row['term'] . '</h3>';
 			if (strlen ($row['cat']))
 			{
@@ -57,30 +56,31 @@ class lexicon
 				$entry .= '<p><b>' . $row['description'] . '</b></p>';
 			}
 			$picture = $row['picture'];
-			if ($picture != "nopict.jpg")
+			if ($picture != "nopict.jpg" && $picture != '')
 			{
-				$path = $this->phpbb_root_path . "/store/lmdi/gloss/" . $row['picture'];
-				$entry .= '<p><img class="popgloss" src="' . $path .'" alt="' . $row['term']. '" /></p>';
+				$entry .= '<p><img class="popgloss" src="' . $this->phpbb_root_path . 'store/lmdi/gloss/' . $row['picture'] . '" alt="' . $row['term']. '" /></p>';
 			}
 			$elinks = $row['elinks'];
 			$label = $row['label'];
-			$str_elink = $this->user->lang['GLOSS_ELINK'];
+			$str_elink = $this->language->lang('GLOSS_ELINK');
 			if ($elinks != "")
 			{
 				if ($label == "")
 				{
-					$label = $elinks;
+					$entry .= '<p id="elinks">' . $str_elink . '<a href="'.$elinks.'">'.$elinks.'</a></p>';
 				}
-				$entry .= '<p id="elinks">' . $str_elink . '<a href="'.$elinks.'">'.$label.'</a></p>';
+				else
+				{
+					$entry .= '<p id="elinks">' . $str_elink . '<a href="'.$elinks.'">'.$label.'</a></p>';
+				}
 			}
 			$this->db->sql_freeresult($result);
 		}
 		else
 		{
-			$entry = $this->user->lang('GLOSS_NOID');
+			$entry = "Error";
 		}
 		$json_response = new \phpbb\json_response;
 		$json_response->send($entry, true);
-	}	// main
-
+	}
 }

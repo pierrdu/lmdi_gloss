@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - LMDI Glossary
-* @copyright (c) 2015-2018 Pierre Duhem - LMDI
+* @copyright (c) 2015-2019 Pierre Duhem - LMDI
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */

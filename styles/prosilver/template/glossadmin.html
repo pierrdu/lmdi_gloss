@@ -1,0 +1,39 @@
+<!-- INCLUDECSS tables.css -->
+<!-- INCLUDE overall_header.html -->
+
+<h2>{L_GLOSS_EDITION}</h2>
+
+<div class="panel">
+   <div class="inner">
+	<span class="corners-top"><span></span></span>
+		<div class="content">
+			<span id="haut"></span>
+			<p class="glossa"><!-- BEGIN gabc --><a class="cap" href ="#{gabc.ABC}">{gabc.ABC}&nbsp;</a><!-- END gabc --></p>
+			<p>{EDIT_EXPLAIN}
+			<table class="deg" cellspacing="1">
+			<thead>
+				<tr>
+					<th class="deg0">{L_GLOSS_ED_TERM}</th>
+					<th class="deg0">{L_GLOSS_ED_DEF}</th>
+					<th class="deg1">{L_GLOSS_ED_PICT}</th>
+					<th class="deg1">{L_GLOSS_ED_ACT}</th>
+				</tr>
+			</thead>
+			<tbody>
+			<!-- BEGIN ged -->
+				<tr>
+				<td class="deg0">{ged.ANCHOR}<span id="{ged.ID}"><b>{ged.TERM}</b></span><br>{ged.CAT}<br>{ged.ID}</td>
+				<td class="deg0">{ged.DEF}{ged.BRILINKS}{ged.ILINKS}{ged.BRELINKS}<a class="ilinks" href="{ged.ELINKS}">{ged.LABEL}</td>
+				<td class="deg1"><a href="{ged.URL}">{ged.STRURL}</a></td>
+				<td class="deg1">{ged.ACTION}</td>
+				</tr>
+			<!-- END ged -->
+			</tbody>
+			</table>
+		</div>
+	<span class="corners-bottom"><span></span></span>
+   </div>
+</div>
+
+<!-- INCLUDE jumpbox.html -->
+<!-- INCLUDE overall_footer.html -->

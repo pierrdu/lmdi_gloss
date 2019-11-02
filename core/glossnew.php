@@ -8,7 +8,7 @@
 */
 namespace lmdi\gloss\core;
 
-class glossedit
+class glossnew
 {
 	protected $template;
 	protected $user;
@@ -88,46 +88,33 @@ class glossedit
 
 		switch ($action)
 		{
-			default :		// Edition
+			default :		// Item creation
 				// Breadcrumbs
 				$this->template->assign_block_vars('navlinks', array(
 					'U_VIEW_FORUM'	=> $str_glossedit,
-					'FORUM_NAME'	=> $this->language->lang('GLOSS_EDIT'),
+					'FORUM_NAME'	=> $this->language->lang('GLOSS_CREAT'),
 				));
 
-				$sql  = "SELECT * FROM " . $this->glossary_table . " WHERE term_id = $num";
-				$result = $this->db->sql_query($sql);
-				$row = $this->db->sql_fetchrow($result);
-				$code   = $row['term_id'];
-				$vari   = $row['variants'];
-				$term   = $row['term'];
-				$desc   = $row['description'];
-				$cat    = $row['cat'];
-				$ilinks = $row['ilinks'];
-				$elinks = $row['elinks'];
-				$label  = $row['label'];
-				$pict   = $row['picture'];
-				$lang   = $row['lang'];
-				$this->db->sql_freeresult($result);
-				$action = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit'));
+				$lang = $lg = $this->gloss_helper->get_def_language($this->glossary_table, 'lang');
+				$action = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossnew'));
 				$this->template->assign_vars(array(
-					'TITLE'		=> $this->language->lang('GLOSS_EDIT'),
+					'TITLE'		=> $this->language->lang('GLOSS_CREAT'),
 					'ACTION'		=> $action,
-					'CODE'		=> $code,
-					'VARI'		=> $vari,
-					'TERM'		=> $term,
-					'DESC'		=> $desc,
-					'CAT'		=> $cat,
-					'ILINKS'		=> $ilinks,
-					'ELINKS'		=> $elinks,
-					'LABEL'		=> $label,
+					'CODE'		=> 0,
+					'VARI'		=> '',
+					'TERM'		=> '',
+					'DESC'		=> '',
+					'CAT'		=> '',
+					'ILINKS'		=> '',
+					'ELINKS'		=> '',
+					'LABEL'		=> '',
 					'LANG'		=> $lang,
-					'PICT'		=> $pict,
-					'S_EDIT'		=> 1,		// 0 = creation, 1 = edition
-					'S_PICT'		=> ($pict == "nopict.jpg" || $pict == '') ? 1 : 0,
+					'PICT'		=> '',
+					'S_EDIT'		=> 0,		// 0 = creation, 1 = edition
+					'S_PICT'		=> 0,
 					));
 
-				$titre = $this->language->lang('GLOSS_EDIT');
+				$titre = $this->language->lang('GLOSS_CREAT');
 				page_header($titre);
 				$this->template->set_filenames (array(
 					'body' => 'glossform.html',
@@ -180,62 +167,25 @@ class glossedit
 						$picture = $this->db->sql_escape($picture);
 					}
 				break;
-			}
-			if ($term_id == 0)
-			{
-				$sql  = "INSERT INTO " . $this->glossary_table . "
-					(variants, term, description, cat, ilinks, elinks, label, picture, lang) 
-					VALUES (\"$variants\", \"$term\", \"$descript\", \"$cat\", \"$ilinks\", 
-					'$elinks', \"$label\", \"$picture\", \"$lang\")";
-				$this->db->sql_query($sql);
-				$term_id = $this->db->sql_nextid();
-			}
-			else
-			{
-				$sql = "UPDATE " . $this->glossary_table . " SET 
-					term_id = $term_id, 
-					variants = \"$variants\", 
-					term = \"$term\", 
-					description = \"$descript\", 
-					cat = \"$cat\", 
-					ilinks = \"$ilinks\", 
-					elinks = \"$elinks\", 
-					label = \"$label\", 
-					picture = \"$picture\", 
-					lang = \"$lang\" 
-					WHERE term_id = \"$term_id\"";
-				$this->db->sql_query_limit($sql, 1);
-			}
+			}	// Inner switch
+			$sql = "INSERT INTO " . $this->glossary_table . "
+				(variants, term, description, cat, ilinks, elinks, label, picture, lang) 
+				VALUES (\"$variants\", \"$term\", \"$descript\", \"$cat\", \"$ilinks\", 
+				'$elinks', \"$label\", \"$picture\", \"$lang\")";
+			$this->db->sql_query($sql);
+			$term_id = $this->db->sql_nextid();
 
 			// Purge the cache
 			$this->cache->destroy('_gloss_table');
 
 			// Information message et redirection
-			$params = "mode=glossadmin&amp;code=$term_id";
+			$params = "mode=glossadmin&code=$term_id";
 			$url = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
 			$url .= "#$term_id"; // Anchor target = term_id
 			$url = "<a href=\"$url\">";
 			$message = sprintf ($this->language->lang('GLOSS_ED_SAVE'), $term, $url, '</a>');
 			trigger_error($message);
 			break;
-		case 'delete' :
-			$term_id = $this->request->variable('term_id', 0);
-			$sql  = "DELETE FROM " . $this->glossary_table . " WHERE term_id = $term_id";
-			$this->db->sql_query_limit($sql, 1);
-			// Purge the caches
-			$this->cache->destroy('_glossterms');
-			$this->cache->destroy('_gloss_table');
-			$this->cache->destroy('_gloss_abc_table');
-			// Redirection
-			$term = $this->request->variable('term', "", true);
-			$cap = substr($term, 0, 1);
-			$params = "mode=glossadmin";
-			$url = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
-			$url .= "#$cap";		// Anchor target = initial cap
-			$url = "<a href=\"$url\">";
-			$message = sprintf ($this->language->lang('GLOSS_ED_DELETE'), $term, $url, '</a>');
-			trigger_error($message);
-			break;
-		}	// switch
+		}	// Outer switch
 	}
 }

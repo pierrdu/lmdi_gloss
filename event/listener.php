@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - LMDI Glossary extension
-* @copyright (c) 2015-2018 LMDI - Pierre Duhem
+* @copyright (c) 2015-2019 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -24,9 +24,11 @@ class listener implements EventSubscriberInterface
 	protected $helper;
 	protected $template;
 	protected $cache;
-	protected $user;
+	protected $language;
 	protected $request;
 	protected $glossary_table;
+	protected $tid;
+	protected $gloss;
 
 	public function __construct(
 		\phpbb\db\driver\driver_interface $db,
@@ -34,7 +36,7 @@ class listener implements EventSubscriberInterface
 		\phpbb\controller\helper $helper,
 		\phpbb\template\template $template,
 		\phpbb\cache\service $cache,
-		\phpbb\user $user,
+		\phpbb\language\language $language,
 		\phpbb\request\request $request,
 		$glossary_table
 		)
@@ -44,54 +46,24 @@ class listener implements EventSubscriberInterface
 		$this->helper = $helper;
 		$this->template = $template;
 		$this->cache = $cache;
-		$this->user = $user;
+		$this->language = $language;
 		$this->request = $request;
 		$this->glossary_table = $glossary_table;
 	}
 
-	public static function getSubscribedEvents()
+
+	public function load_language_on_setup()
 	{
-		return array(
-			'core.user_setup'				=> 'load_language_on_setup',
-			'core.page_header'				=> 'build_url',
-			'core.permissions'				=> 'add_permissions',
-			'core.viewtopic_post_rowset_data'	=> 'glossary_insertion',
-			'core.text_formatter_s9e_render_after' => 'glossary_insertion_32x',
-			);
+		$this->language->add_lang ('gloss', 'lmdi/gloss');
 	}
 
 
-	public function load_language_on_setup($event)
+	public function build_url()
 	{
-		$lang_set_ext = $event['lang_set_ext'];
-		$lang_set_ext[] = array(
-			'ext_name' => 'lmdi/gloss',
-			'lang_set' => 'gloss',
-			);
-		$event['lang_set_ext'] = $lang_set_ext;
-	}
-
-
-	public function build_url($event)
-	{
-		if (version_compare($this->config['version'], '3.2.x', '<'))
-		{
-			$gloss_320 = 0;
-		}
-		else
-		{
-			$gloss_320 = 1;
-		}
-		// Creation of the URL used by the javascript code (jquery.lexicon.js)
-		// See the inclusion in event file overall_footer_after.html.
-		$source_url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'lexicon'));
-		$source_url .= "&amp;id=";
 		$this->template->assign_vars(array(
 			'U_GLOSSAIRE'	=> $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossaire')),
-			'L_GLOSSAIRE'	=> $this->user->lang['LGLOSSAIRE'],
-			'T_GLOSSAIRE'	=> $this->user->lang['TGLOSSAIRE'],
-			'S_320'		=> $gloss_320,
-			'SOURCE_URL'	=> $source_url,
+			'L_GLOSSAIRE'	=> $this->language->lang('LGLOSSAIRE'),
+			'T_GLOSSAIRE'	=> $this->language->lang('TGLOSSAIRE'),
 		));
 	}
 
@@ -105,64 +77,127 @@ class listener implements EventSubscriberInterface
 	}
 
 
-	public function glossary_insertion_32x($event)
+	public static function getSubscribedEvents()
 	{
-		static $enabled_forums;
-		if (version_compare($this->config['version'], '3.2.x', '>='))
+		return array(
+			'core.user_setup_after'			=> 'load_language_on_setup',
+			'core.page_header'				=> 'build_url',
+			'core.permissions'				=> 'add_permissions',
+			'core.viewtopic_post_rowset_data'	=> 'glossary_insertion',
+			'core.text_formatter_s9e_render_before' => 's9e_before',
+			'core.text_formatter_s9e_render_after' => 's9e_after',
+			);
+	}
+
+
+	public function s9e_before ($event)
+	{
+		$xml = $event['xml'];
+		// Texts tagged with <t> are dumped as is. Texts with <r> are so-called raw
+		// and are parsed. We have to protect ourselves against this parser.
+		if ($this->config['lmdi_glossary_acp'] && substr($xml, 0, 3) === '<r>')
 		{
-			if ($this->config['lmdi_glossary_acp'])
+			$this->tid = $this->request->variable('t', 0);
+			unset($GLOBALS['$this->gloss']);
+			$pos1 = strpos($xml, '<lmdigloss');
+			while ($pos1 !== false)
 			{
-				if (empty($enabled_forums))
+				$pos2 = strpos($xml, '</lmdigloss>', 0);
+				$lg = ($pos2 - $pos1) + 12;
+				$item = substr($xml, $pos1, $lg);
+				$pos3 = strpos($item, 'class="id');
+				$pos3 += 9;
+				$num = substr($item, $pos3, $pos3 + 6);
+				$pos4 = strpos($num, '"');
+				$num = (int) substr($num, 0, $pos4);
+				if (!isset($this->gloss[$num]))
 				{
-					$enabled_forums = $this->cache->get('_gloss_forums');
-					if (empty($enabled_forums))
+					$this->gloss[$num] = $item;
+				}
+				else
+				{
+					$slot = $this->gloss[$num];
+					while ($slot !== $item)
 					{
-						$this->rebuild_cache_forums();
-						$enabled_forums = $this->cache->get('_gloss_forums');
+						$num += 10000;
+						if (!isset($this->gloss[$num]))
+						{
+							$this->gloss[$num] = $item;
+							break;
+						}
+						else
+						{
+							$slot = $this->gloss[$num];
+							if ($slot === $item)
+							{
+								break;
+							}
+						}
 					}
 				}
-				if (!empty($enabled_forums))
+				$remp = "lmdigloss*($num)*lmdigloss";
+				$xml = str_replace($item, $remp, $xml);
+				$pos1 = strpos($xml, '<lmdigloss', 0);
+			}
+		$event['xml'] = $xml;
+		}
+	} // s9e_before
+
+
+	public function s9e_after($event)
+	{
+		if ($this->tid == $this->request->variable('t', 0))
+		{
+			$html = $event['html'];
+			while (1)
+			{
+				$pos1 = strpos($html, 'lmdigloss*(');
+				if ($pos1 === false)
 				{
-					$fid = $this->request->variable('f', 0);
-					if (in_array($fid, $enabled_forums))
-					{
-						$html = $event['html'];
-						$html = $this->glossary_pass($html);
-						$event['html'] = $html;
-					}
+					break;
+				}
+				else
+				{
+					$pos2 = strpos($html, ')*lmdigloss');
+					$lg = ($pos2 - $pos1) + 11;
+					$item = substr($html, $pos1, $lg);
+					$pos3 = strpos($item, '(');
+					$pos4 = strpos($item, ')');
+					$lg = ($pos4) - ($pos3 + 1);
+					$num = substr($item, $pos3 + 1, $lg);
+					$tag = $this->gloss[$num];
+					$html = str_replace($item, $tag, $html);
 				}
 			}
+			$event['html'] = $html;
 		}
-	} // glossary_insertion_32x
+	} // s9e_after
 
 
 	public function glossary_insertion($event)
 	{
 		static $enabled_forums;
-		if (version_compare($this->config['version'], '3.2.x', '<'))
+		if ($this->config['lmdi_glossary_acp'])
 		{
-			if ($this->config['lmdi_glossary_acp'])
+			if (empty($enabled_forums))
 			{
+				$enabled_forums = $this->cache->get('_gloss_forums');
 				if (empty($enabled_forums))
 				{
+					$this->rebuild_cache_forums();
 					$enabled_forums = $this->cache->get('_gloss_forums');
-					if (empty($enabled_forums))
-					{
-						$this->rebuild_cache_forums();
-						$enabled_forums = $this->cache->get('_gloss_forums');
-					}
 				}
-				if (!empty($enabled_forums))
+			}
+			if (!empty($enabled_forums))
+			{
+				$rowset_data = $event['rowset_data'];
+				$forum_id = $rowset_data['forum_id'];
+				if (in_array($forum_id, $enabled_forums))
 				{
-					$rowset_data = $event['rowset_data'];
-					$forum_id = $rowset_data['forum_id'];
-					if (in_array($forum_id, $enabled_forums))
-					{
-						$post_text = $rowset_data['post_text'];
-						$post_text = $this->glossary_pass($post_text);
-						$rowset_data['post_text'] = $post_text;
-						$event['rowset_data'] = $rowset_data;
-					}
+					$post_text = $rowset_data['post_text'];
+					$post_text = $this->glossary_pass($post_text);
+					$rowset_data['post_text'] = $post_text;
+					$event['rowset_data'] = $rowset_data;
 				}
 			}
 		}
@@ -179,7 +214,7 @@ class listener implements EventSubscriberInterface
 		}
 		if (sizeof($glossterms))
 		{
-			$code = $quote = $img = $link = $script = false;
+			$acro = $code = $quote = $img = $link = $script = false;
 			$rech = $glossterms['rech'];
 			$remp = $glossterms['remp'];
 			preg_match_all('#[][><][^][><]*|[^][><]+#', $texte, $matches);
@@ -265,7 +300,7 @@ class listener implements EventSubscriberInterface
 
 	/*	Production of the term list and the replacement list, in an array named glossterms.
 		The replacement string follows this model:
-		<lmdi-gloss class='id302' title=''>$1</lmdi-gloss>
+		<lmdigloss class='id302' title=''>$1</lmdigloss>
 		The title element can contain the first 50 characters of description text (see ACP).
 		*/
 	private function compute_glossary_list()
@@ -273,7 +308,7 @@ class listener implements EventSubscriberInterface
 		$glossterms = $this->cache->get('_glossterms');
 		if ($glossterms === false)
 		{
-			$sql = "SELECT * FROM $this->glossary_table 
+			$sql  = "SELECT * FROM $this->glossary_table 
 				ORDER BY LENGTH(TRIM(variants)) DESC"; // To try longest variants first
 			$result = $this->db->sql_query($sql);
 			$glossterms = array();
@@ -284,9 +319,9 @@ class listener implements EventSubscriberInterface
 				if ($this->config['lmdi_glossary_title'])
 				{
 					$desc = trim($row['description']);
-					if (mb_strlen($desc) > 511)
+					if (mb_strlen($desc) > 500)
 					{
-						$desc = mb_substr($desc, 0, 511);
+						$desc = mb_substr($desc, 0, 500);
 					}
 					$str_title = " title=\"$desc\"";
 				}
@@ -309,7 +344,8 @@ class listener implements EventSubscriberInterface
 					if (!in_array($variant, $done))
 					{
 						$done[] = $variant;
-						$remp  = "<lmdi-gloss class=\"id{$term_id}\"$str_title>$1</lmdi-gloss>";
+						$remp  = "<lmdigloss class=\"id{$term_id}\"$str_title>$1</lmdigloss>";
+						// $glossterms['rech'][] = $variant;
 						$begin = '/\b(';
 						$end = ')\b/ui'; // PCRE - u = UTF-8 - i = case insensitive
 						$rech = $begin . $variant . $end;
@@ -327,8 +363,9 @@ class listener implements EventSubscriberInterface
 	private function rebuild_cache_forums()
 	{
 		$forum_list = array();
-		$sql = 'SELECT * FROM ' . FORUMS_TABLE . '
-			WHERE lmdi_glossary = 1';
+		$sql = 'SELECT * 
+				FROM ' . FORUMS_TABLE . '
+				WHERE lmdi_glossary = 1';
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
@@ -337,6 +374,5 @@ class listener implements EventSubscriberInterface
 		$this->db->sql_freeresult($result);
 		$this->cache->put('_gloss_forums', $forum_list, 86400);
 	}	// rebuild_cache_forums
-
 
 }

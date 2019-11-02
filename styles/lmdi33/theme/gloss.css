@@ -1,9 +1,8 @@
 /* gloss.css
-Style elements for the Glossary Extension - Prosilver version
+Style elements for the Glossary Extension - lmdi32 version
 */
 
 lmdigloss {
-	/* border-bottom: none ; */
 	text-decoration: none;
 	cursor: help;
 	color:#865931;
@@ -15,7 +14,7 @@ lmdigloss {
 	width:500px;
 	padding:1em;
 	height:auto;
-	border:1px #071491 solid;
+	border:1px #2e7602 solid;
 	background:#FFFFFF;
 	color:black;
 	font-size:75%;
@@ -25,22 +24,21 @@ lmdigloss {
 
 #lexiconEntry h3{
 	font-size:1.5em;
-	color:#071491;
-	/* background:transparent; */
+	color:#2e7602;
 	display:inline;
 	}
 
 a#lexiconClose {
-	color:#071491;
+	color:#2e7602;
 	background:#E3E8D5;
 	padding:0 5px 1px 5px;
-	border:1px solid #071491;
+	border:1px solid #0177B3;
 	float:right;
 	}
 
 a#lexiconClose:hover, a#lexiconClose:active {
 	color:#000000;
-	background:#FD6C9E;
+	background:#2e7602;
 	border:1px solid #000000;
 	}
 

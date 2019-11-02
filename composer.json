@@ -1,10 +1,10 @@
 {
 	"name": "lmdi/gloss",
 	"type": "phpbb-extension",
-	"description": "Glossary for phpBB 3.1.x/3.2.x",
+	"description": "Glossary for phpBB /3.2.x",
 	"homepage": "http://www.insecte.org/ext/readme.txt",
-	"version": "2.1.5",
-	"time": "2018-09-11",
+	"version": "3.0.2",
+	"time": "2019-11-2",
 	"license": "GPL-2.0",
 	"authors": 
 	[	{
@@ -39,7 +39,7 @@
 	"extra": {
 		"display-name": "LMDI Glossary",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.1.0-RC2,<3.3.0@dev"
+			"phpbb/phpbb": ">=3.2.0, <3.3.0@dev"
 		}
 	}
 }

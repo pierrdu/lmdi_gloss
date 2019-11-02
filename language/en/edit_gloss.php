@@ -2,7 +2,7 @@
 /**
 * edit_gloss.php
 * @package phpBB Extension - LMDI Glossary
-* @copyright (c) 2015-2016 LMDI - Pierre Duhem
+* @copyright (c) 2015-2019 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -19,17 +19,14 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 // Static Glossary page
-	'ILLUSTRATION'	=> "<p>Some terms have an explicative illustration.<br />In such a case, there is a link at the end of the row.<br />Click on it to display the picture.<br />Click on the picture again to come back.</p>",
+	'ILLUSTRATION'	=>  "<p>Some terms have an explicative illustration.<br />In such a case, there is a link at the end of the row.<br />Click on it to display the picture.<br />Click on the picture again to come back.</p>",
 	'GLOSS_DISPLAY'	=> 'Display',
 	'GLOSS_CLICK'		=> 'Click on the picture to come back to previous page.',
 	'GLOSS_VIEW'		=> 'Glossary Viewer',
 	'GLOSS_ILINKS'		=> 'See also: ',
 	'GLOSS_ELINKS'		=> 'External link: ',
-	'GLOSS_BIBLIO'		=> "Place holder",
 // Glossary edition page
-	'GLOSS_NOID'	=> 'Error no id',
 	'GLOSS_EDIT'	=>'Glossary Item Edition',
-	'GLOSS_EDITS'	=>'Glossary Edition Page',
 	'GLOSS_CREAT'	=>'Glossary Item Creation',
 	'GLOSS_VARIANTS' => 'Terms to search in the posts',
 	'GLOSS_VARIANTS_EX' => 'One or several terms, separated by a comma.',
@@ -39,7 +36,7 @@ $lang = array_merge($lang, array(
 	'GLOSS_PICT'	=> 'Picture',
 	'GLOSS_REGIS'	=> 'Save',
 	'GLOSS_SUPPR'	=> 'Delete',
-	'GLOSS_EDITION'	=> 'Glossary Editor Page',
+	'GLOSS_EDITION'	=> 'Glossary Edition Page',
 	'GLOSS_ED_TERM'	=> 'Term',
 	'GLOSS_ED_DEF'		=> 'Definition',
 	'GLOSS_ED_CAT'		=> 'Category',
@@ -52,15 +49,17 @@ $lang = array_merge($lang, array(
 	'GLOSS_ED_LABEX'	=> 'String to identify the external link.',
 	'GLOSS_ED_PICT'	=> 'Picture',
 	'GLOSS_ED_PIEXPL'	=> 'Name of the picture file (jpg, jpeg, gif or png). Uploaded in the folder store/lmdi/gloss.',
-	'GLOSS_ED_UPLOAD'	=> 'Upload',
+	'GLOSS_ED_UPLOAD'	=> 'Upload:',
 	'GLOSS_ED_NOUP'	=> 'No file to upload',
 	'GLOSS_ED_REUSE'	=> 'File to be reused',
 	'GLOSS_ED_EXISTE'	=> 'Registered file',
 	'GLOSS_ED_ACT'		=> 'Action',
-	'GLOSS_ED_EXPL'	=> '<p>An edition link exists in the Action column for each entry.<br>To create a new entry, ',
-	'GLOSS_ED_ANCHOR'	=> 'click here',
+	'GLOSS_ED_EXPL'	=> '<p>An edition link exists in the Action column for each entry.<br />%s<b>Click here</b>%s to create a new entry.</p>',
 	'GLOSS_ED_EDIT'	=> 'Edit',
 	'GLOSS_LANG'		=> 'Language',
+	'GLOSS_ED_SAVE'	=> 'The glossary term %s was successfully saved.<br />%s<b>Click here</b>%s to come back to the administration page.',
+	'GLOSS_ED_DELETE'	=> 'The glossary term %s was successfully deleted.<br />%s<b>Click here</b>%s to come back to the administration page.',
+
 	'LMDI_GLOSS_NOFILE'	=> 'No file given to upload.',
 	'LMDI_GLOSS_DISALLOWED_CONTENT'	=> 'Upload has been interrupted because the file had been identified as a potential threat.',
 	'LMDI_GLOSS_DISALLOWED_EXTENSION'	=> 'The file extension <strong>%s</strong> is not allowed.',
@@ -76,6 +75,5 @@ $lang = array_merge($lang, array(
 	'LMDI_GLOSS_UNABLE_GET_IMAGE_SIZE'	=> 'It was not possible to determine the file dimensions',
 	'LMDI_GLOSS_WRONG_FILESIZE'		=> 'The file size must be below %1d kB.',
 	'LMDI_GLOSS_WRONG_SIZE'			=> 'The specified file is %5$s wide and %6$s high.<br>Glossar pictures must be at least %1$s wide and %2$s high, but no larger than %3$s wide and %4$s high.',
-	'LMDI_CLICK_BACK'				=> 'Use the back button of the browser to come back to the edition form.',
-	'LMDI_BACK_TOP'				=> 'Top',
+	'LMDI_CLICK_BACK'				=> 'Click <a href="javascript:history.go(-1);"><b>here</b></a> to come back to the edition form.',
 ));

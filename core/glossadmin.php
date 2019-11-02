@@ -8,7 +8,7 @@
 */
 namespace lmdi\gloss\core;
 
-class glossaire
+class glossadmin
 {
 	protected $template;
 	protected $db;
@@ -81,6 +81,7 @@ class glossaire
 		$str_action = $this->language->lang('GLOSS_DISPLAY');
 		$str_ilinks = $this->language->lang('GLOSS_ILINKS');
 		$str_elinks = $this->language->lang('GLOSS_ELINKS');
+		$str_edit2  = $this->language->lang('GLOSS_ED_EDIT');
 		foreach ($abc_table as $l)
 		{
 			$block = $gloss_table[$l];
@@ -131,15 +132,19 @@ class glossaire
 				else
 				{
 					$url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glosspict', 'code' => $code, 'term' =>$term, 'pict' => $pict));
-					$str_url = $str_action;
+					$str_url = $pict;
 				}
-				$this->template->assign_block_vars('gaff', array(
+				$act = "<a href=\"";
+				$act .= $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit', 'code' => $code, 'action' => 'edit'));
+				$act .= "\">$str_edit2</a>";
+				$this->template->assign_block_vars('ged', array(
 					'TERM'	=> $term,
 					'ID'		=> $code,
 					'DEF'	=> $row['description'],
 					'CAT'	=> $row['cat'],
 					'URL'	=> $url,
 					'STRURL'	=> $str_url,
+					'ACTION'	=> $act,
 					'ANCHOR'	=> $anchor,
 					'ELINKS'	=> $elinks,
 					'LABEL'	=> $label,
@@ -151,26 +156,23 @@ class glossaire
 			}	// Inner foreach
 		}	// Outer foreach
 
-		if ($this->auth->acl_get('u_lmdi_glossary') || $this->auth->acl_get('a_lmdi_glossary'))
-		{
-			$editor = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossadmin'));
-			$switch = 1;
-		}
-		else
-		{
-			$editor = "";
-			$switch = 0;
-		}
+		// Breadcrumbs
+		$this->template->assign_block_vars('navlinks', array(
+			'U_VIEW_FORUM'	=> $str_glosspict,
+			'FORUM_NAME'	=> $this->language->lang('GLOSS_EDITION'),
+		));
+		$params = "mode=glossnew";
+		$str_url = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
+		$str_url = '<a href="' . $str_url . '">';
+		$str_url = sprintf ($this->language->lang('GLOSS_ED_EXPL'), $str_url, '</a>');
+		$this->template->assign_vars(array(
+			'EDIT_EXPLAIN'	=> $str_url,
+		));
 
-		$this->template->assign_vars (array (
-			'S_EDIT'		=> $switch,
-			'EDITOR'		=> $editor,
-			));
-		
 		$titre = $this->language->lang('TGLOSSAIRE');
 		page_header($titre);
 		$this->template->set_filenames (array(
-			'body' => 'glossaire.html',
+			'body' => 'glossadmin.html',
 		));
 		page_footer();
 	}

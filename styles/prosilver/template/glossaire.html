@@ -1,45 +1,40 @@
 <!-- INCLUDECSS tables.css -->
-<!-- INCLUDECSS scroll.css -->
 <!-- INCLUDE overall_header.html -->
 
-<span id="top"></span>
-<h2>{TITLE}</h2>
+<h2>{L_GLOSSAIRE}</h2>
 
 <div class="panel">
-<div class="inner">
-<div class="content">
-<p class="glossa"><!-- BEGIN gabc --><a class="cap" href ="#{gabc.ABC}">{gabc.ABC}</a><!-- END gabc --></p>
-<p>{ILLUST}</p>
-<!-- IF S_EDIT -->
-<p align="right"><b><a href="{EDITOR}">{ACTION}</a></b></p>
-<!-- ENDIF -->
+	<div class="inner">
+	<span class="corners-top"><span></span></span>
+		<div class="content">
+			<span id="haut"></span>
+			<!-- IF S_EDIT -->
+			<div class="subtitle"><a href="{EDITOR}">{L_GLOSS_EDITION}</a></div>
+			<!-- ENDIF -->
+			<br /><p class="glossa"><!-- BEGIN gabc --><a class="cap" href ="#{gabc.ABC}">{gabc.ABC}&nbsp;</a><!-- END gabc --></p>
+			{L_ILLUSTRATION}
+			<table class="deg" cellspacing="1">
+			<thead>
+				<tr>
+					<th class="deg0">{L_GLOSS_ED_TERM}</th>
+					<th class="deg0">{L_GLOSS_ED_DEF}</th>
+					<th class="deg1">{L_GLOSS_ED_PICT}</th>
+				</tr>
+			</thead>
+			<tbody>
+			<!-- BEGIN gaff -->
+				<tr>
+				<td class="deg0">{gaff.ANCHOR}<span id="{gaff.ID}"><b>{gaff.TERM}</b></span><br>{gaff.CAT}</td>
+				<td class="deg0">{gaff.DEF}{gaff.BRILINKS}{gaff.ILINKS}{gaff.BRELINKS}<a class="ilinks" href="{gaff.ELINKS}">{gaff.LABEL}</a></td>
+				<td class="deg1"><a href="{gaff.URL}">{gaff.STRURL}</a></td>
+				</tr>
+			<!-- END gaff -->
+			</tbody>
+			</table>
+		</div>
+	<span class="corners-bottom"><span></span></span>
+	</div>
+</div>
 
-<table class="deg" cellspacing="1">
-	<thead>
-		<tr>
-			<th class="deg0">{L_GLOSS_ED_TERM}</th>
-			<th class="deg0">{L_GLOSS_ED_DEF}</th>
-			<th class="deg1">{L_GLOSS_ED_PICT}</th>
-		</tr>
-	</thead>
-	<tbody>
-	<!-- BEGIN gaff -->
-		<tr>
-		<td class="deg0">{gaff.ANCHOR}<span id="{gaff.ID}"><b>{gaff.TERM}</b></span><br>{gaff.CAT}</td>
-		<td class="deg0">{gaff.DEF}{gaff.BRILINKS}{gaff.ILINKS}{gaff.BRELINKS}<a class="ilinks" href="{gaff.ELINKS}">{gaff.LABEL}</td>
-		<td class="deg1"><a href="{gaff.URL}">{gaff.STRURL}</a></td>
-		</tr>
-	<!-- END gaff -->
-	</tbody>
-</table>
-
-{BIBLIO}
-
-</div></div></div>
-
-<p id="back-top">
-	<a href="#top"><span></span><b>{BACKTOP}</b></a>
-</p>
-
-<!-- INCLUDEJS scroll.js -->
+<!-- INCLUDE jumpbox.html -->
 <!-- INCLUDE overall_footer.html -->

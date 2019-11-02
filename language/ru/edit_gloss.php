@@ -2,7 +2,7 @@
 /**
 * edit_gloss.php
 * @package phpBB Extension - LMDI Glossary
-* @copyright (c) 2015-2016 LMDI - Pierre Duhem
+* @copyright (c) 2015-2019 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 * Russian translation by rua and MaxTr
 *
@@ -18,7 +18,7 @@ if (empty($lang) || !is_array($lang))
 	$lang = array();
 }
 
-$lang = array_merge($lang, array(
+$lang = array_merge ($lang, array(
 // Static Glossary page
 	'ILLUSTRATION'	=>  "Некоторые термины имеют поясняющие иллюстрации.<br />В этом случае, в конце строки есть ссылка на изображение.<br />Нажмите на нее, чтобы открыть рисунок.<br />Нажмите на картинку еще раз, чтобы свернуть.",
 	'GLOSS_DISPLAY'			  => 'Отобразить',
@@ -26,11 +26,8 @@ $lang = array_merge($lang, array(
 	'GLOSS_VIEW'		=> 'Просмотр глоссария',
 	'GLOSS_ILINKS'		=> 'Смотрите также: ',
 	'GLOSS_ELINKS'		=> 'Внешние ссылки: ',
-	'GLOSS_BIBLIO'		=> "Place holder",
 // Glossary edition page
-	'GLOSS_NOID'	=> 'Error no id',
 	'GLOSS_EDIT'	=>'Редактировать термин глоссария',
-	'GLOSS_EDITS'	=>'Редактировать термин глоссария',
 	'GLOSS_CREAT'	=>'Создать термин глоссария',
 	'GLOSS_VARIANTS' => 'Варианты термина (учитывается при поиске)',
 	'GLOSS_VARIANTS_EX' => 'Одно или несколько определений, разделенных запятой.',
@@ -53,15 +50,18 @@ $lang = array_merge($lang, array(
 	'GLOSS_ED_LABEX'	=> 'Описание для внешней ссылки.',
 	'GLOSS_ED_PICT'	=> 'Изображение',
 	'GLOSS_ED_PIEXPL'	=> 'Имя файла изображения (jpg, jpeg, gif or png). Если файл находится в папке store/lmdi/gloss.',
-	'GLOSS_ED_UPLOAD'	=> 'Загрузить',
+	'GLOSS_ED_UPLOAD'	=> 'Загрузить:',
 	'GLOSS_ED_NOUP'	=> 'Нет файла для загрузки.',
 	'GLOSS_ED_REUSE'	=> 'Использовать уже имеющееся изображение',
 	'GLOSS_ED_EXISTE'	=> 'Зарегистрированный файл',
 	'GLOSS_ED_ACT'		=> 'Действие',
-	'GLOSS_ED_EXPL'	=> 'Ссылка правки активна для каждого Термина.<br />Чтобы создать новую запись, ',
-	'GLOSS_ED_ANCHOR'	=> 'нажмите создать',
+	'GLOSS_ED_EXPL'	=> 'Ссылка правки активна для каждого Термина.<br />Чтобы создать новую запись, нажмите %s<b>создать</b>%s ',
 	'GLOSS_ED_EDIT'	=> 'Править',
 	'GLOSS_LANG'		=> 'Язык',
+	'GLOSS_ED_SAVE'	=> 'The glossary term %s was successfully saved.<br />%s<b>Click here</b>%s to come back to the administration page.',
+	'GLOSS_ED_DELETE'	=> 'The glossary term %s was successfully deleted.<br />%s<b>Click here</b>%s to come back to the administration page.',
+
+
 	'LMDI_GLOSS_NOFILE'	=> 'Нет файла для загрузки.',
 	'LMDI_GLOSS_DISALLOWED_CONTENT'	=> 'Загрузка была прервана, т.к. файл определился как потенциально опасный.',
 	'LMDI_GLOSS_DISALLOWED_EXTENSION'	=> 'Расширение файла <strong>%s</strong> запрещено.',
@@ -77,7 +77,5 @@ $lang = array_merge($lang, array(
 	'LMDI_GLOSS_UNABLE_GET_IMAGE_SIZE'	=> 'Невозможно определить размер изображения',
 	'LMDI_GLOSS_WRONG_FILESIZE'		=> 'Размер файла должен быть менее %1d kB.',
 	'LMDI_GLOSS_WRONG_SIZE'			=> 'Ширина файла %3$d пикселей и высота %4$d пикселей. Файл не может быть шире %1$d пикселей и %2$d в высоту.',
-	'LMDI_CLICK_BACK'				=> 'Use the Back button of the browser to come back to the edition form.',
-	'LMDI_BACK_TOP'				=> 'Top',
-
+	'LMDI_CLICK_BACK'				=> 'Нажмите <a href="javascript:history.go(-1);"><b>тут</b></a> чтобы вернуться к редактированию.',
 ));
