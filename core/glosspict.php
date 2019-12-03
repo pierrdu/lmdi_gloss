@@ -10,12 +10,12 @@ class glosspict
 {
 	protected $template;
 	protected $language;
-	protected $auth;
+	protected $ext_manager;
+	protected $path_helper;
 	protected $request;
 	protected $phpEx;
 	protected $phpbb_root_path;
-	protected $ext_manager;
-	protected $path_helper;
+
 	protected $ext_path;
 	protected $ext_path_web;
 
@@ -47,6 +47,9 @@ class glosspict
 	{
 
 		$this->language->add_lang ('edit_gloss', 'lmdi/gloss');
+		$term = $this->request->variable('term', '', true);
+		$click = $this->language->lang ('GLOSS_CLICK');
+		$view = $this->language->lang ('GLOSS_VIEW');
 		$pict = $this->request->variable('pict', '');
 		$pict = $this->phpbb_root_path . "../store/lmdi/gloss/" . $pict;
 		$code = $this->request->variable('code', '0', true);

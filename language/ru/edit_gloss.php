@@ -37,7 +37,8 @@ $lang = array_merge ($lang, array(
 	'GLOSS_PICT'	=> 'Рисунок',
 	'GLOSS_REGIS'	=> 'Сохранить',
 	'GLOSS_SUPPR'	=> 'Удалить',
-	'GLOSS_EDITION'	=> 'Страница редактирования глоссария',
+	'GLOSS_ADMINISTRATION'	=> 'Страница редактирования глоссария',
+	'GLOSS_EDITION'	=> 'Glossary Edition Page',
 	'GLOSS_ED_TERM'	=> 'Термин',
 	'GLOSS_ED_DEF'		=> 'Определение',
 	'GLOSS_ED_CAT'		=> 'Категория',
@@ -58,6 +59,7 @@ $lang = array_merge ($lang, array(
 	'GLOSS_ED_EXPL'	=> 'Ссылка правки активна для каждого Термина.<br />Чтобы создать новую запись, нажмите %s<b>создать</b>%s ',
 	'GLOSS_ED_EDIT'	=> 'Править',
 	'GLOSS_LANG'		=> 'Язык',
+	'GLOSS_ED_DOUBLON'	=> 'The glossary term %s exists already.<br />%s<b>Click here</b>%s to come back to the edition page.',
 	'GLOSS_ED_SAVE'	=> 'The glossary term %s was successfully saved.<br />%s<b>Click here</b>%s to come back to the administration page.',
 	'GLOSS_ED_DELETE'	=> 'The glossary term %s was successfully deleted.<br />%s<b>Click here</b>%s to come back to the administration page.',
 

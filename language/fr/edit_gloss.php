@@ -36,7 +36,9 @@ $lang = array_merge($lang, array(
 	'GLOSS_PICT'	=> 'Illustration',
 	'GLOSS_REGIS'	=> 'Enregistrer',
 	'GLOSS_SUPPR'	=> 'Supprimer',
-	'GLOSS_EDITION'	=> 'Page d’administration du glossaire',
+// Glossary form (édition and creation)
+	'GLOSS_ADMINISTRATION'	=> 'Page d’administration du glossaire',
+	'GLOSS_EDITION'	=> 'Page d’édition du glossaire',
 	'GLOSS_ED_TERM'	=> 'Terme',
 	'GLOSS_ED_DEF'		=> 'Définition',
 	'GLOSS_ED_CAT'		=> 'Catégorie',
@@ -57,6 +59,7 @@ $lang = array_merge($lang, array(
 	'GLOSS_ED_EXPL'	=> '<p>Un lien d’édition existe à l’extrémité de chaque ligne pour apporter des modifications.<br />%s<b>Cliquez ici</b>%s pour créer une nouvelle rubrique.</p>',
 	'GLOSS_ED_EDIT'	=> 'Éditer',
 	'GLOSS_LANG'		=> 'Langue',
+	'GLOSS_ED_DOUBLON'	=> 'Le terme « %s » existe déjà.<br />%s<b>Cliquez ici</b>%s pour revenir à la page d’édition.',
 	'GLOSS_ED_SAVE'	=> 'Le terme « %s » a bien été enregistré.<br />%s<b>Cliquez ici</b>%s pour revenir à la page d’administration.',
 	'GLOSS_ED_DELETE'	=> 'Le terme « %s » a bien été supprimé.<br />%s<b>Cliquez ici</b>%s pour revenir à la page d’administration.',
 	// Upload process

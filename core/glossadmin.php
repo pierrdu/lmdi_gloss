@@ -63,6 +63,7 @@ class glossadmin
 		static $abc_table = null;
 		static $gloss_table = null;
 
+		$this->sanity_check();
 		$this->language->add_lang ('edit_gloss', 'lmdi/gloss');
 
 		if (!$abc_table)
@@ -157,9 +158,11 @@ class glossadmin
 		}	// Outer foreach
 
 		// Breadcrumbs
+		$params = "mode=glossadmin";
+		$str_glossadmin = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
 		$this->template->assign_block_vars('navlinks', array(
 			'U_VIEW_FORUM'	=> $str_glosspict,
-			'FORUM_NAME'	=> $this->language->lang('GLOSS_EDITION'),
+			'FORUM_NAME'	=> $this->language->lang('GLOSS_ADMINISTRATION'),
 		));
 		$params = "mode=glossnew";
 		$str_url = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
@@ -169,11 +172,36 @@ class glossadmin
 			'EDIT_EXPLAIN'	=> $str_url,
 		));
 
-		$titre = $this->language->lang('TGLOSSAIRE');
+		$titre = $this->language->lang('GLOSS_ADMINISTRATION');
 		page_header($titre);
 		$this->template->set_filenames (array(
 			'body' => 'glossadmin.html',
 		));
 		page_footer();
-	}
+	}	// main
+
+
+	private function sanity_check()
+	{
+		// Check of the existence of the folder store/lmdi/gloss
+		$folder = $this->phpbb_root_path . 'store/lmdi';
+		if (!is_dir ($folder))
+		{
+			mkdir ($folder, 0777);
+		}
+		else
+		{
+			chmod ($folder, 0777);
+		}
+		$folder .= '/gloss';
+		if (!is_dir ($folder))
+		{
+			mkdir ($folder, 0777);
+		}
+		else
+		{
+			chmod ($folder, 0777);
+		}
+	}	// sanity_check
+
 }

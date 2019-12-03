@@ -16,12 +16,12 @@ class main
 	protected $glossedit;
 	protected $glossnew;
 	protected $glosspict;
+	protected $helper;
 	protected $lexicon;
 	protected $template;
 	protected $user;
 	protected $language;
 	protected $request;
-	protected $helper;
 	protected $phpbb_root_path;
 	protected $phpEx;
 

@@ -37,6 +37,7 @@ $lang = array_merge ($lang, array(
 	'GLOSS_PICT'	=> 'Bild',
 	'GLOSS_REGIS'	=> 'Speichern',
 	'GLOSS_SUPPR'	=> 'Löschen',
+	'GLOSS_ADMINISTRATION'	=> 'Glossar-Verwaltungsseite',
 	'GLOSS_EDITION'	=> 'Glossar-Bearbeitungsseite',
 	'GLOSS_ED_TERM'	=> 'Begriff',
 	'GLOSS_ED_DEF'		=> 'Definition',
@@ -58,6 +59,7 @@ $lang = array_merge ($lang, array(
 	'GLOSS_ED_EXPL'	=> '<p>Es gibt einen Bearbeitungs-Link in der Spalte Aktion für jeden Eintrag.<br /> %s<b>Klicke hier</b>%s, um einen neuen Eintrag anzulegen.</p>',
 	'GLOSS_ED_EDIT'	=> 'Bearbeiten',
 	'GLOSS_LANG'		=> 'Sprache',
+	'GLOSS_ED_DOUBLON'	=> 'Der Eintrag %s existiert bereits.<br />%s<b>Klicke hier</b>%s, um zur Glossar-Bearbeitungsseite zurückzukehren.',
 	'GLOSS_ED_SAVE'	=> 'Der Eintrag %s wurde gespeichert.<br />%s<b>Klicke hier</b>%s, um zur Glossar-Bearbeitungsseite zurückzukehren.',
 	'GLOSS_ED_DELETE'	=> 'Der Eintrag %s wurde gelöscht.<br />%s<b>Klicke hier</b>%s, um zur Glossar-Bearbeitungsseite zurückzukehren.',
 

@@ -26,16 +26,8 @@ class release_3 extends \phpbb\db\migration\migration
 	{
 		return array(
 			array('config.update' => array('lmdi_glossary_version', 3000)),
-			array('custom', array (array(&$this, 'gloss_folder_creation'))),
 			array('custom', array (array(&$this, 'nopict_deletion'))),
 		);
-	}
-
-	private function gloss_folder_creation()
-	{
-		$filesystem = new \Symfony\Component\Filesystem\Filesystem\Filesystem();
-		$filesystem->mkdir($this->root_path . '../store/lmdi');
-		$filesystem->mkdir($this->root_path . '../store/lmdi/gloss');
 	}
 
 	private function nopict_deletion()

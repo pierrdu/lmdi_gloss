@@ -73,12 +73,7 @@ class glossnew
 	{
 		$action = 'edit';
 		$num		= $this->request->variable('code', 0);
-		$delete	= $this->request->variable('delete', "rien");
 		$save	= $this->request->variable('save', "rien");
-		if ($delete != 'rien')
-		{
-			$action = 'delete';
-		}
 		if ($save != 'rien')
 		{
 			$action = 'save';
@@ -90,8 +85,10 @@ class glossnew
 		{
 			default :		// Item creation
 				// Breadcrumbs
+				$params = "mode=glossnew";
+				$str_glossnew = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
 				$this->template->assign_block_vars('navlinks', array(
-					'U_VIEW_FORUM'	=> $str_glossedit,
+					'U_VIEW_FORUM'	=> $str_glossnew,
 					'FORUM_NAME'	=> $this->language->lang('GLOSS_CREAT'),
 				));
 
@@ -122,70 +119,82 @@ class glossnew
 				page_footer();
 			break;
 		case 'save' :
-			$term_id = $this->db->sql_escape(trim($this->request->variable('term_id', 0)));
 			$term = $this->db->sql_escape(trim($this->request->variable('term',"",true)));
-			$variants = $this->db->sql_escape(trim($this->request->variable('vari',"",true)));
-			$descript = $this->db->sql_escape(trim($this->request->variable('desc',"",true)));
-			if (mb_strlen($descript) > 511)
+			$id = $this->gloss_helper->existe_rubrique ($term);
+			if ($id)
 			{
-				$descript = mb_substr($descript, 0, 511);
+				// Information message with back link to the edit page
+				$url = "<a href=\"javascript:history.go(-1);\">";
+				$message = sprintf ($this->language->lang('GLOSS_ED_DOUBLON'), $term, $url, '</a>');
+				trigger_error($message);
+
 			}
-			$cat = $this->db->sql_escape(trim($this->request->variable('cat',"",true)));
-			$ilinks = $this->db->sql_escape(trim($this->request->variable('ilinks',"",true)));
-			$elinks = $this->db->sql_escape(trim($this->request->variable('elinks',"",true)));
-			$label = $this->db->sql_escape(trim($this->request->variable('label',"",true)));
-			$lang = $this->db->sql_escape($this->request->variable('lang',"fr",true));
-			$coche = $this->request->variable('upload', "", true);
-			$picture = '';
-			switch ($coche)
+			else
 			{
-				case "existe":
-					$picture = $this->request->variable('pict', "", true);
-				break;
-				case "noup":
-				break;
-				case "reuse":
-					$picture = $this->request->variable('reuse', "", true);
-				break;
-				case "nouv":
-					$errors = array();
-					$picture = $this->upload_32x($errors);
-					if (!$picture)
-					{
-						$nb = count($errors);
-						$message = "";
-						for ($i = 0; $i < $nb; $i++)
+				$variants = $this->db->sql_escape(trim($this->request->variable('vari',"",true)));
+				$descript = $this->db->sql_escape(trim($this->request->variable('desc',"",true)));
+				if (mb_strlen($descript) > 511)
+				{
+					$descript = mb_substr($descript, 0, 511);
+				}
+				$cat = $this->db->sql_escape(trim($this->request->variable('cat',"",true)));
+				$ilinks = $this->db->sql_escape(trim($this->request->variable('ilinks',"",true)));
+				$elinks = $this->db->sql_escape(trim($this->request->variable('elinks',"",true)));
+				$label = $this->db->sql_escape(trim($this->request->variable('label',"",true)));
+				$lang = $this->db->sql_escape($this->request->variable('lang',"fr",true));
+				$coche = $this->request->variable('upload', "", true);
+				$picture = '';
+				switch ($coche)
+				{
+					case "existe":
+						$picture = $this->request->variable('pict', "", true);
+						break;
+					case "noup":
+						break;
+					case "reuse":
+						$picture = $this->request->variable('reuse', "", true);
+						break;
+					case "nouv":
+						$errors = array();
+						$picture = $this->upload_32x($errors);
+						if (!$picture)
 						{
-							$message .= $errors[$i];
-							$message .= "<br>";
+							$nb = count($errors);
+							$message = "";
+							for ($i = 0; $i < $nb; $i++)
+							{
+								$message .= $errors[$i];
+								$message .= "<br>";
+							}
+							$message .= $this->language->lang('LMDI_CLICK_BACK');
+							trigger_error($message, E_USER_WARNING);
 						}
-						$message .= $this->language->lang('LMDI_CLICK_BACK');
-						trigger_error($message, E_USER_WARNING);
-					}
-					else
-					{
-						$picture = $this->db->sql_escape($picture);
-					}
-				break;
-			}	// Inner switch
-			$sql = "INSERT INTO " . $this->glossary_table . "
-				(variants, term, description, cat, ilinks, elinks, label, picture, lang) 
-				VALUES (\"$variants\", \"$term\", \"$descript\", \"$cat\", \"$ilinks\", 
-				'$elinks', \"$label\", \"$picture\", \"$lang\")";
-			$this->db->sql_query($sql);
-			$term_id = $this->db->sql_nextid();
+						else
+						{
+							$picture = $this->db->sql_escape($picture);
+						}
+						break;
+				}	// Inner switch
+				$sql = "INSERT INTO " . $this->glossary_table . "
+					(variants, term, description, cat, ilinks, elinks, label, picture, lang) 
+					VALUES (\"$variants\", \"$term\", \"$descript\", \"$cat\", \"$ilinks\", 
+					'$elinks', \"$label\", \"$picture\", \"$lang\")";
+				$this->db->sql_query($sql);
+				$term_id = $this->db->sql_nextid();
 
-			// Purge the cache
-			$this->cache->destroy('_gloss_table');
+				// Purge the cache
+				$this->cache->destroy('_gloss_table');
 
-			// Information message et redirection
-			$params = "mode=glossadmin&code=$term_id";
-			$url = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
-			$url .= "#$term_id"; // Anchor target = term_id
-			$url = "<a href=\"$url\">";
-			$message = sprintf ($this->language->lang('GLOSS_ED_SAVE'), $term, $url, '</a>');
-			trigger_error($message);
+				// Information message et redirection
+				$params = "mode=glossadmin&code=$term_id";
+				$url = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
+				$url .= "#$term_id"; // Anchor target = term_id
+				$url = "<a href=\"$url\">";
+				$message = sprintf ($this->language->lang('GLOSS_ED_SAVE'), $term, $url, '</a>');
+				trigger_error($message);
+			}
 			break;
 		}	// Outer switch
-	}
+	}	// Main
+
 }

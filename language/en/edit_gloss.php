@@ -36,6 +36,7 @@ $lang = array_merge($lang, array(
 	'GLOSS_PICT'	=> 'Picture',
 	'GLOSS_REGIS'	=> 'Save',
 	'GLOSS_SUPPR'	=> 'Delete',
+	'GLOSS_ADMINISTRATION'	=> 'Glossary Administration Page',
 	'GLOSS_EDITION'	=> 'Glossary Edition Page',
 	'GLOSS_ED_TERM'	=> 'Term',
 	'GLOSS_ED_DEF'		=> 'Definition',
@@ -57,6 +58,7 @@ $lang = array_merge($lang, array(
 	'GLOSS_ED_EXPL'	=> '<p>An edition link exists in the Action column for each entry.<br />%s<b>Click here</b>%s to create a new entry.</p>',
 	'GLOSS_ED_EDIT'	=> 'Edit',
 	'GLOSS_LANG'		=> 'Language',
+	'GLOSS_ED_DOUBLON'	=> 'The glossary term %s exists already.<br />%s<b>Click here</b>%s to come back to the edition page.',
 	'GLOSS_ED_SAVE'	=> 'The glossary term %s was successfully saved.<br />%s<b>Click here</b>%s to come back to the administration page.',
 	'GLOSS_ED_DELETE'	=> 'The glossary term %s was successfully deleted.<br />%s<b>Click here</b>%s to come back to the administration page.',
 

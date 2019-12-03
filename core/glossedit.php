@@ -135,8 +135,8 @@ class glossedit
 				page_footer();
 			break;
 		case 'save' :
-			$term_id = $this->db->sql_escape(trim($this->request->variable('term_id', 0)));
 			$term = $this->db->sql_escape(trim($this->request->variable('term',"",true)));
+			$term_id = $this->db->sql_escape(trim($this->request->variable('term_id', 0)));
 			$variants = $this->db->sql_escape(trim($this->request->variable('vari',"",true)));
 			$descript = $this->db->sql_escape(trim($this->request->variable('desc',"",true)));
 			if (mb_strlen($descript) > 511)
@@ -208,7 +208,9 @@ class glossedit
 			}
 
 			// Purge the cache
+			$this->cache->destroy('_glossterms');
 			$this->cache->destroy('_gloss_table');
+			$this->cache->destroy('_gloss_abc_table');
 
 			// Information message et redirection
 			$params = "mode=glossadmin&amp;code=$term_id";

@@ -260,4 +260,18 @@ class helper
 		return ($gloss_table);
 	}	// rebuild_cache_abc_table
 
+
+	/*	Function checking the existence of the term in the glossary table.
+		Returns 0 if no and 1 if yes.
+		*/
+	public function existe_rubrique($term)
+	{
+		$sql = "SELECT COUNT(*) as nb, term_id FROM " . $this->glossary_table . " WHERE term = '$term'";
+		$resultat = $this->db->sql_query($sql);
+		$ligne = $this->db->sql_fetchrow ($resultat);
+		$this->db->sql_freeresult($resultat);
+		$nb = $ligne['nb'];
+		return ($nb);
+	}	// existe_rubrique
+
 }
