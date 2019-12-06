@@ -25,6 +25,7 @@ $lang = array_merge($lang, array(
 	'GLOSS_VIEW'		=> 'Glossary Viewer',
 	'GLOSS_ILINKS'		=> 'See also: ',
 	'GLOSS_ELINKS'		=> 'External link: ',
+	'BACKTOP'			=> 'Top',
 // Glossary edition page
 	'GLOSS_EDIT'	=>'Glossary Item Edition',
 	'GLOSS_CREAT'	=>'Glossary Item Creation',
@@ -77,5 +78,5 @@ $lang = array_merge($lang, array(
 	'LMDI_GLOSS_UNABLE_GET_IMAGE_SIZE'	=> 'It was not possible to determine the file dimensions',
 	'LMDI_GLOSS_WRONG_FILESIZE'		=> 'The file size must be below %1d kB.',
 	'LMDI_GLOSS_WRONG_SIZE'			=> 'The specified file is %5$s wide and %6$s high.<br>Glossar pictures must be at least %1$s wide and %2$s high, but no larger than %3$s wide and %4$s high.',
-	'LMDI_CLICK_BACK'				=> 'Click <a href="javascript:history.go(-1);"><b>here</b></a> to come back to the edition form.',
+	'LMDI_CLICK_BACK'				=> '<a href="javascript:history.go(-1);"><b>Click here</b></a> to come back to the edition form.',
 ));

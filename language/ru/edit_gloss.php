@@ -26,6 +26,7 @@ $lang = array_merge ($lang, array(
 	'GLOSS_VIEW'		=> 'Просмотр глоссария',
 	'GLOSS_ILINKS'		=> 'Смотрите также: ',
 	'GLOSS_ELINKS'		=> 'Внешние ссылки: ',
+	'BACKTOP'			=> 'Top',
 // Glossary edition page
 	'GLOSS_EDIT'	=>'Редактировать термин глоссария',
 	'GLOSS_CREAT'	=>'Создать термин глоссария',
@@ -79,5 +80,5 @@ $lang = array_merge ($lang, array(
 	'LMDI_GLOSS_UNABLE_GET_IMAGE_SIZE'	=> 'Невозможно определить размер изображения',
 	'LMDI_GLOSS_WRONG_FILESIZE'		=> 'Размер файла должен быть менее %1d kB.',
 	'LMDI_GLOSS_WRONG_SIZE'			=> 'Ширина файла %3$d пикселей и высота %4$d пикселей. Файл не может быть шире %1$d пикселей и %2$d в высоту.',
-	'LMDI_CLICK_BACK'				=> 'Нажмите <a href="javascript:history.go(-1);"><b>тут</b></a> чтобы вернуться к редактированию.',
+	'LMDI_CLICK_BACK'				=> '<a href="javascript:history.go(-1);"><b>Нажмите тут</b></a> чтобы вернуться к редактированию.',
 ));
