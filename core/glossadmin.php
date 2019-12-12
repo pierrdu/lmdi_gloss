@@ -80,8 +80,6 @@ class glossadmin
 		}
 
 		$str_action = $this->language->lang('GLOSS_DISPLAY');
-		$str_ilinks = $this->language->lang('GLOSS_ILINKS');
-		$str_elinks = $this->language->lang('GLOSS_ELINKS');
 		$str_edit2  = $this->language->lang('GLOSS_ED_EDIT');
 		foreach ($abc_table as $l)
 		{
@@ -101,12 +99,11 @@ class glossadmin
 				if (strlen ($ilinks))
 				{
 					$ilinks = $this->gloss_helper->calcul_ilinks ($ilinks);
-					$brilinks = "<br>$str_ilinks";
+					$s_ilinks = 1;
 				}
 				else
 				{
-					$ilinks = "";
-					$brilinks = "";
+					$s_ilinks = "";
 				}
 				$elinks = $row['elinks'];
 				$label  = $row['label'];
@@ -116,11 +113,11 @@ class glossadmin
 					{
 						$label = $elinks;
 					}
-					$brelinks = "<br>$str_elinks";
+					$s_elinks = 1;
 				}
 				else
 				{
-					$brelinks = "";
+					$s_elinks = 0;
 				}
 				$pict = $row['picture'];
 				$term = $row['term'];
@@ -129,11 +126,13 @@ class glossadmin
 				{
 					$url= "";
 					$str_url = "";
+					$s_url = 0;
 				}
 				else
 				{
 					$url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glosspict', 'code' => $code, 'term' =>$term, 'pict' => $pict));
 					$str_url = $pict;
+					$s_url = 1;
 				}
 				$act = "<a href=\"";
 				$act .= $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit', 'code' => $code, 'action' => 'edit'));
@@ -143,15 +142,16 @@ class glossadmin
 					'ID'		=> $code,
 					'DEF'	=> $row['description'],
 					'CAT'	=> $row['cat'],
+					'ANCHOR'	=> $anchor,
+					'S_ILINKS' => $s_ilinks,
+					'ILINKS'	=> $ilinks,
+					'S_ELINKS' => $s_elinks,
+					'ELINKS'	=> $elinks,
+					'LABEL'	=> $label,
+					'S_URL'	=> $s_url,
 					'URL'	=> $url,
 					'STRURL'	=> $str_url,
 					'ACTION'	=> $act,
-					'ANCHOR'	=> $anchor,
-					'ELINKS'	=> $elinks,
-					'LABEL'	=> $label,
-					'ILINKS'	=> $ilinks,
-					'BRILINKS' => $brilinks,
-					'BRELINKS' => $brelinks,
 					));
 				$cpt++;
 			}	// Inner foreach

@@ -32,6 +32,10 @@ class helper
 		$this->php_ext			= $php_ext;
 	}
 
+
+/*	Computation of internal links. There can be several ones, complete with
+	a href...</a>, concatened.
+	*/
 	public function calcul_ilinks($ilinks)
 	{
 		$table = $this->glossary_table;

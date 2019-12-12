@@ -26,8 +26,8 @@
 			{% for gaff in loops.gaff %}
 				<tr>
 				<td class="deg0">{{ gaff.ANCHOR }}<span id="{{ gaff.ID }}"><b>{{ gaff.TERM }}</b></span><br>{{ gaff.CAT }}</td>
-				<td class="deg0">{{ gaff.DEF }}{{ gaff.BRILINKS }}{{ gaff.ILINKS }}{{ gaff.BRELINKS }}<a class="ilinks" href="{{ gaff.ELINKS }}">{{ gaff.LABEL }}</a></td>
-				<td class="deg1"><a href="{{ gaff.URL }}">{{ gaff.STRURL }}</a></td>
+				<td class="deg0">{{ gaff.DEF }}{% if gaff.S_ILINKS %}<br>{{ lang('GLOSS_ILINKS') }}{{ gaff.ILINKS }}{% endif %}{% if gaff.S_ELINKS %}<br>{{ lang('GLOSS_ELINKS') }}<a class="ilinks" href="{{ gaff.ELINKS }}">{{ gaff.LABEL }}</a>{% endif %}</td>
+				<td class="deg1">{% if gaff.S_URL %}<a href="{{ gaff.URL }}">{{ gaff.STRURL }}</a>{% endif %}</td>
 				</tr>
 			{% endfor %}
 			</tbody>

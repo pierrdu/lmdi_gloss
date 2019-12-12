@@ -79,8 +79,6 @@ class glossaire
 		}
 
 		$str_action = $this->language->lang('GLOSS_DISPLAY');
-		$str_ilinks = $this->language->lang('GLOSS_ILINKS');
-		$str_elinks = $this->language->lang('GLOSS_ELINKS');
 		foreach ($abc_table as $l)
 		{
 			$block = $gloss_table[$l];
@@ -99,26 +97,25 @@ class glossaire
 				if (strlen ($ilinks))
 				{
 					$ilinks = $this->gloss_helper->calcul_ilinks ($ilinks);
-					$brilinks = "<br>$str_ilinks";
+					$s_ilinks = 1;
 				}
 				else
 				{
-					$ilinks = "";
-					$brilinks = "";
+					$s_ilinks = 0;
 				}
 				$elinks = $row['elinks'];
-				$label  = $row['label'];
+				$label = $row['label'];
 				if (strlen ($elinks))
 				{
 					if (!strlen ($label))
 					{
 						$label = $elinks;
 					}
-					$brelinks = "<br>$str_elinks";
+					$s_elinks = 1;
 				}
 				else
 				{
-					$brelinks = "";
+					$s_elinks = 0;
 				}
 				$pict = $row['picture'];
 				$term = $row['term'];
@@ -127,25 +124,28 @@ class glossaire
 				{
 					$url= "";
 					$str_url = "";
+					$s_url = 0;
 				}
 				else
 				{
 					$url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glosspict', 'code' => $code, 'term' =>$term, 'pict' => $pict));
 					$str_url = $str_action;
+					$s_url = 1;
 				}
 				$this->template->assign_block_vars('gaff', array(
 					'TERM'	=> $term,
 					'ID'		=> $code,
 					'DEF'	=> $row['description'],
 					'CAT'	=> $row['cat'],
-					'URL'	=> $url,
-					'STRURL'	=> $str_url,
 					'ANCHOR'	=> $anchor,
+					'S_ILINKS' => $s_ilinks,
+					'ILINKS'	=> $ilinks,
+					'S_ELINKS' => $s_elinks,
 					'ELINKS'	=> $elinks,
 					'LABEL'	=> $label,
-					'ILINKS'	=> $ilinks,
-					'BRILINKS' => $brilinks,
-					'BRELINKS' => $brelinks,
+					'S_URL'	=> $s_url,
+					'URL'	=> $url,
+					'STRURL'	=> $str_url,
 					));
 				$cpt++;
 			}	// Inner foreach
@@ -166,7 +166,7 @@ class glossaire
 			'S_EDIT'		=> $switch,
 			'EDITOR'		=> $editor,
 			));
-		
+
 		$titre = $this->language->lang('TGLOSSAIRE');
 		page_header($titre);
 		$this->template->set_filenames (array(
