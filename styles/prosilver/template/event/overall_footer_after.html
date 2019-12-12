@@ -1,5 +1,5 @@
-<!-- IF S_VIEWTOPIC -->
-	<!-- INCLUDEJS @lmdi_gloss/jquery.lexicon.js -->
-<!-- ENDIF -->
-<!-- INCLUDEJS @lmdi_gloss/scroll.js -->
-<!-- INCLUDECSS @lmdi_gloss/scroll.css -->
+{% if S_VIEWTOPIC %}
+	{% INCLUDEJS '@lmdi_gloss/jquery.lexicon.js' %}
+{% endif %}
+{% INCLUDEJS '@lmdi_gloss/scroll.js' %}
+{% INCLUDECSS '@lmdi_gloss/scroll.css' %}

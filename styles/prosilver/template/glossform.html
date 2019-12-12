@@ -1,6 +1,6 @@
-<!-- INCLUDE overall_header.html -->
+{% INCLUDE 'overall_header.html' %}
 
-<h2>{TITLE}</h2>
+<h2>{{ TITLE }}</h2>
 
 <div class="panel">
 <div class="inner">
@@ -8,69 +8,69 @@
 <div class="content">
 
 <br />
-<form id="glossform" method="post" enctype="multipart/form-data" action="{ACTION}">
+<form id="glossform" method="post" enctype="multipart/form-data" action="{{ ACTION }}">
 	<div class="panel"><div class="inner"><div class="content">
-	<input type="hidden" name="term_id" id="term_id" value="{CODE}">
+	<input type="hidden" name="term_id" id="term_id" value="{{ CODE }}">
 	<fieldset class="fields1">
 		<dl>
-			<dt><label for="vari">{L_GLOSS_VARIANTS}{L_COLON}</label><br /><span>{L_GLOSS_VARIANTS_EX}</span></dt>
-			<dd><input type="text" tabindex="1" name="vari" id="vari" size="50" value="{VARI}" class="inputbox autowidth" /></dd>
+			<dt><label for="vari">{{ lang('GLOSS_VARIANTS') }}{{ lang('COLON') }}</label><br /><span>{{ lang('GLOSS_VARIANTS_EX') }}</span></dt>
+			<dd><input type="text" tabindex="1" name="vari" id="vari" size="50" value="{{ VARI }}" class="inputbox autowidth" /></dd>
 		</dl>
 		<dl>
-			<dt><label for="term">{L_GLOSS_TERM}{L_COLON}</label><br /><span>{L_GLOSS_TERM_EX}</span></dt>
-			<dd><input type="text" tabindex="2" name="term" id="term" size="25" value="{TERM}" class="inputbox autowidth" /></dd>
+			<dt><label for="term">{{ lang('GLOSS_TERM') }}{{ lang('COLON') }}</label><br /><span>{{ lang('GLOSS_TERM_EX') }}</span></dt>
+			<dd><input type="text" tabindex="2" name="term" id="term" size="25" value="{{ TERM }}" class="inputbox autowidth" /></dd>
 		</dl>
 		<dl>
-			<dt><label for="desc">{L_GLOSS_DESC}{L_COLON}</label></dt>
-			<dd><textarea tabindex="3" rows="2" cols="40" id="desc" name="desc">{DESC}</textarea>
+			<dt><label for="desc">{{ lang('GLOSS_DESC') }}{{ lang('COLON') }}</label></dt>
+			<dd><textarea tabindex="3" rows="2" cols="40" id="desc" name="desc">{{ DESC }}</textarea>
 			</dd>
 		</dl>
 		<dl>
-			<dt><label for="cat">{L_GLOSS_ED_CAT}{L_COLON}</label><br /><span>{L_GLOSS_ED_CATEX}</span></dt>
-			<dd><input type="text" tabindex="4" name="cat" id="cat" size="25" value="{CAT}" class="inputbox autowidth" /></dd>
+			<dt><label for="cat">{{ lang('GLOSS_ED_CAT') }}{{ lang('COLON') }}</label><br /><span>{{ lang('GLOSS_ED_CATEX') }}</span></dt>
+			<dd><input type="text" tabindex="4" name="cat" id="cat" size="25" value="{{ CAT }}" class="inputbox autowidth" /></dd>
 		</dl>
 		<dl>
-			<dt><label for="ilinks">{L_GLOSS_ED_ILINKS}{L_COLON}</label><br /><span>{L_GLOSS_ED_ILEXP}</span></dt>
-			<dd><input type="text" tabindex="5" name="ilinks" id="ilinks" size="60" value="{ILINKS}" class="inputbox autowidth" /></dd>
+			<dt><label for="ilinks">{{ lang('GLOSS_ED_ILINKS') }}{{ lang('COLON') }}</label><br /><span>{{ lang('GLOSS_ED_ILEXP') }}</span></dt>
+			<dd><input type="text" tabindex="5" name="ilinks" id="ilinks" size="60" value="{{ ILINKS }}" class="inputbox autowidth" /></dd>
 		</dl>
 		<dl>
-			<dt><label for="elinks">{L_GLOSS_ED_ELINKS}{L_COLON}</label><br /><span>{L_GLOSS_ED_ELEXP}</span></dt>
-			<dd><input type="text" tabindex="6" name="elinks" id="elinks" size="60" value="{ELINKS}" class="inputbox autowidth" /></dd>
+			<dt><label for="elinks">{{ lang('GLOSS_ED_ELINKS') }}{{ lang('COLON') }}</label><br /><span>{{ lang('GLOSS_ED_ELEXP') }}</span></dt>
+			<dd><input type="text" tabindex="6" name="elinks" id="elinks" size="60" value="{{ ELINKS }}" class="inputbox autowidth" /></dd>
 		</dl>
 		<dl>
-			<dt><label for="label">{L_GLOSS_ED_LABEL}{L_COLON}</label><br /><span>{GLOSS_ED_LABEX}</span></dt>
-			<dd><input type="text" tabindex="7" name="label" id="label" size="25" value="{LABEL}" class="inputbox autowidth" /></dd>
+			<dt><label for="label">{{ lang('GLOSS_ED_LABEL') }}{{ lang('COLON') }}</label><br /><span>{{ GLOSS_ED_LABEX }}</span></dt>
+			<dd><input type="text" tabindex="7" name="label" id="label" size="25" value="{{ LABEL }}" class="inputbox autowidth" /></dd>
 		</dl>
 		<dl>
-			<dt><label for="lang">{L_GLOSS_LANG}{L_COLON}</label></dt>
-			<dd><input type="text" tabindex="8" name="lang" id="lang" size="10" value="{LANG}" class="inputbox autowidth" /></dd>
+			<dt><label for="lang">{{ lang('GLOSS_LANG') }}{{ lang('COLON') }}</label></dt>
+			<dd><input type="text" tabindex="8" name="lang" id="lang" size="10" value="{{ LANG }}" class="inputbox autowidth" /></dd>
 		</dl>
 		<!-- Radio button block -->
 		<dl>
-			<dt><label for="upload_file">{L_GLOSS_ED_PICT}{L_COLON}</label><br /><span>{L_GLOSS_ED_PIEXPL}</span></dt>
-			<!-- IF S_EDIT -->
-				<!-- IF S_PICT -->
-				<dd><input type="radio" name="upload" value="noup" tabindex="9" checked>{L_GLOSS_ED_NOUP}<br>
-				<!-- ELSE -->
-				<dd><input type="radio" name="upload" value="existe" tabindex="10" checked>{L_GLOSS_ED_EXISTE} {PICT}<br>
-				<input type="hidden" name="pict" id="pict" value="{PICT}">
-				<!-- ENDIF -->
-			<!-- ELSE -->
-				<dd><input type="radio" name="upload" value="noup" tabindex="9" checked>{L_GLOSS_ED_NOUP}<br>
-			<!-- ENDIF -->
-			<input type="radio" name="upload" value="nouv" tabindex="10">{L_GLOSS_ED_UPLOAD}{L_COLON}
+			<dt><label for="upload_file">{{ lang('GLOSS_ED_PICT') }}{{ lang('COLON') }}</label><br /><span>{{ lang('GLOSS_ED_PIEXPL') }}</span></dt>
+			{% if S_EDIT %}
+				{% if S_PICT %}
+				<dd><input type="radio" name="upload" value="noup" tabindex="9" checked>{{ lang('GLOSS_ED_NOUP') }}<br>
+				{% else %}
+				<dd><input type="radio" name="upload" value="existe" tabindex="10" checked>{{ lang('GLOSS_ED_EXISTE') }} {{ PICT }}<br>
+				<input type="hidden" name="pict" id="pict" value="{{ PICT }}">
+				{% endif %}
+			{% else %}
+				<dd><input type="radio" name="upload" value="noup" tabindex="9" checked>{{ lang('GLOSS_ED_NOUP') }}<br>
+			{% endif %}
+			<input type="radio" name="upload" value="nouv" tabindex="10">{{ lang('GLOSS_ED_UPLOAD') }}{{ lang('COLON') }}
 			&nbsp;&nbsp;&nbsp;<input type="file" name="upload_file" tabindex="11" id="upload_file" class="inputbox autowidth" /><br>
-			<input type="radio" name="upload" value="reuse" tabindex="12" >{L_GLOSS_ED_REUSE}{L_COLON}
+			<input type="radio" name="upload" value="reuse" tabindex="12" >{{ lang('GLOSS_ED_REUSE') }}{{ lang('COLON') }}
 			&nbsp;&nbsp;&nbsp;<input type="text" tabindex="13" name="reuse" class="inputbox autowidth" />
 			</dd>
 		</dl>
 		<!-- End of radio button block -->
 		<dl>
 			<dt>&nbsp;</dt>
-			<dd><input type="submit" name="save" id="save" tabindex="5" value="{L_GLOSS_REGIS}" class="button1" /><!-- IF S_EDIT -->&nbsp;&nbsp;<input type="submit" name="delete" id="delete" tabindex="6" value="{L_GLOSS_SUPPR}" class="button1" /><!-- ENDIF --></dd>
+			<dd><input type="submit" name="save" id="save" tabindex="5" value="{{ lang('GLOSS_REGIS') }}" class="button1" />{% if S_EDIT %}&nbsp;&nbsp;<input type="submit" name="delete" id="delete" tabindex="6" value="{{ lang('GLOSS_SUPPR') }}" class="button1" />{% endif %}</dd>
 		</dl>
 	</fieldset>
-	{S_FORM_TOKEN}
+	{{ S_FORM_TOKEN }}
 	</div></div></div>
 	</form>
 	</div>
@@ -78,4 +78,4 @@
 </div>
 </div>
 
-<!-- INCLUDE overall_footer.html -->
+{% INCLUDE 'overall_footer.html' %}

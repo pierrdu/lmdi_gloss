@@ -1,34 +1,34 @@
-<!-- INCLUDECSS tables.css -->
-<!-- INCLUDE overall_header.html -->
+{% INCLUDECSS 'tables.css' %}
+{% INCLUDE 'overall_header.html' %}
 <span id="top"></span>
 
-<h2>{L_GLOSS_ADMINISTRATION}</h2>
+<h2>{{ lang('GLOSS_ADMINISTRATION') }}</h2>
 
 <div class="panel">
    <div class="inner">
 	<span class="corners-top"><span></span></span>
 		<div class="content">
 			<span id="haut"></span>
-			<p class="glossa"><!-- BEGIN gabc --><a class="cap" href ="#{gabc.ABC}">{gabc.ABC}&nbsp;</a><!-- END gabc --></p>
-			<p>{EDIT_EXPLAIN}
+			<p class="glossa">{% for gabc in loops.gabc %}<a class="cap" href ="#{{ gabc.ABC }}">{{ gabc.ABC }}&nbsp;</a>{% endfor %}</p>
+			<p>{{ EDIT_EXPLAIN }}
 			<table class="deg" cellspacing="1">
 			<thead>
 				<tr>
-					<th class="deg0">{L_GLOSS_ED_TERM}</th>
-					<th class="deg0">{L_GLOSS_ED_DEF}</th>
-					<th class="deg1">{L_GLOSS_ED_PICT}</th>
-					<th class="deg1">{L_GLOSS_ED_ACT}</th>
+					<th class="deg0">{{ lang('GLOSS_ED_TERM') }}</th>
+					<th class="deg0">{{ lang('GLOSS_ED_DEF') }}</th>
+					<th class="deg1">{{ lang('GLOSS_ED_PICT') }}</th>
+					<th class="deg1">{{ lang('GLOSS_ED_ACT') }}</th>
 				</tr>
 			</thead>
 			<tbody>
-			<!-- BEGIN ged -->
+			{% for ged in loops.ged %}
 				<tr>
-				<td class="deg0">{ged.ANCHOR}<span id="{ged.ID}"><b>{ged.TERM}</b></span><br>{ged.CAT}<br>{ged.ID}</td>
-				<td class="deg0">{ged.DEF}{ged.BRILINKS}{ged.ILINKS}{ged.BRELINKS}<a class="ilinks" href="{ged.ELINKS}">{ged.LABEL}</td>
-				<td class="deg1"><a href="{ged.URL}">{ged.STRURL}</a></td>
-				<td class="deg1">{ged.ACTION}</td>
+				<td class="deg0">{{ ged.ANCHOR }}<span id="{{ ged.ID }}"><b>{{ ged.TERM }}</b></span><br>{{ ged.CAT }}<br>{{ ged.ID }}</td>
+				<td class="deg0">{{ ged.DEF }}{{ ged.BRILINKS }}{{ ged.ILINKS }}{{ ged.BRELINKS }}<a class="ilinks" href="{{ ged.ELINKS }}">{{ ged.LABEL }}</a></td>
+				<td class="deg1"><a href="{{ ged.URL }}">{{ ged.STRURL }}</a></td>
+				<td class="deg1">{{ ged.ACTION }}</td>
 				</tr>
-			<!-- END ged -->
+			{% endfor %}
 			</tbody>
 			</table>
 		</div>
@@ -37,8 +37,8 @@
 </div>
 
 <p id="back-top">
-	<a href="#top"><span></span><b>{L_BACKTOP}</b></a>
+	<a href="#top"><span></span><b>{{ lang('BACKTOP') }}</b></a>
 </p>
 
-<!-- INCLUDE jumpbox.html -->
-<!-- INCLUDE overall_footer.html -->
+{% INCLUDE 'jumpbox.html' %}
+{% INCLUDE 'overall_footer.html' %}

@@ -2,11 +2,11 @@
 Style elements for the Glossary Extension - lmdi32 version
 */
 
-lmdi-gloss {
+lmdigloss {
 	text-decoration: none;
 	cursor: help;
 	color:#865931;
-	}
+}
 
 #lexiconEntry {
 	position:absolute;

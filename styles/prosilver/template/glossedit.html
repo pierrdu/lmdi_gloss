@@ -1,41 +1,41 @@
-<!-- INCLUDECSS tables.css -->
-<!-- INCLUDECSS scroll.css -->
-<!-- INCLUDE overall_header.html -->
+{% INCLUDECSS 'tables.css' %}
+{% INCLUDECSS 'scroll.css' %}
+{% INCLUDE 'overall_header.html' %}
 
 <span id="top"></span>
-<h2>{L_GLOSS_EDITION}</h2>
+<h2>{{ lang('GLOSS_EDITION') }}</h2>
 
 <div class="panel">
 <div class="inner">
 <div class="content">
-<p class="glossa"><!-- BEGIN gabc --><a class="cap" href ="#{gabc.ABC}">{gabc.ABC}</a><!-- END gabc --></p>
-<p>{ED_EXPLAIN}<a href="{ED_URL}"><b>{ED_ANCHOR}</b></a>.</p>
+<p class="glossa">{% for gabc in loops.gabc %}<a class="cap" href ="#{{ gabc.ABC }}">{{ gabc.ABC }}</a>{% endfor %}</p>
+<p>{{ ED_EXPLAIN }}<a href="{{ ED_URL }}"><b>{{ ED_ANCHOR }}</b></a>.</p>
 
 <table class="deg" cellspacing="1">
 	<thead>
 		<tr>
-			<th class="deg0">{L_GLOSS_ED_TERM}</th>
-			<th class="deg0">{L_GLOSS_ED_DEF}</th>
-			<th class="deg1">{L_GLOSS_ED_PICT}</th>
-			<th class="deg1">{L_GLOSS_ED_ACT}</th>
+			<th class="deg0">{{ lang('GLOSS_ED_TERM') }}</th>
+			<th class="deg0">{{ lang('GLOSS_ED_DEF') }}</th>
+			<th class="deg1">{{ lang('GLOSS_ED_PICT') }}</th>
+			<th class="deg1">{{ lang('GLOSS_ED_ACT') }}</th>
 		</tr>
 	</thead>
 	<tbody>
-	<!-- BEGIN ged -->
+	{% for ged in loops.ged %}
 		<tr>
-		<td class="deg0">{ged.ANCHOR}<span id="{ged.ID}"><b>{ged.TERM}</b></span><br>{ged.CAT}<br>{ged.ID}</td>
-		<td class="deg0">{ged.DEF}{ged.BRILINKS}{ged.ILINKS}{ged.BRELINKS}<a class="ilinks" href="{ged.ELINKS}">{ged.LABEL}</a></td>
-		<td class="deg1"><a href="{ged.URL}">{ged.STRURL}</a></td>
-		<td class="deg1">{ged.ACTION}</td>
+		<td class="deg0">{{ ged.ANCHOR }}<span id="{{ ged.ID }}"><b>{{ ged.TERM }}</b></span><br>{{ ged.CAT }}<br>{{ ged.ID }}</td>
+		<td class="deg0">{{ ged.DEF }}{{ ged.BRILINKS }}{{ ged.ILINKS }}{{ ged.BRELINKS }}<a class="ilinks" href="{{ ged.ELINKS }}">{{ ged.LABEL }}</a></td>
+		<td class="deg1"><a href="{{ ged.URL }}">{{ ged.STRURL }}</a></td>
+		<td class="deg1">{{ ged.ACTION }}</td>
 		</tr>
-	<!-- END ged -->
+	{% endfor %}
 	</tbody>
 </table>
 </div></div></div>
 
 <p id="back-top">
-	<a href="#top"><span></span><b>{BACKTOP}</b></a>
+	<a href="#top"><span></span><b>{{ BACKTOP }}</b></a>
 </p>
 
-<!-- INCLUDEJS scroll.js -->
-<!-- INCLUDE overall_footer.html -->
+{% INCLUDEJS 'scroll.js' %}
+{% INCLUDE 'overall_footer.html' %}

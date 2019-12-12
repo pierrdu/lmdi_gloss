@@ -1,35 +1,35 @@
-<!-- INCLUDECSS tables.css -->
-<!-- INCLUDE overall_header.html -->
+{% INCLUDECSS 'tables.css' %}
+{% INCLUDE 'overall_header.html' %}
 <span id="top"></span>
 
-<h2>{L_GLOSSAIRE}</h2>
+<h2>{{ lang('GLOSSAIRE') }}</h2>
 
 <div class="panel">
 	<div class="inner">
 	<span class="corners-top"><span></span></span>
 		<div class="content">
 			<span id="haut"></span>
-			<!-- IF S_EDIT -->
-			<div class="subtitle"><a href="{EDITOR}">{L_GLOSS_ADMINISTRATION}</a></div>
-			<!-- ENDIF -->
-			<br /><p class="glossa"><!-- BEGIN gabc --><a class="cap" href ="#{gabc.ABC}">{gabc.ABC}&nbsp;</a><!-- END gabc --></p>
-			{L_ILLUSTRATION}
+			{% if S_EDIT %}
+			<div class="subtitle"><a href="{{ EDITOR }}">{{ lang('GLOSS_ADMINISTRATION') }}</a></div>
+			{% endif %}
+			<br /><p class="glossa">{% for gabc in loops.gabc %}<a class="cap" href ="#{{ gabc.ABC }}">{{ gabc.ABC }}&nbsp;</a>{% endfor %}</p>
+			{{ lang('ILLUSTRATION') }}
 			<table class="deg" cellspacing="1">
 			<thead>
 				<tr>
-					<th class="deg0">{L_GLOSS_ED_TERM}</th>
-					<th class="deg0">{L_GLOSS_ED_DEF}</th>
-					<th class="deg1">{L_GLOSS_ED_PICT}</th>
+					<th class="deg0">{{ lang('GLOSS_ED_TERM') }}</th>
+					<th class="deg0">{{ lang('GLOSS_ED_DEF') }}</th>
+					<th class="deg1">{{ lang('GLOSS_ED_PICT') }}</th>
 				</tr>
 			</thead>
 			<tbody>
-			<!-- BEGIN gaff -->
+			{% for gaff in loops.gaff %}
 				<tr>
-				<td class="deg0">{gaff.ANCHOR}<span id="{gaff.ID}"><b>{gaff.TERM}</b></span><br>{gaff.CAT}</td>
-				<td class="deg0">{gaff.DEF}{gaff.BRILINKS}{gaff.ILINKS}{gaff.BRELINKS}<a class="ilinks" href="{gaff.ELINKS}">{gaff.LABEL}</a></td>
-				<td class="deg1"><a href="{gaff.URL}">{gaff.STRURL}</a></td>
+				<td class="deg0">{{ gaff.ANCHOR }}<span id="{{ gaff.ID }}"><b>{{ gaff.TERM }}</b></span><br>{{ gaff.CAT }}</td>
+				<td class="deg0">{{ gaff.DEF }}{{ gaff.BRILINKS }}{{ gaff.ILINKS }}{{ gaff.BRELINKS }}<a class="ilinks" href="{{ gaff.ELINKS }}">{{ gaff.LABEL }}</a></td>
+				<td class="deg1"><a href="{{ gaff.URL }}">{{ gaff.STRURL }}</a></td>
 				</tr>
-			<!-- END gaff -->
+			{% endfor %}
 			</tbody>
 			</table>
 		</div>
@@ -37,8 +37,8 @@
 	</div>
 </div>
 <p id="back-top">
-	<a href="#top"><span></span><b>{L_BACKTOP}</b></a>
+	<a href="#top"><span></span><b>{{ lang('BACKTOP') }}</b></a>
 </p>
 
-<!-- INCLUDE jumpbox.html -->
-<!-- INCLUDE overall_footer.html -->
+{% INCLUDE 'jumpbox.html' %}
+{% INCLUDE 'overall_footer.html' %}
