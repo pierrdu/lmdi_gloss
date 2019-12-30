@@ -93,7 +93,7 @@ class listener implements EventSubscriberInterface
 	public function s9e_before ($event)
 	{
 		$xml = $event['xml'];
-		// Texts tagged with <t> are dumped as is. Texts with <r> are so-called raw
+		// Texts tagged with <t> are dumped as is. Texts with <r> are so-called rich
 		// and are parsed. We have to protect ourselves against this parser.
 		if ($this->config['lmdi_glossary_acp'] && substr($xml, 0, 3) === '<r>')
 		{
