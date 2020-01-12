@@ -1,4 +1,4 @@
-# phpBB 3.1/3.2 Extension - LMDI Glossary
+# phpBB 3.2/3.3 Extension - LMDI Glossary
 
 ## Install
 
