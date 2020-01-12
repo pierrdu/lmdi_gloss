@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - LMDI Glossary extension
-* @copyright (c) 2015-2019 LMDI - Pierre Duhem
+* @copyright (c) 2015-2020 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -11,7 +11,6 @@ namespace lmdi\gloss\core;
 class glossedit
 {
 	protected $template;
-	protected $user;
 	protected $language;
 	protected $db;
 	protected $ext_manager;
@@ -83,8 +82,6 @@ class glossedit
 		{
 			$action = 'save';
 		}
-
-		// var_dump ($action);
 
 		switch ($action)
 		{
@@ -162,7 +159,7 @@ class glossedit
 				break;
 				case "nouv":
 					$errors = array();
-					$picture = $this->upload_32x($errors);
+					$picture = $this->gloss_helper->upload_32x($errors);
 					if (!$picture)
 					{
 						$nb = count($errors);
@@ -239,5 +236,5 @@ class glossedit
 			trigger_error($message);
 			break;
 		}	// switch
-	}
+	}	// main
 }

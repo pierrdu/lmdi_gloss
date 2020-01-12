@@ -115,10 +115,13 @@ services:
         arguments:
             - '@dbal.conn'
             - '@cache'
+            - '@user'
+            - '@config'
             - '%core.table_prefix%'
             - '%lmdi.gloss.tables.glossary%'
             - '%core.root_path%'
             - '%core.php_ext%'
+            - '@?files.factory'
 
      lmdi.gloss.core.lexicon:
         class: lmdi\gloss\core\lexicon

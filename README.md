@@ -14,7 +14,7 @@ Some users dislike the tagging of terms in the posts. Therefore, there is an opt
 to disable it individually in the UCP.
 
 ## Glossary entry edition
-By default, only Administrator have this permission set in their group. If you want to give the permission to moderators, you should set this permission to Yes in their group. You may also want to create a special group of glossary editors.
+By default, only administrators have this permission set in their group. If you want to give the permission to moderators, you should set this permission to Yes in their group. You may also want to create a special group of glossary editors.
 
 ## Uninstall
 

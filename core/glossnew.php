@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - LMDI Glossary extension
-* @copyright (c) 2015-2019 LMDI - Pierre Duhem
+* @copyright (c) 2015-2020 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -156,7 +156,7 @@ class glossnew
 						break;
 					case "nouv":
 						$errors = array();
-						$picture = $this->upload_32x($errors);
+						$picture = $this->gloss_helper->upload_32x($errors);
 						if (!$picture)
 						{
 							$nb = count($errors);

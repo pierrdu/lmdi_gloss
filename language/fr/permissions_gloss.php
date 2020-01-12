@@ -3,7 +3,7 @@
 *
 * gloss.php
 * @package phpBB Extension - LMDI Glossary
-* @copyright (c) 2015-2019 LMDI - Pierre Duhem
+* @copyright (c) 2015-2020 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 */
 

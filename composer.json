@@ -1,10 +1,10 @@
 {
 	"name": "lmdi/gloss",
 	"type": "phpbb-extension",
-	"description": "Glossary for phpBB /3.2.x",
+	"description": "Glossary for phpBB 3.2.x",
 	"homepage": "http://www.insecte.org/ext/readme.txt",
-	"version": "3.0.7",
-	"time": "2019-12-30",
+	"version": "3.0.8",
+	"time": "2020-01-12",
 	"license": "GPL-2.0",
 	"authors": 
 	[	{

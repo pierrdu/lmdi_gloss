@@ -1,6 +1,6 @@
 <?php
 // helper.php
-// (c) 2015-2019 - LMDI - Pierre Duhem
+// (c) 2015-2020 - LMDI - Pierre Duhem
 // Helper class
 
 namespace lmdi\gloss\core;
@@ -9,8 +9,11 @@ class helper
 {
 	protected $db;
 	protected $cache;
+	protected $user;
+	protected $config;
 	protected $table_prefix;
 	protected $glossary_table;
+	protected $files_factory;
 	protected $phpbb_root_path;
 	protected $php_ext;
 
@@ -18,16 +21,25 @@ class helper
 	public function __construct(
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\cache\service $cache,
+		\phpbb\user $user,
+		\phpbb\config\config $config,
 		$table_prefix,
 		$glossary_table,
 		$phpbb_root_path, 
-		$php_ext
+		$php_ext,
+		\phpbb\files\factory $files_factory = null
 		)
 	{
 		$this->db 			= $db;
 		$this->cache			= $cache;
+		$this->user			= $user;
+		$this->config			= $config;
 		$this->table_prefix 	= $table_prefix;
 		$this->glossary_table 	= $glossary_table;
+		if ($files_factory)
+		{
+			$this->files_factory = $files_factory;
+		}
 		$this->phpbb_root_path	= $phpbb_root_path;
 		$this->php_ext			= $php_ext;
 	}
@@ -277,5 +289,59 @@ class helper
 		$nb = $ligne['nb'];
 		return ($nb);
 	}	// existe_rubrique
+
+
+	// Uploading function for phpBB 3.2.x and higher
+	public function upload_32x(&$errors)
+	{
+		global $phpbb_container;
+		// Set upload directory
+		$filesystem = $phpbb_container->get('filesystem');
+		$filesystem->mkdir('store/lmdi/gloss');
+		$upload_dir = $this->php_root_path . 'store/lmdi/gloss/';
+		/** @var \phpbb\files\upload $upload */
+		$upload = $this->files_factory->get('upload');
+		$upload->set_error_prefix('LMDI_GLOSS_');
+		$upload->set_allowed_extensions(array('jpg', 'jpeg', 'gif', 'png'));
+		$pixels = (int) $this->config['lmdi_glossary_pixels'];
+		$pmini = 0;
+		$upload->set_allowed_dimensions($pmini, $pmini, $pixels, $pixels);
+		$weight = (int) $this->config['lmdi_glossary_weight'];
+		$weight *= 1024;
+		$upload->set_max_filesize($weight);
+		// Uploading from a form, form name
+		$file = $upload->handle_upload('files.types.form', 'upload_file');
+		$file->move_file($upload_dir, true);
+		$filesize = $file->get('filesize');
+		if ($filesize > $weight)
+		{
+			if (sizeof($file->error))
+			{
+				$errors = array_merge($errors, $file->error);
+				$file->remove();
+				return (false);
+			}
+		}
+		$filename = $file->get('realname');
+		$filepath = $upload_dir . '/' . $filename;
+		$fdata = getimagesize($filepath);
+		$width = $fdata[0];
+		$height = $fdata[1];
+		if ($width > $pixels || $height > $pixels)
+		{
+			$errors[] = $this->user->lang('LMDI_GLOSS_WRONG_SIZE',
+				$this->user->lang('PIXELS', (int) $pmini),
+				$this->user->lang('PIXELS', (int) $pmaxi),
+				$this->user->lang('PIXELS', (int) $pixels),
+				$this->user->lang('PIXELS', (int) $pixels),
+				$this->user->lang('PIXELS', (int) $width),
+				$this->user->lang('PIXELS', (int) $height));
+			$file->remove();
+			return (false);
+		}
+		@chmod($filepath, 0644);
+		return($filename);
+	
+}	// upload_32x
 
 }
