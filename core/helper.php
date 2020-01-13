@@ -297,8 +297,8 @@ class helper
 		global $phpbb_container;
 		// Set upload directory
 		$filesystem = $phpbb_container->get('filesystem');
-		$filesystem->mkdir('store/lmdi/gloss');
-		$upload_dir = $this->php_root_path . 'store/lmdi/gloss/';
+		$filesystem->mkdir('images/lmdi/gloss');
+		$upload_dir = $this->phpbb_root_path . 'images/lmdi/gloss/';
 		/** @var \phpbb\files\upload $upload */
 		$upload = $this->files_factory->get('upload');
 		$upload->set_error_prefix('LMDI_GLOSS_');
@@ -331,7 +331,7 @@ class helper
 		{
 			$errors[] = $this->user->lang('LMDI_GLOSS_WRONG_SIZE',
 				$this->user->lang('PIXELS', (int) $pmini),
-				$this->user->lang('PIXELS', (int) $pmaxi),
+				$this->user->lang('PIXELS', (int) $pmini),
 				$this->user->lang('PIXELS', (int) $pixels),
 				$this->user->lang('PIXELS', (int) $pixels),
 				$this->user->lang('PIXELS', (int) $width),

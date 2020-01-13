@@ -51,7 +51,7 @@ class glosspict
 		$click = $this->language->lang ('GLOSS_CLICK');
 		$view = $this->language->lang ('GLOSS_VIEW');
 		$pict = $this->request->variable('pict', '');
-		$pict = $this->phpbb_root_path . "../store/lmdi/gloss/" . $pict;
+		$pict = $this->phpbb_root_path . "../images/lmdi/gloss/" . $pict;
 		$code = $this->request->variable('code', '0', true);
 		$terme = "<p class=\"copyright\"><b>$term</b></p>";
 		$corps = "<p class=\"copyright\"><a href=\"javascript:history.go(-1);\"><img src=\"$pict\"></a></p>";

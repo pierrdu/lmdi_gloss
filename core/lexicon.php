@@ -58,7 +58,7 @@ class lexicon
 			$picture = $row['picture'];
 			if ($picture != "nopict.jpg" && $picture != '')
 			{
-				$entry .= '<p><img class="popgloss" src="' . $this->phpbb_root_path . 'store/lmdi/gloss/' . $row['picture'] . '" alt="' . $row['term']. '" /></p>';
+				$entry .= '<p><img class="popgloss" src="' . $this->phpbb_root_path . 'images/lmdi/gloss/' . $row['picture'] . '" alt="' . $row['term']. '" /></p>';
 			}
 			$elinks = $row['elinks'];
 			$label = $row['label'];

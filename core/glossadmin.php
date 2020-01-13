@@ -161,7 +161,7 @@ class glossadmin
 		$params = "mode=glossadmin";
 		$str_glossadmin = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
 		$this->template->assign_block_vars('navlinks', array(
-			'U_VIEW_FORUM'	=> $str_glosspict,
+			'U_VIEW_FORUM'	=> $str_glossadmin,
 			'FORUM_NAME'	=> $this->language->lang('GLOSS_ADMINISTRATION'),
 		));
 		$params = "mode=glossnew";
@@ -183,8 +183,8 @@ class glossadmin
 
 	private function sanity_check()
 	{
-		// Check of the existence of the folder store/lmdi/gloss
-		$folder = $this->phpbb_root_path . 'store/lmdi';
+		// Check of the existence of the folder images/lmdi/gloss
+		$folder = $this->phpbb_root_path . 'images/lmdi';
 		if (!is_dir ($folder))
 		{
 			mkdir ($folder, 0777);
@@ -197,6 +197,7 @@ class glossadmin
 		if (!is_dir ($folder))
 		{
 			mkdir ($folder, 0777);
+			
 		}
 		else
 		{
