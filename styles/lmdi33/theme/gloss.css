@@ -10,9 +10,9 @@ lmdigloss {
 
 #lexiconEntry {
 	position:absolute;
-	left:10%;
-	width:500px;
-	max-width: 100%;
+	left:5%;
+	width:450px;
+	max-width: 95%;
 	padding:1em;
 	height:auto;
 	border:1px #2e7602 solid;

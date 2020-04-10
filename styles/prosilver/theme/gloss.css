@@ -11,8 +11,9 @@ lmdigloss {
 
 #lexiconEntry {
 	position:absolute;
-	left:10%;
-	width:500px;
+	left:5%;
+	width:450px;
+	max-width: 95%;
 	padding:1em;
 	height:auto;
 	border:1px #071491 solid;
@@ -26,7 +27,6 @@ lmdigloss {
 #lexiconEntry h3{
 	font-size:1.5em;
 	color:#071491;
-	/* background:transparent; */
 	display:inline;
 	}
 
@@ -48,6 +48,10 @@ a#lexiconClose:hover, a#lexiconClose:active {
 	background: #FFFFFF;
 	}
 
+#glosspop {
+	width: 95%;
+	}
+
 img.popgloss {
-	max-width:500px;
+	width: 95px;
 	}
