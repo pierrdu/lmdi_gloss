@@ -80,10 +80,11 @@ class gloss_module {
 				$config->set('lmdi_glossary_weight', $ko);
 
 				// Usergroup creation/deletion
-				$ug = $request->variable('lmdi_gloss_ugroup', 0);
-				if ($config['lmdi_glossary_usergroup'] != $ug)
+				$ug = (int) $request->variable('lmdi_glossary_ugroup', 0);
+				var_dump ($ug);
+				if ($ug != $config['lmdi_glossary_ugroup'])
 				{
-					$config->set('lmdi_glossary_usergroup', $ug);
+					$config->set('lmdi_glossary_ugroup', $ug);
 					$usergroup = $language->lang('GROUP_GLOSS_EDITOR');
 					$groupdesc = $language->lang('GROUP_DESCRIPTION_GLOSS_EDITOR');
 					$userrole  = 'ROLE_GLOSS_EDITOR';
@@ -100,10 +101,11 @@ class gloss_module {
 				}
 
 				// Admin group creation/deletion
-				$ag = $request->variable('lmdi_gloss_agroup', 0);
-				if ($config['lmdi_glossary_admingroup'] != $ag)
+				$ag = (int) $request->variable('lmdi_glossary_agroup', 0);
+				var_dump ($ag);
+				if ($ag != $config['lmdi_glossary_agroup'])
 				{
-					$config->set('lmdi_glossary_admingroup', $ag);
+					$config->set('lmdi_glossary_agroup', $ag);
 					$admingroup = $language->lang('GROUP_GLOSS_ADMIN');
 					$groupdesc  = $language->lang('GROUP_DESCRIPTION_GLOSS_ADMIN');
 					$adminrole  = 'ROLE_GLOSS_ADMIN';
@@ -176,16 +178,17 @@ class gloss_module {
 			'ALLOW_FEATURE_YES'	=> $config['lmdi_glossary_acp'] == 1 ? 'checked="checked"' : '',
 			'ALLOW_TITLE_NO'	=> $config['lmdi_glossary_title'] == 0 ? 'checked="checked"' : '',
 			'ALLOW_TITLE_YES'	=> $config['lmdi_glossary_title'] == 1 ? 'checked="checked"' : '',
-			'CREATE_UGROUP_NO'	=> $config['lmdi_glossary_usergroup'] == 0 ? 'checked="checked"' : '',
-			'CREATE_UGROUP_YES'	=> $config['lmdi_glossary_usergroup'] == 1 ? 'checked="checked"' : '',
-			'CREATE_AGROUP_NO'	=> $config['lmdi_glossary_admingroup'] == 0 ? 'checked="checked"' : '',
-			'CREATE_AGROUP_YES'	=> $config['lmdi_glossary_admingroup'] == 1 ? 'checked="checked"' : '',
+			'CREATE_UGROUP_NO'	=> $config['lmdi_glossary_ugroup'] == 0 ? 'checked="checked"' : '',
+			'CREATE_UGROUP_YES'	=> $config['lmdi_glossary_ugroup'] == 1 ? 'checked="checked"' : '',
+			'CREATE_AGROUP_NO'	=> $config['lmdi_glossary_agroup'] == 0 ? 'checked="checked"' : '',
+			'CREATE_AGROUP_YES'	=> $config['lmdi_glossary_agroup'] == 1 ? 'checked="checked"' : '',
 			'S_PIXELS'		=> $pixels,
 			'S_WEIGHT'		=> $weight,
 			'S_LANG_OPTIONS'	=> $select,
 			'S_TITLENGTH'		=> $titlength,
 			));
-	}
+	}	// main
+
 
 	protected function get_forum_list()
 	{
@@ -197,8 +200,7 @@ class gloss_module {
 		$result = $db->sql_query($sql);
 		$forum_list = $db->sql_fetchrowset($result);
 		$db->sql_freeresult($result);
-
 		return $forum_list;
-	}
+	}	// get_forum_list
 
 }

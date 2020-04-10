@@ -45,7 +45,7 @@ class lexicon
 			$sql = "SELECT * FROM " . $this->glossary_table . " WHERE term_id = '$id'";
 			$result = $this->db->sql_query_limit($sql, 1);
 			$row = $this->db->sql_fetchrow($result);
-			$entry = '<h3><a title="'. $this->language->lang('CLOSE_WINDOW') . '" id="lexiconClose" href="#">x</a></h3>';
+			$entry = '<div id=\'glosspop\'><h3><a title="'. $this->language->lang('CLOSE_WINDOW') . '" id="lexiconClose" href="#">x</a></h3>';
 			$entry .= '<h3>' . $row['term'] . '</h3>';
 			if (strlen ($row['cat']))
 			{
@@ -74,6 +74,7 @@ class lexicon
 					$entry .= '<p id="elinks">' . $str_elink . '<a href="'.$elinks.'">'.$label.'</a></p>';
 				}
 			}
+			$entry .= "</div>";
 			$this->db->sql_freeresult($result);
 		}
 		else

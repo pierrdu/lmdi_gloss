@@ -23,11 +23,11 @@ $lang = array_merge($lang, array(
 
 // Installation
 	'ROLE_GLOSS_ADMIN'				=> 'Administrateurs du glossaire',
-	'ROLE_GLOSS_EDITOR'				=> 'Éditeurs du glossaire',
 	'ROLE_DESCRIPTION_GLOSS_ADMIN'	=> 'Modèle des administrateurs chargés de gérer le glossaire et ses éditeurs',
-	'ROLE_DESCRIPTION_GLOSS_EDITOR'	=> 'Modèle des utilisateurs chargés de l’édition du glossaire',
 	'GROUP_GLOSS_ADMIN'				=> 'Administrateurs du glossaire',
 	'GROUP_DESCRIPTION_GLOSS_ADMIN'	=> 'Groupe des administrateurs du glossaire',
+	'ROLE_GLOSS_EDITOR'				=> 'Éditeurs du glossaire',
+	'ROLE_DESCRIPTION_GLOSS_EDITOR'	=> 'Modèle des utilisateurs chargés de l’édition du glossaire',
 	'GROUP_GLOSS_EDITOR'			=> 'Éditeurs du glossaire',
 	'GROUP_DESCRIPTION_GLOSS_EDITOR'	=> 'Groupe des éditeurs du glossaire',
 	'GLOSS_ELINK'					=> 'Lien externe&nbsp;: ',
