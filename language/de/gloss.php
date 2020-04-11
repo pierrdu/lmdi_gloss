@@ -24,16 +24,6 @@ $lang = array_merge($lang, array(
 
 	'GLOSS_ELINK'				=> 'Externer Link: ',
 
-// Installation
-	'ROLE_GLOSS_ADMIN'	=> 'Glossar-Administratoren',
-	'ROLE_GLOSS_EDITOR'	=> 'Glossar-Bearbeiter',
-	'ROLE_DESCRIPTION_GLOSS_ADMIN' => 'Administrations-Rolle zur Verwaltung des Glossars und der Bearbeiter',
-	'ROLE_DESCRIPTION_GLOSS_EDITOR' => 'Benutzer-Rolle um Benutzern die Bearbeitung des Glossars zu erlauben',
-	'GROUP_GLOSS_ADMIN'				=> 'Glossar-Administratoren',
-	'GROUP_DESCRIPTION_GLOSS_ADMIN'	=> 'Gruppe der Glossar-Administratoren',
-	'GROUP_GLOSS_EDITOR'			=> 'Glossar-Bearbeiter',
-	'GROUP_DESCRIPTION_GLOSS_EDITOR'	=> 'Gruppe der Glossar-Bearbeiter',
-
 // ACP
 	'ACP_GLOSS_TITLE'	=> 'Glossar',
 	'ACP_GLOSS'		=> 'Einstellungen',

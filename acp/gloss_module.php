@@ -81,7 +81,6 @@ class gloss_module {
 
 				// Usergroup creation/deletion
 				$ug = (int) $request->variable('lmdi_glossary_ugroup', 0);
-				var_dump ($ug);
 				if ($ug != $config['lmdi_glossary_ugroup'])
 				{
 					$config->set('lmdi_glossary_ugroup', $ug);
@@ -102,7 +101,6 @@ class gloss_module {
 
 				// Admin group creation/deletion
 				$ag = (int) $request->variable('lmdi_glossary_agroup', 0);
-				var_dump ($ag);
 				if ($ag != $config['lmdi_glossary_agroup'])
 				{
 					$config->set('lmdi_glossary_agroup', $ag);

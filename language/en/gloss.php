@@ -22,18 +22,6 @@ $lang = array_merge($lang, array(
 	'TGLOSSAIRE'	=> 'Extension setting',
 
 
-// Installation
-	'ROLE_GLOSS_ADMIN'	=> 'Glossary Administrators',
-	'ROLE_GLOSS_EDITOR'	=> 'Glossary Editors',
-	'ROLE_DESCRIPTION_GLOSS_ADMIN' => 'Administration role to manage the glossary and its editors',
-	'ROLE_DESCRIPTION_GLOSS_EDITOR' => 'User role to be assigned for editing the glossary',
-	'GROUP_GLOSS_ADMIN'				=> 'Glossary Administrators',
-	'GROUP_DESCRIPTION_GLOSS_ADMIN'	=> 'Group of the glossary administrators',
-	'GROUP_GLOSS_EDITOR'			=> 'Glossary Editors',
-	'GROUP_DESCRIPTION_GLOSS_EDITOR'	=> 'Group of the glossary editors',
-
-	'GLOSS_ELINK'				=> 'External link: ',
-
 // ACP
 	'ACP_GLOSS_TITLE'	=> 'Glossary',
 	'ACP_GLOSS'		=> 'Settings',

@@ -24,15 +24,6 @@ $lang = array_merge($lang, array(
 
 	'GLOSS_ELINK'	=> 'Внешняя ссылка: ',
 
-// Installation
-	'ROLE_GLOSS_ADMIN'	=> 'Администраторы Глоссария',
-	'ROLE_GLOSS_EDITOR'  => 'Редакторы Глоссария',
-	'ROLE_DESCRIPTION_GLOSS_ADMIN'	=> 'Управление Глоссарием и его редакторами',
-	'ROLE_DESCRIPTION_GLOSS_EDITOR'  => 'Пользователь должен быть назначен для редактирования глоссария',
-	'GROUP_GLOSS_ADMIN'				  => 'Администратор глоссария',
-	'GROUP_DESCRIPTION_GLOSS_ADMIN'  => 'Группа администраторов Глоссария',
-	'GROUP_GLOSS_EDITOR'				 => 'Редакторы глоссария',
-	'GROUP_DESCRIPTION_GLOSS_EDITOR' => 'Группа редакторов Глоссария',
 // ACP
 	'ACP_GLOSS_TITLE'		 => 'Глоссарий',
 	'ACP_GLOSS'				 => 'Настройки',
