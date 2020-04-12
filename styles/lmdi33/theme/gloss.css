@@ -13,7 +13,7 @@ lmdigloss {
 	left:5%;
 	width:450px;
 	max-width: 95%;
-	padding:1em;
+	padding: 5px 0 5px 5px;
 	height:auto;
 	border:1px #2e7602 solid;
 	background:#FFFFFF;
@@ -26,15 +26,23 @@ lmdigloss {
 #lexiconEntry h3{
 	font-size:1.5em;
 	color:#2e7602;
+	text-align: center;
 	display:inline;
+	margin: 0;
+	}
+
+p#lexClose {
+	float: right;
+	top: -10px;
+	right: 40px;
 	}
 
 a#lexiconClose {
 	color:#2e7602;
 	background:#E3E8D5;
+	margin-right: 5px;
 	padding:0 5px 1px 5px;
 	border:1px solid #0177B3;
-	float:right;
 	}
 
 a#lexiconClose:hover, a#lexiconClose:active {
@@ -48,7 +56,7 @@ a#lexiconClose:hover, a#lexiconClose:active {
 	}
 
 #glosspop {
-	width: 95%;
+	width: 100%;
 	}
 
 img.popgloss {
