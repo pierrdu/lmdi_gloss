@@ -142,8 +142,7 @@ class gloss_module {
 			}
 		}
 
-		$form_key = $form_valid;
-		add_form_key($form_key);
+		add_form_key($form_valid);
 		$select = $this->gloss_helper->build_lang_select();
 		$pixels = $config['lmdi_glossary_pixels'];
 		if (!$pixels)

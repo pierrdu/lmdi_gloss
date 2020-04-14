@@ -16,6 +16,7 @@ class glossedit
 	protected $ext_manager;
 	protected $path_helper;
 	protected $helper;
+	protected $auth;
 	protected $config;
 	protected $cache;
 	protected $files_factory;
@@ -33,6 +34,7 @@ class glossedit
 		\phpbb\extension\manager $ext_manager,
 		\phpbb\path_helper $path_helper,
 		\phpbb\controller\helper $helper,
+		\phpbb\auth\auth $auth,
 		\phpbb\config\config $config,
 		\phpbb\request\request $request,
 		\phpbb\cache\service $cache,
@@ -49,6 +51,7 @@ class glossedit
 		$this->ext_manager		= $ext_manager;
 		$this->path_helper		= $path_helper;
 		$this->helper			= $helper;
+		$this->auth			= $auth;
 		$this->config			= $config;
 		$this->request			= $request;
 		$this->cache			= $cache;
@@ -70,6 +73,13 @@ class glossedit
 
 	public function main()
 	{
+		if (!$this->auth->acl_get('u_lmdi_glossary') || $this->auth->acl_get('a_lmdi_glossary'))
+		{
+			$url = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', '');
+			$message = $this->language->lang ('GLOSS_UNALLOWED', $url);
+			trigger_error($message);
+		}
+		$form_valid = 'gloss_edit_form';
 		$action = 'edit';
 		$num		= $this->request->variable('code', 0);
 		$delete	= $this->request->variable('delete', "rien");
@@ -107,6 +117,7 @@ class glossedit
 				$lang   = $row['lang'];
 				$this->db->sql_freeresult($result);
 				$action = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossedit'));
+				add_form_key($form_valid);
 				$this->template->assign_vars(array(
 					'TITLE'		=> $this->language->lang('GLOSS_EDIT'),
 					'ACTION'		=> $action,
@@ -132,6 +143,10 @@ class glossedit
 				page_footer();
 			break;
 		case 'save' :
+			if (!check_form_key($form_valid))
+			{
+				trigger_error('FORM_INVALID');
+			}
 			$term = $this->db->sql_escape(trim($this->request->variable('term',"",true)));
 			$term_id = $this->db->sql_escape(trim($this->request->variable('term_id', 0)));
 			$variants = $this->db->sql_escape(trim($this->request->variable('vari',"",true)));
@@ -209,22 +224,28 @@ class glossedit
 			$this->cache->destroy('_gloss_table');
 			$this->cache->destroy('_gloss_abc_table');
 
-			// Information message et redirection
+			// Information message and redirection
 			$params = "mode=glossadmin&amp;code=$term_id";
 			$url = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
 			$url .= "#$term_id"; // Anchor target = term_id
 			$url = "<a href=\"$url\">";
-			$message = sprintf ($this->language->lang('GLOSS_ED_SAVE'), $term, $url, '</a>');
+			$message = $this->language->lang('GLOSS_ED_SAVE', $term, $url, '</a>');
 			trigger_error($message);
 			break;
 		case 'delete' :
+			if (!check_form_key($form_valid))
+			{
+				trigger_error('FORM_INVALID');
+			}
 			$term_id = $this->request->variable('term_id', 0);
 			$sql  = "DELETE FROM " . $this->glossary_table . " WHERE term_id = $term_id";
 			$this->db->sql_query_limit($sql, 1);
+
 			// Purge the caches
 			$this->cache->destroy('_glossterms');
 			$this->cache->destroy('_gloss_table');
 			$this->cache->destroy('_gloss_abc_table');
+
 			// Redirection
 			$term = $this->request->variable('term', "", true);
 			$cap = substr($term, 0, 1);
@@ -232,7 +253,7 @@ class glossedit
 			$url = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
 			$url .= "#$cap";		// Anchor target = initial cap
 			$url = "<a href=\"$url\">";
-			$message = sprintf ($this->language->lang('GLOSS_ED_DELETE'), $term, $url, '</a>');
+			$message = $this->language->lang('GLOSS_ED_DELETE', $term, $url, '</a>');
 			trigger_error($message);
 			break;
 		}	// switch

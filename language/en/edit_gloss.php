@@ -27,6 +27,7 @@ $lang = array_merge($lang, array(
 	'GLOSS_ELINKS'		=> 'External link: ',
 	'BACKTOP'			=> 'Top',
 // Glossary edition page
+	'GLOSS_UNALLOWED'	=> 'You don’t have sufficient rights to edit the glossary. Click <a href="%s">here</a>.',
 	'GLOSS_EDIT'	=>'Glossary Item Edition',
 	'GLOSS_CREAT'	=>'Glossary Item Creation',
 	'GLOSS_VARIANTS' => 'Terms to search in the posts',

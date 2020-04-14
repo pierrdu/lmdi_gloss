@@ -17,6 +17,7 @@ class glossnew
 	protected $ext_manager;
 	protected $path_helper;
 	protected $helper;
+	protected $auth;
 	protected $config;
 	protected $cache;
 	protected $files_factory;
@@ -34,6 +35,7 @@ class glossnew
 		\phpbb\extension\manager $ext_manager,
 		\phpbb\path_helper $path_helper,
 		\phpbb\controller\helper $helper,
+		\phpbb\auth\auth $auth,
 		\phpbb\config\config $config,
 		\phpbb\request\request $request,
 		\phpbb\cache\service $cache,
@@ -50,6 +52,7 @@ class glossnew
 		$this->ext_manager		= $ext_manager;
 		$this->path_helper		= $path_helper;
 		$this->helper			= $helper;
+		$this->auth			= $auth;
 		$this->config			= $config;
 		$this->request			= $request;
 		$this->cache			= $cache;
@@ -71,6 +74,13 @@ class glossnew
 
 	public function main()
 	{
+		if (!$this->auth->acl_get('u_lmdi_glossary') || $this->auth->acl_get('a_lmdi_glossary'))
+		{
+			$url = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', '');
+			$message = $this->language->lang ('GLOSS_UNALLOWED', $url);
+			trigger_error($message);
+		}
+		$form_valid = 'gloss_new_form';
 		$action = 'edit';
 		$num		= $this->request->variable('code', 0);
 		$save	= $this->request->variable('save', "rien");
@@ -94,6 +104,7 @@ class glossnew
 
 				$lang = $lg = $this->gloss_helper->get_def_language($this->glossary_table, 'lang');
 				$action = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glossnew'));
+				add_form_key($form_valid);
 				$this->template->assign_vars(array(
 					'TITLE'		=> $this->language->lang('GLOSS_CREAT'),
 					'ACTION'		=> $action,
@@ -119,13 +130,17 @@ class glossnew
 				page_footer();
 			break;
 		case 'save' :
+			if (!check_form_key($form_valid))
+			{
+				trigger_error('FORM_INVALID');
+			}
 			$term = $this->db->sql_escape(trim($this->request->variable('term',"",true)));
 			$id = $this->gloss_helper->existe_rubrique ($term);
 			if ($id)
 			{
 				// Information message with back link to the edit page
 				$url = "<a href=\"javascript:history.go(-1);\">";
-				$message = sprintf ($this->language->lang('GLOSS_ED_DOUBLON'), $term, $url, '</a>');
+				$message = $this->language->lang('GLOSS_ED_DOUBLON', $term, $url, '</a>');
 				trigger_error($message);
 
 			}
@@ -183,14 +198,16 @@ class glossnew
 				$term_id = $this->db->sql_nextid();
 
 				// Purge the cache
+				$this->cache->destroy('_glossterms');
 				$this->cache->destroy('_gloss_table');
+				$this->cache->destroy('_gloss_abc_table');
 
-				// Information message et redirection
+				// Information message and redirection
 				$params = "mode=glossadmin&code=$term_id";
 				$url = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
 				$url .= "#$term_id"; // Anchor target = term_id
 				$url = "<a href=\"$url\">";
-				$message = sprintf ($this->language->lang('GLOSS_ED_SAVE'), $term, $url, '</a>');
+				$message = $this->language->lang('GLOSS_ED_SAVE', $term, $url, '</a>');
 				trigger_error($message);
 			}
 			break;

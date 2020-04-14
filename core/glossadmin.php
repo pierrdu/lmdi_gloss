@@ -63,6 +63,12 @@ class glossadmin
 		static $abc_table = null;
 		static $gloss_table = null;
 
+		if (!$this->auth->acl_get('u_lmdi_glossary') || $this->auth->acl_get('a_lmdi_glossary'))
+		{
+			$url = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', '');
+			$message = $this->language->lang ('GLOSS_UNALLOWED', $url);
+			trigger_error($message);
+		}
 		$this->sanity_check();
 		$this->language->add_lang ('edit_gloss', 'lmdi/gloss');
 

@@ -28,6 +28,7 @@ $lang = array_merge ($lang, array(
 	'GLOSS_ELINKS'		=> 'Externer Link: ',
 	'BACKTOP'			=> 'Hoch',
 // Glossary edition page
+	'GLOSS_UNALLOWED'	=> 'Du hast kein Recht, das Glossar zu bearbeiten. Klicke <a href="%s">hier</a>.',
 	'GLOSS_EDIT'	=>'Glossar-Eintrag bearbeiten',
 	'GLOSS_CREAT'	=>'Glossar-Eintrag anlegen',
 	'GLOSS_VARIANTS' => 'Begriffe/Abkürzungen, nach denen im Beitrag gesucht wird',
