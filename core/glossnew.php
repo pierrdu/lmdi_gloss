@@ -74,7 +74,7 @@ class glossnew
 
 	public function main()
 	{
-		if (!$this->auth->acl_get('u_lmdi_glossary') || $this->auth->acl_get('a_lmdi_glossary'))
+		if (!($this->auth->acl_get('u_lmdi_glossary') || $this->auth->acl_get('a_lmdi_glossary')))
 		{
 			$url = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', '');
 			$message = $this->language->lang ('GLOSS_UNALLOWED', $url);
