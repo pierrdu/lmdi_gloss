@@ -61,7 +61,7 @@ class helper
 			$sql = "SELECT term_id FROM $table WHERE term = '$term1'";
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow($result);
-			$code = $row['term_id'];
+			$code = $row['term_id'] ?? false;
 			$this->db->sql_freeresult($result);
 			if ($code)
 			{
