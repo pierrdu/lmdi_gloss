@@ -24,9 +24,9 @@ $lang = array_merge ($lang, array(
 	'GLOSS_DISPLAY'	=> 'Anzeige',
 	'GLOSS_CLICK'		=> 'Klicke auf das Bild um zur vorherigen Seite zurückzukehren.',
 	'GLOSS_VIEW'		=> 'Glossar-Betrachter',
-	'GLOSS_ILINKS'		=> 'Siehe auch: ',
-	'GLOSS_ELINKS'		=> 'Externer Link: ',
-	'BACKTOP'			=> 'Hoch',
+	'GLOSS_ILINK'		=> 'Siehe auch: ',
+	'GLOSS_ELINK'		=> 'Externer Link: ',
+'BACKTOP'			=> 'Hoch',
 // Glossary edition page
 	'GLOSS_UNALLOWED'	=> 'Du hast kein Recht, das Glossar zu bearbeiten. Klicke <a href="%s">hier</a>.',
 	'GLOSS_EDIT'	=>'Glossar-Eintrag bearbeiten',

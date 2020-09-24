@@ -24,7 +24,7 @@
 			{% for ged in loops.ged %}
 				<tr>
 				<td class="deg0">{{ ged.ANCHOR }}<span id="{{ ged.ID }}"><b>{{ ged.TERM }}</b></span><br>{{ ged.CAT }}<br>{{ ged.ID }}</td>
-				<td class="deg0">{{ ged.DEF }}{% if ged.S_ILINKS %}<br>{{ lang('GLOSS_ILINKS') }}{{ ged.ILINKS }}{% endif %}{% if ged.S_ELINKS %}<br>{{ lang('GLOSS_ELINKS') }}<a class="ilinks" href="{{ ged.ELINKS }}">{{ ged.LABEL }}</a>{% endif %}</td>
+				<td class="deg0">{{ ged.DEF }}{% if ged.S_ILINKS %}<br>{{ lang('GLOSS_ILINK') }}{{ ged.ILINKS }}{% endif %}{% if ged.S_ELINKS %}<br>{{ lang('GLOSS_ELINK') }}<a class="ilinks" href="{{ ged.ELINKS }}">{{ ged.LABEL }}</a>{% endif %}</td>
 				<td class="deg1">{% if ged.S_URL %}<a href="{{ ged.URL }}">{{ ged.STRURL }}</a>{% endif %}</td>
 				<td class="deg1">{{ ged.ACTION }}</td>
 				</tr>

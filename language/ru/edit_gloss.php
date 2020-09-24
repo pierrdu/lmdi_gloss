@@ -24,8 +24,8 @@ $lang = array_merge ($lang, array(
 	'GLOSS_DISPLAY'			  => 'Отобразить',
 	'GLOSS_CLICK'		=> 'Нажмите на картинку чтобы вернуться назад.',
 	'GLOSS_VIEW'		=> 'Просмотр глоссария',
-	'GLOSS_ILINKS'		=> 'Смотрите также: ',
-	'GLOSS_ELINKS'		=> 'Внешние ссылки: ',
+	'GLOSS_ILINK'		=> 'Смотрите также: ',
+	'GLOSS_ELINK'		=> 'Внешние ссылки: ',
 	'BACKTOP'			=> 'Top',
 // Glossary edition page
 	'GLOSS_UNALLOWED'	=> 'You don’t have sufficient rights to edit the glossary. Click <a href="%s">here</a>.',

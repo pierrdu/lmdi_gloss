@@ -23,8 +23,8 @@ $lang = array_merge($lang, array(
 	'GLOSS_DISPLAY'	=> 'Afficher',
 	'GLOSS_CLICK'		=> 'Cliquez sur l’image pour revenir à la page précédente.',
 	'GLOSS_VIEW'		=> 'Afficheur du glossaire',
-	'GLOSS_ILINKS'		=> 'Voir aussi&nbsp;: ',
-	'GLOSS_ELINKS'		=> 'Lien externe&nbsp;: ',
+	'GLOSS_ILINK'		=> 'Voir aussi&nbsp;: ',
+	'GLOSS_ELINK'		=> 'Lien externe&nbsp;: ',
 	'BACKTOP'			=> 'Haut',
 // Glossary edition page
 	'GLOSS_UNALLOWED'	=> 'Vous n’avez pas les droits d’édition du glossaire. Cliquez <a href="%s">ici</a>.',

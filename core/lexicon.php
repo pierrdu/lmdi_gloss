@@ -49,11 +49,11 @@ class lexicon
 			$entry .= '<h3>' . $row['term'] . '</h3>';
 			if (strlen ($row['cat']))
 			{
-				$entry .= '<p><b>(' . $row['cat'] . ')<br>' . $row['description'] . '</b></p>';
+				$entry .= '<p id=\'lextext\'>(' . $row['cat'] . ')<br>' . $row['description'] . '</p>';
 			}
 			else
 			{
-				$entry .= '<p><b>' . $row['description'] . '</b></p>';
+				$entry .= '<p id=\'lextext\'>' . $row['description'] . '</p>';
 			}
 			$picture = $row['picture'];
 			if ($picture != "nopict.jpg" && $picture != '')
