@@ -3,8 +3,8 @@
 	"type": "phpbb-extension",
 	"description": "Glossary for phpBB 3.2.9-3.3.x",
 	"homepage": "http://www.insecte.org/ext/readme.txt",
-	"version": "3.0.16",
-	"time": "2020-09-24",
+	"version": "3.0.17",
+	"time": "2021-03-11",
 	"license": "GPL-2.0",
 	"authors": 
 	[	{
