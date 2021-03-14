@@ -1,6 +1,6 @@
 <?php
 // helper.php
-// (c) 2015-2020 - LMDI - Pierre Duhem
+// (c) 2015-2021 - LMDI - Pierre Duhem
 // Helper class
 
 namespace lmdi\gloss\core;
@@ -61,7 +61,14 @@ class helper
 			$sql = "SELECT term_id FROM $table WHERE term = '$term1'";
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow($result);
-			$code = !empty($row['term_id']) ? $row['term_id'] : false;
+			if ($row)
+			{
+				$code = $row['term_id'];
+			}
+			else
+			{
+				$code = 0;
+			}
 			$this->db->sql_freeresult($result);
 			if ($code)
 			{
@@ -274,7 +281,7 @@ class helper
 		}
 		$this->cache->put('_gloss_table', $gloss_table, 86400);
 		return ($gloss_table);
-	}	// rebuild_cache_abc_table
+	}	// rebuild_cache_gloss_table
 
 
 	/*	Function checking the existence of the term in the glossary table.
@@ -282,12 +289,11 @@ class helper
 		*/
 	public function existe_rubrique($term)
 	{
-		$sql = "SELECT COUNT(*) as nb, term_id FROM " . $this->glossary_table . " WHERE term = '$term'";
-		$resultat = $this->db->sql_query($sql);
-		$ligne = $this->db->sql_fetchrow ($resultat);
-		$this->db->sql_freeresult($resultat);
-		$nb = $ligne['nb'];
-		return ($nb);
+		$sql = "SELECT * FROM " . $this->glossary_table . " WHERE term = '$term'";
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow ($result);
+		$this->db->sql_freeresult($result);
+		return ($row);
 	}	// existe_rubrique
 
 

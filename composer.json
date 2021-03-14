@@ -2,21 +2,21 @@
 	"name": "lmdi/gloss",
 	"type": "phpbb-extension",
 	"description": "Glossary for phpBB 3.2.9-3.3.x",
-	"homepage": "http://www.insecte.org/ext/readme.txt",
-	"version": "3.0.17",
-	"time": "2021-03-11",
-	"license": "GPL-2.0",
+	"homepage": "https://www.insecte.org/ext/readme.txt",
+	"version": "3.0.18",
+	"time": "2021-03-14",
+	"license": "GPL-2.0-only",
 	"authors": 
 	[	{
 			"name": "Pierre Duhem",
 			"email": "pierre@duhem.com",
-			"homepage": "http://www.insecte.org/ext/readme.txt",
+			"homepage": "https://www.insecte.org/ext/readme.txt",
 			"role": "Developer of Glossary extension"
 		},
 		{
 			"name": "Gijs Martens",
 			"email": "admin@godfathertalks.com",
-			"homepage": "http://www.godfathertalks.com",
+			"homepage": "https://www.godfathertalks.com",
 			"role": "Symfony calling scheme"
 		},
 		{
@@ -39,7 +39,7 @@
 	"extra": {
 		"display-name": "LMDI Glossary",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.2.9, <3.3.0@dev"
+			"phpbb/phpbb": ">=3.2.9"
 		}
 	}
 }

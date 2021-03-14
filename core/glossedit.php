@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - LMDI Glossary extension
-* @copyright (c) 2015-2020 LMDI - Pierre Duhem
+* @copyright (c) 2015-2021 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -97,6 +97,8 @@ class glossedit
 		{
 			default :		// Edition
 				// Breadcrumbs
+				$params = "mode=glossedit";
+				$str_glossedit = append_sid($this->phpbb_root_path . 'app.' . $this->phpEx . '/gloss', $params);
 				$this->template->assign_block_vars('navlinks', array(
 					'U_VIEW_FORUM'	=> $str_glossedit,
 					'FORUM_NAME'	=> $this->language->lang('GLOSS_EDIT'),
