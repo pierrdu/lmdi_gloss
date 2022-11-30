@@ -1,6 +1,6 @@
 <?php
 // glosspict.php
-// (c) 2015-2020 - LMDI - Pierre Duhem
+// (c) 2015-2021 - LMDI - Pierre Duhem
 // Page d'affichage d'une image centrée complétant le terme du glossaire
 // Page displaying a centered picture attached to the glossary term
 

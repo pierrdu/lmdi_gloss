@@ -2,7 +2,7 @@
 /* Feuille de style pour les tables du glossaire */
 /* Stylesheet for the glossary tables */
 /* lmdi31 */
-/* (c) Pierre Duhem 2015-2019 */
+/* (c) Pierre Duhem 2015-2020 */
 
 table.deg {
     border-collapse:collapse;
@@ -46,7 +46,6 @@ th.deg2 {
 	font-weight: bold;
 	font-size: 120%;
 	}
-    
 /*	Data cells */   
 /* Text left */
 td.deg0 {

@@ -64,5 +64,6 @@ a#lexiconClose:hover, a#lexiconClose:active {
 	}
 
 img.popgloss {
-	width: 95px;
+	width: 100%;
+	max-width: 300px;
 	}
