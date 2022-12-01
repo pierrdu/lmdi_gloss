@@ -8,7 +8,7 @@
 <form id="acp_lexicon" method="post" action="{{ C_ACTION }}">
 <fieldset>
 	<dl>
-		<dt><label>{{ lang('ALLOW_FEATURE') }}{{ lang('COLON') }}</label><br />
+		<dt><label>{{ lang('ALLOW_FEATURE') }}{{ lang('COLON') }}</label><br>
 		<span>{{ lang('ALLOW_FEATURE_EXPLAIN') }}</span></dt>
 		<dd>
 		<label><input type="radio" id="lmdi_glossary_acp" name="lmdi_glossary_acp" value="1" class="radio" {{ ALLOW_FEATURE_YES }}/>{{ lang('YES') }}</label>
@@ -16,7 +16,7 @@
 		</dd>
 	</dl>
 	<dl>
-		<dt><label>{{ lang('ALLOW_TITLE') }}{{ lang('COLON') }}</label><br />
+		<dt><label>{{ lang('ALLOW_TITLE') }}{{ lang('COLON') }}</label><br>
 		<span>{{ lang('ALLOW_TITLE_EXPLAIN') }}</span></dt>
 		<dd>
 		<label><input type="radio" id="lmdi_glossary_title" name="lmdi_glossary_title" value="1" class="radio" {{ ALLOW_TITLE_YES }}/>{{ lang('YES') }}</label>
@@ -24,27 +24,27 @@
 		</dd>
 	</dl>
 	<dl>
-		<dt><label>{{ lang('TITLE_LENGTH') }}{{ lang('COLON') }}</label><br />
+		<dt><label>{{ lang('TITLE_LENGTH') }}{{ lang('COLON') }}</label><br>
 		<span>{{ lang('TITLE_LENGTH_EXPLAIN') }}</span></dt>
 		<dd><input type="text" name="titlength" id="titlength" value="{{ S_TITLENGTH }}" size="4"/></dd>
 	</dl>
 	<dl>
-		<dt><label for="lang">{{ lang('LANGUAGE') }}{{ lang('COLON') }}</label><br />
+		<dt><label for="lang">{{ lang('LANGUAGE') }}{{ lang('COLON') }}</label><br>
 		<span>{{ lang('LANGUAGE_EXPLAIN') }}</span></dt>
 		<dd><select name="lang" id="lang">{{ S_LANG_OPTIONS }}</select></dd>
 	</dl>
 	<dl>
-		<dt><label for="pixels">{{ lang('GLOSS_PIXELS') }}{{ lang('COLON') }}</label><br />
+		<dt><label for="pixels">{{ lang('GLOSS_PIXELS') }}{{ lang('COLON') }}</label><br>
 		<span>{{ lang('GLOSS_PIXELS_EXPLAIN') }}</span></dt>
 		<dd><input type="text" name="pixels" id="pixels" value="{{ S_PIXELS }}" size="4"/></dd>
 	</dl>
 	<dl>
-		<dt><label for="weight">{{ lang('GLOSS_WEIGHT') }}{{ lang('COLON') }}</label><br />
+		<dt><label for="weight">{{ lang('GLOSS_WEIGHT') }}{{ lang('COLON') }}</label><br>
 		<span>{{ lang('GLOSS_WEIGHT_EXPLAIN') }}</span></dt>
 		<dd><input type="text" name="weight" id="weight" value="{{ S_WEIGHT }}" size="4"/></dd>
 	</dl>
 	<dl>
-		<dt><label>{{ lang('CREATE_UGROUP') }}{{ lang('COLON') }}</label><br />
+		<dt><label>{{ lang('CREATE_UGROUP') }}{{ lang('COLON') }}</label><br>
 		<span>{{ lang('CREATE_UGROUP_EXPLAIN') }}</span></dt>
 		<dd>
 		<label><input type="radio" id="lmdi_glossary_ugroup" name="lmdi_glossary_ugroup" value="1" class="radio" {{ CREATE_UGROUP_YES }}/>{{ lang('YES') }}</label>
@@ -52,7 +52,7 @@
 		</dd>
 	</dl>
 	<dl>
-		<dt><label>{{ lang('CREATE_AGROUP') }}{{ lang('COLON') }}</label><br />
+		<dt><label>{{ lang('CREATE_AGROUP') }}{{ lang('COLON') }}</label><br>
 		<span>{{ lang('CREATE_AGROUP_EXPLAIN') }}</span></dt>
 		<dd>
 		<label><input type="radio" id="lmdi_glossary_agroup" name="lmdi_glossary_agroup" value="1" class="radio" {{ CREATE_AGROUP_YES }}/>{{ lang('YES') }}</label>
@@ -60,7 +60,7 @@
 		</dd>
 	</dl>
 	<table class="table1">
-		<col class="row1" /><col class="row2" />
+		<col class="row1"><col class="row2">
 		<thead>
 			<tr>
 				<th width="78%">{{ lang('ACP_GLOSSARY_FORUMS') }}</th>
@@ -70,7 +70,7 @@
 	</table>
 	<div style="max-height:300px; overflow:auto;">
 		<table class="table1">
-			<col class="row1" /><col class="row2" />
+			<col class="row1"><col class="row2">
 			<tbody>
 				{% for forums in loops.forums %}
 				<tr>
@@ -78,7 +78,7 @@
 					<strong><a href="{{ forums.U_FORUM }}">{{ forums.FORUM_NAME }}</a></strong>
 					</td>
 					<td style="width:20%; text-align: center;" title="{{ forums.FORUM_NAME }}">
-					<input type="checkbox" class="radio" name="mark_glossary_forum[]" value="{{ forums.FORUM_ID }}" {{ forums.CHECKED_ENABLE_FORUM }} />
+					<input type="checkbox" class="radio" name="mark_glossary_forum[]" value="{{ forums.FORUM_ID }}" {{ forums.CHECKED_ENABLE_FORUM }}>
 					</td>
 				</tr>
 				{% endfor %}
@@ -90,7 +90,7 @@
 	</fieldset>
 
 	<p class="submit-buttons">
-		<input class="button1" type="submit" id="submit" name="config" value="{{ lang('SUBMIT') }}" />&nbsp;
+		<input class="button1" type="submit" id="submit" name="config" value="{{ lang('SUBMIT') }}">&nbsp;
 	</p>
 	{{ S_FORM_TOKEN }}
 </fieldset>

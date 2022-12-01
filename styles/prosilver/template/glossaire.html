@@ -1,6 +1,6 @@
 {% INCLUDECSS '@lmdi_gloss/tables.css' %}
 {% INCLUDE 'overall_header.html' %}
-<span id="top"></span>
+<span id="haut"></span>
 
 <h2>{{ lang('GLOSSAIRE') }}</h2>
 
@@ -12,9 +12,9 @@
 			{% if S_EDIT %}
 			<div class="subtitle"><a href="{{ EDITOR }}">{{ lang('GLOSS_ADMINISTRATION') }}</a></div>
 			{% endif %}
-			<br /><p class="glossa">{% for gabc in loops.gabc %}<a class="cap" href ="#{{ gabc.ABC }}">{{ gabc.ABC }}&nbsp;</a>{% endfor %}</p>
+			<br><p class="glossa">{% for gabc in loops.gabc %}<a class="cap" href ="#{{ gabc.ABC }}">{{ gabc.ABC }}&nbsp;</a>{% endfor %}</p>
 			{{ lang('ILLUSTRATION') }}
-			<table class="deg" cellspacing="1">
+			<table class="deg">
 			<thead>
 				<tr>
 					<th class="deg0">{{ lang('GLOSS_ED_TERM') }}</th>
@@ -37,7 +37,7 @@
 	</div>
 </div>
 <p id="back-top">
-	<a href="#top"><span></span><b>{{ lang('BACKTOP') }}</b></a>
+	<a href="#haut"><span></span><b>{{ lang('BACKTOP') }}</b></a>
 </p>
 
 {% INCLUDE 'jumpbox.html' %}
