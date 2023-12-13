@@ -18,6 +18,7 @@ class lexicon
 	protected $request;
 	protected $phpbb_root_path;
 	protected $glossary_table;
+	protected $gloss_helper;
 
 	public function __construct(
 		\phpbb\user $user,
@@ -27,16 +28,21 @@ class lexicon
 		$phpbb_root_path,
 		$glossary_table)
 	{
+		global $phpbb_container;
+		
 		$this->user			= $user;
 		$this->language		= $language;
 		$this->db				= $db;
 		$this->request			= $request;
 		$this->phpbb_root_path 	= $phpbb_root_path;
 		$this->glossary_table	= $glossary_table;
+		$this->gloss_helper = $phpbb_container->get('lmdi.gloss.core.helper');
+
 	}
 
 	public function main()
 	{
+		
 		$this->language->add_lang('edit_gloss', 'lmdi/gloss');
 		// id = keyword id
 		$id = $this->request->variable('id', 0);
@@ -73,6 +79,10 @@ class lexicon
 				{
 					$entry .= '<p id="elinks">' . $str_elink . '<a href="'.$elinks.'">'.$label.'</a></p>';
 				}
+			}
+			$ilinks = $row['ilinks'];
+			if (strlen($ilinks)) {
+				$entry .= "<p>" . $this->gloss_helper->calcul_ilinks ($this->phpbb_root_path . "app.php/gloss", $ilinks);
 			}
 			$entry .= "</div>";
 			$this->db->sql_freeresult($result);

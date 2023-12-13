@@ -104,7 +104,7 @@ class glossadmin
 				$ilinks = $row['ilinks'];
 				if (strlen ($ilinks))
 				{
-					$ilinks = $this->gloss_helper->calcul_ilinks ($ilinks);
+					$ilinks = $this->gloss_helper->calcul_ilinks ("", $ilinks);
 					$s_ilinks = 1;
 				}
 				else
