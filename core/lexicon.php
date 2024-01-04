@@ -82,7 +82,7 @@ class lexicon
 			}
 			$ilinks = $row['ilinks'];
 			if (strlen($ilinks)) {
-				$entry .= "<p>" . $this->gloss_helper->calcul_ilinks ($this->phpbb_root_path . "app.php/gloss", $ilinks);
+				$entry .= "<p>" . $this->language->lang('GLOSS_ILINK') . $this->gloss_helper->calcul_ilinks ($this->phpbb_root_path . "app.php/gloss", $ilinks);
 			}
 			$entry .= "</div>";
 			$this->db->sql_freeresult($result);
