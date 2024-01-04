@@ -48,7 +48,7 @@ class helper
 /*	Computation of internal links. There can be several ones, complete with
 	a href...</a>, concatened.
 	*/
-	public function calcul_ilinks($ilinks)
+	public function calcul_ilinks($uri, $ilinks)
 	{
 		$table = $this->glossary_table;
 		$data = explode(",", $ilinks);
@@ -76,7 +76,7 @@ class helper
 				{
 					$string .= ", ";
 				}
-				$string .= "<a class=\"ilinks\" href=\"#$code\">$term0</a>";
+				$string .= "<a class=\"ilinks\" href=\"$uri#$code\">$term0</a>";
 			}
 			else
 			{
