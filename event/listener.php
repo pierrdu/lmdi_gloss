@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - LMDI Glossary extension
-* @copyright (c) 2015-2022 LMDI - Pierre Duhem
+* @copyright (c) 2015-2026 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -90,88 +90,134 @@ class listener implements EventSubscriberInterface
 	}
 
 
-	public function s9e_before ($event)
+	public function s9e_before($event)
 	{
-		$xml = $event['xml'];
-		// Texts tagged with <t> are dumped as is. Texts with <r> are so-called rich
-		// and are parsed. We have to protect ourselves against this parser.
-		if ($this->config['lmdi_glossary_acp'] && substr($xml, 0, 3) === '<r>')
-		{
-			$this->tid = $this->request->variable('t', 0);
-			unset($GLOBALS['$this->gloss']);
-			$pos1 = strpos($xml, '<lmdigloss');
-			while ($pos1 !== false)
-			{
-				$pos2 = strpos($xml, '</lmdigloss>', 0);
-				$lg = ($pos2 - $pos1) + 12;
-				$item = substr($xml, $pos1, $lg);
-				$pos3 = strpos($item, 'class="id');
-				$pos3 += 9;
-				$num = substr($item, $pos3, $pos3 + 6);
-				$pos4 = strpos($num, '"');
-				$num = (int) substr($num, 0, $pos4);
-				if (!isset($this->gloss[$num]))
-				{
-					$this->gloss[$num] = $item;
-				}
-				else
-				{
-					$slot = $this->gloss[$num];
-					while ($slot !== $item)
-					{
-						$num += 10000;
-						if (!isset($this->gloss[$num]))
-						{
-							$this->gloss[$num] = $item;
-							break;
-						}
-						else
-						{
-							$slot = $this->gloss[$num];
-							if ($slot === $item)
-							{
-								break;
-							}
-						}
-					}
-				}
-				$remp = "lmdigloss*($num)*lmdigloss";
-				$xml = str_replace($item, $remp, $xml);
-				$pos1 = strpos($xml, '<lmdigloss', 0);
-			}
-		$event['xml'] = $xml;
-		}
-	} // s9e_before
+	    $xml = $event['xml'];
 
+	    // Only protect rich text (<r>...</r>)
+	    if ($this->config['lmdi_glossary_acp'] && strncmp($xml, '<r>', 3) === 0)
+	    {
+		   $this->tid = (int) $this->request->variable('t', 0);
+
+		   // Properly reset per-render map
+		   $this->gloss = [];
+
+		   $openTag = '<lmdigloss';
+		   $closeTag = '</lmdigloss>';
+		   $closeLen = strlen($closeTag);
+
+		   $pos1 = strpos($xml, $openTag);
+		   while ($pos1 !== false)
+		   {
+			  // IMPORTANT: find the closing tag AFTER the opening tag
+			  $pos2 = strpos($xml, $closeTag, $pos1);
+			  if ($pos2 === false)
+			  {
+				 // malformed markup; stop to avoid infinite loop
+				 break;
+			  }
+
+			  $lg = ($pos2 - $pos1) + $closeLen;
+			  if ($lg <= 0)
+			  {
+				 // safety
+				 break;
+			  }
+
+			  $item = substr($xml, $pos1, $lg);
+
+			  // Extract numeric id from class="id123"
+			  if (!preg_match('/class="id(\d+)"/', $item, $m))
+			  {
+				 // skip this tag safely
+				 $pos1 = strpos($xml, $openTag, $pos1 + strlen($openTag));
+				 continue;
+			  }
+
+			  $num = (int) $m[1];
+
+			  // Handle collisions deterministically, but with a safety cap
+			  $key = $num;
+			  $tries = 0;
+			  while (isset($this->gloss[$key]) && $this->gloss[$key] !== $item)
+			  {
+				 $key += 10000;
+				 $tries++;
+				 if ($tries > 200)
+				 {
+					// safety: stop runaway loops
+					break;
+				 }
+			  }
+
+			  if (!isset($this->gloss[$key]))
+			  {
+				 $this->gloss[$key] = $item;
+			  }
+
+			  $remp = "lmdigloss*($key)*lmdigloss";
+
+			  // Replace at the exact location (faster + avoids replacing unintended matches)
+			  $xml = substr_replace($xml, $remp, $pos1, $lg);
+
+			  // Continue searching AFTER the inserted placeholder
+			  $pos1 = strpos($xml, $openTag, $pos1 + strlen($remp));
+		   }
+
+		   $event['xml'] = $xml;
+	    }
+	}
 
 	public function s9e_after($event)
 	{
-		if ($this->tid == $this->request->variable('t', 0))
-		{
-			$html = $event['html'];
-			while (1)
-			{
-				$pos1 = strpos($html, 'lmdigloss*(');
-				if ($pos1 === false)
-				{
-					break;
-				}
-				else
-				{
-					$pos2 = strpos($html, ')*lmdigloss');
-					$lg = ($pos2 - $pos1) + 11;
-					$item = substr($html, $pos1, $lg);
-					$pos3 = strpos($item, '(');
-					$pos4 = strpos($item, ')');
-					$lg = ($pos4) - ($pos3 + 1);
-					$num = substr($item, $pos3 + 1, $lg);
-					$tag = $this->gloss[$num];
-					$html = str_replace($item, $tag, $html);
-				}
-			}
-			$event['html'] = $html;
-		}
-	} // s9e_after
+	    if ($this->tid == (int) $this->request->variable('t', 0))
+	    {
+		   $html = $event['html'];
+
+		   $needle1 = 'lmdigloss*(';
+		   $needle2 = ')*lmdigloss';
+
+		   while (true)
+		   {
+			  $pos1 = strpos($html, $needle1);
+			  if ($pos1 === false)
+			  {
+				 break;
+			  }
+
+			  // IMPORTANT: find the closing marker AFTER the opening marker
+			  $pos2 = strpos($html, $needle2, $pos1);
+			  if ($pos2 === false)
+			  {
+				 break;
+			  }
+
+			  $itemLen = ($pos2 - $pos1) + strlen($needle2);
+			  if ($itemLen <= 0)
+			  {
+				 break;
+			  }
+
+			  $item = substr($html, $pos1, $itemLen);
+
+			  if (preg_match('/lmdigloss\*\((\d+)\)\*lmdigloss/', $item, $m))
+			  {
+				 $num = $m[1];
+				 $tag = $this->gloss[$num] ?? '';
+
+				 // If we can't map it back, remove placeholder (fail-safe)
+				 $html = substr_replace($html, $tag, $pos1, $itemLen);
+			  }
+			  else
+			  {
+				 // If malformed, remove to avoid infinite loop
+				 $html = substr_replace($html, '', $pos1, $itemLen);
+			  }
+		   }
+
+		   $event['html'] = $html;
+	    }
+	}
 
 
 	public function glossary_insertion($event)
@@ -212,7 +258,7 @@ class listener implements EventSubscriberInterface
 			$this->compute_glossary_list();
 			$glossterms = $this->cache->get('_glossterms');
 		}
-		if (sizeof($glossterms))
+		if (isset($glossterms))
 		{
 			$acro = $code = $quote = $img = $link = $script = false;
 			$rech = $glossterms['rech'];

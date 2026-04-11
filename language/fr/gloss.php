@@ -19,7 +19,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'LGLOSSAIRE'			=> 'Glossaire',
-	'TGLOSSAIRE'			=> 'Configuration de l’extension',
+	'TGLOSSAIRE'			=> 'Glossaire entomologique',
 
 // ACP
 	'ACP_GLOSS_TITLE'	=> 'Glossaire',

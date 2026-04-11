@@ -1,0 +1,69 @@
+/* gloss.css
+Style elements for the Glossary Extension - lmdi333 version
+*/
+
+lmdigloss {
+	text-decoration: none;
+	cursor: help;
+	color:#865931;
+}
+
+#lexiconEntry {
+	position:absolute;
+	left:5%;
+	width:450px;
+	max-width: 95%;
+	padding: 5px 0 5px 5px;
+	height:auto;
+	border:1px #2e7602 solid;
+	background:#FFFFFF;
+	color:black;
+	font-size:75%;
+	text-align: center;
+	z-index: 10;
+	}
+
+#lexiconEntry h3{
+	font-size:1.5em;
+	color:#2e7602;
+	text-align: center;
+	display:inline;
+	margin: 0;
+	}
+
+p#lexClose {
+	float: right;
+	top: -10px;
+	right: 40px;
+	}
+p#lextext {
+	margin: 0 10px 0 10px;
+	font-weight: bold;
+	}
+
+a#lexiconClose {
+	color:#2e7602;
+	background:#E3E8D5;
+	margin-right: 5px;
+	padding:0 5px 1px 5px;
+	border:1px solid #0177B3;
+	}
+
+a#lexiconClose:hover, a#lexiconClose:active {
+	color:#000000;
+	background:#2e7602;
+	border:1px solid #000000;
+	}
+
+#lexiconEntry.loading {
+	background: #FFFFFF;
+	}
+
+#glosspop {
+	width: 100%;
+	}
+
+img.popgloss {
+	width: 100%;
+	max-width: 300px;
+	}
