@@ -42,6 +42,7 @@ p#lextext {
 	}
 
 a#lexiconClose {
+	float: right;
 	color:#2e7602;
 	background:#E3E8D5;
 	margin-right: 5px;
