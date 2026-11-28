@@ -166,7 +166,7 @@ class listener implements EventSubscriberInterface
 
 		   $event['xml'] = $xml;
 	    }
-	}
+	}	// s9e_before
 
 	public function s9e_after($event)
 	{
@@ -217,7 +217,7 @@ class listener implements EventSubscriberInterface
 
 		   $event['html'] = $html;
 	    }
-	}
+	}	// s9e_after
 
 
 	public function glossary_insertion($event)
@@ -258,11 +258,11 @@ class listener implements EventSubscriberInterface
 			$this->compute_glossary_list();
 			$glossterms = $this->cache->get('_glossterms');
 		}
-		if (isset($glossterms))
+		if (isset($glossterms) && !empty($glossterms['pattern']) && !empty($glossterms['map']))
 		{
 			$acro = $code = $quote = $img = $link = $script = false;
-			$rech = $glossterms['rech'];
-			$remp = $glossterms['remp'];
+			$pattern = $glossterms['pattern'];
+			$map = $glossterms['map'];
 			preg_match_all('#[][><][^][><]*|[^][><]+#', $texte, $matches);
 			$parts = $matches[0];
 			if (empty($parts))
@@ -329,8 +329,18 @@ class listener implements EventSubscriberInterface
 					empty($code) && empty($quote) &&
 					empty($img) && empty($link) && empty($script))
 				{
-					$part2 = preg_replace($rech, $remp, $part);
-					$parts[$index] = $part2;
+					// Single-pass replacement prevents nested tags inside title attributes
+					$parts[$index] = preg_replace_callback($pattern, function ($match) use ($map)
+					{
+						$key = mb_strtolower($match[0], 'UTF-8');
+						if (isset($map[$key]))
+						{
+							return $map[$key]['open'] . $match[0] . '</lmdigloss>';
+						}
+						return $match[0];
+					}, $part);
+					// $part2 = preg_replace($rech, $remp, $part);
+					// $parts[$index] = $part2;
 				}
 			}
 			unset($part);
@@ -354,22 +364,28 @@ class listener implements EventSubscriberInterface
 		$glossterms = $this->cache->get('_glossterms');
 		if ($glossterms === false)
 		{
-			$sql  = "SELECT * FROM $this->glossary_table 
-				ORDER BY LENGTH(TRIM(variants)) DESC"; // To try longest variants first
+			$sql = 'SELECT term_id, term, variants, description
+				FROM ' . $this->glossary_table;
 			$result = $this->db->sql_query($sql);
-			$glossterms = array();
+			$map = array();
+			$patterns = array();
+			// $glossterms = array();
+
 			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$variants = explode(",", $row['variants']);
-				$term_id  = $row['term_id'];
+				// Include the main term itself so it does not need to be duplicated in variants
+				$variants[] = $row['term'];
+				$term_id  = (int) $row['term_id'];
 				if ($this->config['lmdi_glossary_title'])
 				{
 					$desc = trim($row['description']);
-					if (mb_strlen($desc) > 500)
+					if (mb_strlen($desc, 'UTF-8') > 500)
 					{
-						$desc = mb_substr($desc, 0, 500);
+						$desc = mb_substr($desc, 0, 500, 'UTF-8');
 					}
-					$str_title = " title=\"$desc\"";
+					$desc_escaped = htmlspecialchars($desc, ENT_QUOTES, 'UTF-8');
+					$str_title = ' title="' . $desc_escaped . '"';
 				}
 				else
 				{
@@ -385,22 +401,27 @@ class listener implements EventSubscriberInterface
 					{
 						continue;
 					}
-					$variant = strtolower($variant);
-					$variant = preg_quote($variant, '/');
-					if (!in_array($variant, $done))
+					$key = mb_strtolower($variant, 'UTF-8');
+					if (!isset($map[$key]))
 					{
-						$done[] = $variant;
-						$remp  = "<lmdigloss class=\"id{$term_id}\"$str_title>$1</lmdigloss>";
-						// $glossterms['rech'][] = $variant;
-						$begin = '/\b(';
-						$end = ')\b/ui'; // PCRE - u = UTF-8 - i = case insensitive
-						$rech = $begin . $variant . $end;
-						$glossterms['rech'][] = $rech;
-						$glossterms['remp'][] = $remp;
+						$map[$key] = array(
+							'open'	=> '<lmdigloss class="id' . $term_id . '"' . $str_title . '>',
+							'len'	=> mb_strlen($key, 'UTF-8'),
+						);
+						$patterns[$key] = preg_quote($key, '/');
 					}
 				}
 			}
 			$this->db->sql_freeresult($result);
+			// Sort individual variants by character length descending so longest phrases match first
+			uksort($patterns, function ($a, $b) use ($map)
+			{
+				return $map[$b]['len'] <=> $map[$a]['len'];
+			});
+			$glossterms = array(
+				'pattern'	=> !empty($patterns) ? '/\b(' . implode('|', $patterns) . ')\b/ui' : '',
+				'map'		=> $map,
+			);
 			$this->cache->put('_glossterms', $glossterms, 86400); // 24 h
 		}
 	}	// compute_glossary_list
