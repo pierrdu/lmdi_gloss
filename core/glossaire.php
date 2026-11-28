@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - LMDI Glossary extension
-* @copyright (c) 2015-2025 LMDI - Pierre Duhem
+* @copyright (c) 2015-2026 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -11,6 +11,7 @@ namespace lmdi\gloss\core;
 class glossaire
 {
 	protected $template;
+	protected $language;
 	protected $db;
 	protected $helper;
 	protected $auth;
@@ -117,21 +118,25 @@ class glossaire
 				{
 					$s_elinks = 0;
 				}
-				$pict = $row['picture'];
+				$pict = trim($row['picture']);
 				$term = $row['term'];
-				$code = $row['term_id'];
-				if ($pict == "nopict.jpg" || $pict == '')
+				$code = (int) $row['term_id'];
+				if ($pict === "nopict.jpg" || $pict == '')
 				{
-					$url= "";
-					$str_url = "";
-					$s_url = 0;
-				}
+					$pict_src = '';
+					$s_pict = 0;
+					$str_url = '';
+}
 				else
 				{
-					$url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glosspict', 'code' => $code, 'term' =>$term, 'pict' => $pict));
+					// Use path_helper web root path so images resolve properly under app.php routes
+					$web_root = $this->path_helper->get_web_root_path();
+					// $url = $this->helper->route('lmdi_gloss_controller', array('mode' => 'glosspict', 'code' => $code, 'term' =>$term, 'pict' => $pict));
 					$str_url = $str_action;
-					$s_url = 1;
+					$pict_src = $web_root . 'images/lmdi/gloss/' . htmlspecialchars($pict, ENT_QUOTES, 'UTF-8');
+					$s_pict = 1;
 				}
+				/*
 				$this->template->assign_block_vars('gaff', array(
 					'TERM'	=> $term,
 					'ID'		=> $code,
@@ -147,6 +152,22 @@ class glossaire
 					'URL'	=> $url,
 					'STRURL'	=> $str_url,
 					));
+				*/
+				$this->template->assign_block_vars('gaff', array(
+					'TERM'			=> $term,
+					'ID'			=> $code,
+					'DEF'			=> $row['description'],
+					'CAT'			=> trim($row['cat']),
+					'LETTER_ANCHOR'	=> $anchor,
+					'S_ILINKS'		=> $s_ilinks,
+					'ILINKS'		=> $ilinks,
+					'S_ELINKS'		=> $s_elinks,
+					'ELINKS'		=> $elinks,
+					'LABEL'			=> $label,
+					'S_URL'		=> $pict,
+					'URL'	=> $pict_src,
+					'STRURL'	=> $str_url,
+				));
 				$cpt++;
 			}	// Inner foreach
 		}	// Outer foreach
